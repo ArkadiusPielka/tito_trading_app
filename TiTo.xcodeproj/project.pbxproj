@@ -26,6 +26,8 @@
 		94BA60D02B4BF64700CCA37E /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BA60CF2B4BF64700CCA37E /* CustomTextField.swift */; };
 		94BA60D22B4BF67600CCA37E /* CustomSecureField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BA60D12B4BF67600CCA37E /* CustomSecureField.swift */; };
 		94BA60D52B4BF83900CCA37E /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BA60D42B4BF83900CCA37E /* LoginView.swift */; };
+		94BA60D72B4BFA3C00CCA37E /* TextBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BA60D62B4BFA3C00CCA37E /* TextBtn.swift */; };
+		94BA60D92B4BFADD00CCA37E /* AuthenticationMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BA60D82B4BFADD00CCA37E /* AuthenticationMode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +51,8 @@
 		94BA60CF2B4BF64700CCA37E /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		94BA60D12B4BF67600CCA37E /* CustomSecureField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSecureField.swift; sourceTree = "<group>"; };
 		94BA60D42B4BF83900CCA37E /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		94BA60D62B4BFA3C00CCA37E /* TextBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBtn.swift; sourceTree = "<group>"; };
+		94BA60D82B4BFADD00CCA37E /* AuthenticationMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationMode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,6 +175,7 @@
 				94BA60C82B4BF49000CCA37E /* LikeBtn.swift */,
 				94BA60CA2B4BF4C500CCA37E /* PrimaryBtn.swift */,
 				94BA60CC2B4BF51A00CCA37E /* NavigationBtn.swift */,
+				94BA60D62B4BFA3C00CCA37E /* TextBtn.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -188,6 +193,7 @@
 			isa = PBXGroup;
 			children = (
 				94BA60D42B4BF83900CCA37E /* LoginView.swift */,
+				94BA60D82B4BFADD00CCA37E /* AuthenticationMode.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -269,12 +275,14 @@
 				94BA60CB2B4BF4C500CCA37E /* PrimaryBtn.swift in Sources */,
 				94BA60B62B4BE69500CCA37E /* Extension.swift in Sources */,
 				94BA60BC2B4BE79D00CCA37E /* HomeView.swift in Sources */,
+				94BA60D72B4BFA3C00CCA37E /* TextBtn.swift in Sources */,
 				94BA60B92B4BE71600CCA37E /* NavigationView.swift in Sources */,
 				94BA60D22B4BF67600CCA37E /* CustomSecureField.swift in Sources */,
 				94BA60BE2B4BE7BC00CCA37E /* MessageView.swift in Sources */,
 				94BA60D52B4BF83900CCA37E /* LoginView.swift in Sources */,
 				94BA60C62B4BE8FC00CCA37E /* ContentView.swift in Sources */,
 				94BA60C92B4BF49000CCA37E /* LikeBtn.swift in Sources */,
+				94BA60D92B4BFADD00CCA37E /* AuthenticationMode.swift in Sources */,
 				94BA60B32B4BE64B00CCA37E /* Tab.swift in Sources */,
 				94BA60CD2B4BF51A00CCA37E /* NavigationBtn.swift in Sources */,
 				94BA60C22B4BE7E100CCA37E /* FavoritesView.swift in Sources */,

@@ -24,8 +24,9 @@ struct PrimaryBtn: View {
                 
         }
         .padding(.vertical, 12)
+        
         .background(Color.accentColor)
-        .cornerRadius(12)
+        .cornerRadius(20)
     }
 }
 

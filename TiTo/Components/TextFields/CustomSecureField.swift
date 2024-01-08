@@ -35,7 +35,7 @@ struct CustomSecureField: View {
                 }
                 .padding(.trailing, 8)
             }
-          .padding()
+          .padding(12)
           .background(Color.gray.opacity(0.2))
           .cornerRadius(20)
           .padding(.horizontal)
