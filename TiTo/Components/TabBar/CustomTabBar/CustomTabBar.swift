@@ -23,10 +23,8 @@ struct CustomTabBar: View {
     var colorIndicator = Color.white
     var colorIcon = Color.white
     
-//    var colorGlow1 = Color.red
-//    var colorGlow2 = Color.green
-    
     var colorText = Color(.white)
+    
     
     var body: some View {
         VStack(spacing: 0) {
@@ -148,7 +146,7 @@ struct CustomTabBar: View {
 }
 
 #Preview {
-    ContentView()
+    NavigationView()
 }
 
 struct TabBarTopCurve: Shape {
