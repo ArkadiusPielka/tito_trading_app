@@ -9,23 +9,18 @@ import SwiftUI
 
 struct CustomSecureField: View {
     
-    var placeholder: String
+    var hint: String
     @Binding var text: String
-    @State private var displayedText: String = ""
+   
     @State private var isSecure: Bool = true
     
-    init(_ placeholder: String, text: Binding<String>) {
-        self.placeholder = placeholder
-        self._text = text
-        self._displayedText = State(initialValue: text.wrappedValue)
-    }
     
     var body: some View {
         HStack {
             if isSecure {
-                SecureField(placeholder, text: $displayedText)
+                SecureField(hint, text: $text)
             } else {
-                TextField(placeholder, text: $displayedText)
+                TextField(hint, text: $text)
             }
             
             Button(action: {
@@ -43,6 +38,6 @@ struct CustomSecureField: View {
 }
 
 #Preview {
-    CustomSecureField("Password", text: .constant(""))
+    CustomSecureField(hint: "Password", text: .constant(""))
 }
 

@@ -24,7 +24,7 @@ struct NavigationView: View {
         .ignoresSafeArea(.all, edges: .bottom)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Rectangle().fill(.clear).ignoresSafeArea())
-        .preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
+        .preferredColorScheme(.dark)
 
     }
 }

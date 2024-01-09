@@ -16,9 +16,17 @@ struct TiToApp: App {
         FirebaseApp.configure()
     }
     
+    @StateObject var userAuthViewModel = UserAuthViewModel()
+    
     var body: some Scene {
+        
         WindowGroup {
-            NavigationView()
+            if userAuthViewModel.userLogIn {
+                NavigationView()
+            } else {
+                AuthenticationView()
+            }
         }
+        .environmentObject(userAuthViewModel)
     }
 }

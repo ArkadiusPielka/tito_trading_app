@@ -46,7 +46,7 @@ class UserAuthViewModel: ObservableObject {
     func signUp(email: String, name: String, password: String) {
         FirebaseManager.shared.auth.createUser(withEmail: email, password: password) { authResult, error in
             if let error {
-                print("Login failed:", error.localizedDescription)
+                print("SignUp failed:", error.localizedDescription)
                 return
             }
             

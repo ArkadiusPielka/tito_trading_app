@@ -9,6 +9,8 @@ import SwiftUI
 
 struct LoginView: View {
     
+    @EnvironmentObject var userAuthViewModel: UserAuthViewModel
+    
     @State var email = ""
     @State var name = ""
     @State var password = ""
@@ -18,13 +20,13 @@ struct LoginView: View {
     var body: some View {
         
         VStack(spacing: 12) {
-            CustomTextField("E-Mail", text: $email)
+            CustomTextField(hint: "E-Mail", text: $email)
             
             if mode == .register {
-                CustomTextField("Name", text: $name)
+                CustomTextField(hint: "Name", text: $name)
             }
             
-            CustomSecureField("Password", text: $password)
+            CustomSecureField(hint: "Password", text: $password)
             PrimaryBtn(title: mode.titleBtn, action: authenticate)
                 .padding(.horizontal)
             TextBtn(title: mode.titleTextBtn, action: switchAuthenticationMode)
@@ -33,7 +35,7 @@ struct LoginView: View {
         .padding()
         .rotation3DEffect(
             .degrees(mode.isFlipped ? 360 : 0),
-            axis: (x: 0.0, y: 1.0, z: 0.0)
+            axis: (x: 1.0, y: 0.0, z: 0.0)
         )
     }
     
@@ -45,12 +47,12 @@ struct LoginView: View {
     }
     
     private func authenticate() {
-//        switch mode {
-//        case .login:
-//            userAuthViewModel.logIn(email: email, password: password)
-//        case .register:
-//            userAuthViewModel.signUp(email: email, name: name, password: password)
-//        }
+        switch mode {
+        case .login:
+            userAuthViewModel.logIn(email: email, password: password)
+        case .register:
+            userAuthViewModel.signUp(email: email, name: name, password: password)
+        }
         clearText()
     }
     
@@ -63,4 +65,5 @@ struct LoginView: View {
 
 #Preview {
     LoginView()
+        .environmentObject(UserAuthViewModel())
 }
