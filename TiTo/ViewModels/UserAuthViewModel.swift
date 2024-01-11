@@ -43,7 +43,7 @@ class UserAuthViewModel: ObservableObject {
         }
     }
     
-    func signUp(email: String, name: String, password: String) {
+    func signUp(email: String, name: String, password: String, kontoType: String) {
         FirebaseManager.shared.auth.createUser(withEmail: email, password: password) { authResult, error in
             if let error {
                 print("SignUp failed:", error.localizedDescription)
@@ -53,7 +53,7 @@ class UserAuthViewModel: ObservableObject {
             guard let authResult, let email = authResult.user.email else { return }
             print("User with email '\(email)' is logged in with id '\(authResult.user.uid)'")
             
-            self.createUser(with: authResult.user.uid, email: email, name: name)
+            self.createUser(with: authResult.user.uid, email: email, name: name, kontoType: kontoType)
             
             self.logIn(email: email, password: password)
         }
@@ -68,8 +68,21 @@ class UserAuthViewModel: ObservableObject {
         }
     }
     
-    func createUser(with id: String, email: String, name: String) {
-        let user = FireUser(id: id, name: name, email: email, registeredAt: Date())
+    func deleteUser() {
+        
+        FirebaseManager.shared.database.collection("users").document(user!.id).delete { error in
+            if let error = error {
+                print("Fehler beim Löschen des Firestore-Dokuments: \(error.localizedDescription)")
+                return
+            }
+            
+            FirebaseManager.shared.auth.currentUser?.delete()
+        }
+        logOut()
+    }
+    
+    func createUser(with id: String, email: String, name: String, kontoType: String) {
+        let user = FireUser(id: id, name: name, email: email, registeredAt: Date(), kontoType: kontoType)
         
         do {
             try FirebaseManager.shared.database.collection("users").document(id).setData(from: user)

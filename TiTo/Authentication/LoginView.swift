@@ -15,18 +15,50 @@ struct LoginView: View {
     @State var name = ""
     @State var password = ""
     
+    @State var isCheckedPrivat = false
+    @State var isCheckedBuisness = false
+    
+    @State var kontoType = ""
+    
+    var text: String {
+        return isCheckedPrivat ? "Name" : "Firmen Name"
+    }
+    
     @State var mode: AuthenticationMode = .login
     
     var body: some View {
         
         VStack(spacing: 12) {
-            CustomTextField(hint: "E-Mail", text: $email)
             
             if mode == .register {
-                CustomTextField(hint: "Name", text: $name)
+               
+                HStack {
+                    CheckBox(isSelected: $isCheckedPrivat, text1: "Privat")
+                    
+                    CheckBox(isSelected: $isCheckedBuisness, text1: "Geschäftlich")
+                    
+                    Spacer()
+                }
+                .onChange(of: isCheckedPrivat) { oldValue, newValue in
+                    if newValue  {
+                        isCheckedBuisness = false
+                        kontoType = "privat Anbieter"
+                    }
+                }
+                .onChange(of: isCheckedBuisness) { oldValue, newValue in
+                    if newValue {
+                        isCheckedPrivat = false
+                        kontoType = "Geschäftskunde"
+                    }
+                }
+                
+                CustomTextField(hint: text, text: $name)
             }
             
+            CustomTextField(hint: "E-Mail", text: $email)
+                .autocapitalization(.none)
             CustomSecureField(hint: "Password", text: $password)
+                .autocapitalization(.none)
             PrimaryBtn(title: mode.titleBtn, action: authenticate)
                 .padding(.horizontal)
             TextBtn(title: mode.titleTextBtn, action: switchAuthenticationMode)
@@ -44,6 +76,7 @@ struct LoginView: View {
             mode = mode == .login ? .register : .login
         }
         clearText()
+        isCheckedPrivat = true
     }
     
     private func authenticate() {
@@ -51,7 +84,7 @@ struct LoginView: View {
         case .login:
             userAuthViewModel.logIn(email: email, password: password)
         case .register:
-            userAuthViewModel.signUp(email: email, name: name, password: password)
+            userAuthViewModel.signUp(email: email, name: name, password: password, kontoType: kontoType)
         }
         clearText()
     }
@@ -60,6 +93,8 @@ struct LoginView: View {
         name = ""
         email = ""
         password = ""
+        isCheckedPrivat = false
+        isCheckedBuisness = false
     }
 }
 

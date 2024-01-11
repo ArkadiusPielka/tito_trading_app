@@ -12,10 +12,10 @@ import SwiftUI
         let destination: Content
         let label: String
 
-        init(destination: Content, label: String) {
-            self.destination = destination
-            self.label = label
-        }
+//        init(destination: Content, label: String) {
+//            self.destination = destination
+//            self.label = label
+//        }
 
         var body: some View {
             NavigationLink(destination: destination) {

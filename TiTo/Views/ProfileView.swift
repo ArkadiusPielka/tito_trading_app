@@ -28,6 +28,7 @@ struct ProfileView: View {
                 
                 VStack(alignment: .leading, spacing: 6) {
                     Text(userAuthViewModel.user?.name ?? "")
+                    Text(userAuthViewModel.user?.kontoType ?? "")
                     Text(formattedDate)
                 }
                 .padding(.horizontal, 16)
@@ -43,8 +44,13 @@ struct ProfileView: View {
                     .inset(by: 0.5)
                     .stroke(Color("profil"))
             )
+            PrimaryBtn(title: "Profil bearbeiten", action: logOut)
+                .accentColor(Color("profil"))
             
             PrimaryBtn(title: "Abmelden", action: logOut)
+            Spacer()
+            PrimaryBtn(title: "Löschen", action: deleteUser)
+                .accentColor(.red)
         }
     }
     
@@ -58,6 +64,10 @@ struct ProfileView: View {
     
     func logOut() {
         userAuthViewModel.logOut()
+    }
+    
+    func deleteUser() {
+        userAuthViewModel.deleteUser()
     }
 }
 
