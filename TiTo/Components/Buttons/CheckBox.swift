@@ -24,7 +24,7 @@ struct CheckBox: View {
             Text(text1)
             
         }
-        .padding(.horizontal)
+        
     }
 }
 

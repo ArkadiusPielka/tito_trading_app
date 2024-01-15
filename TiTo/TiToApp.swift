@@ -17,6 +17,7 @@ struct TiToApp: App {
     }
     
     @StateObject var userAuthViewModel = UserAuthViewModel()
+    @StateObject var photoPickerViewModel = PhotosPickerViewModel()
     
     var body: some Scene {
         
@@ -28,5 +29,6 @@ struct TiToApp: App {
             }
         }
         .environmentObject(userAuthViewModel)
+        .environmentObject(photoPickerViewModel)
     }
 }

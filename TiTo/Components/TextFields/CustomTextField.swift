@@ -12,7 +12,6 @@ struct CustomTextField: View {
     var hint: String
     @Binding var text: String
 
-
     var body: some View {
         TextField(hint, text: $text)
             .padding(12)

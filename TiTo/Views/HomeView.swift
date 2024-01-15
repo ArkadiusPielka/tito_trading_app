@@ -14,29 +14,34 @@ struct HomeView: View {
     
     var body: some View {
         NavigationStack {
-            VStack(alignment: .leading) {
-                Text("Empfohlen")
-                    .multilineTextAlignment(.leading)
-                    .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
-                ScrollView(.horizontal){
-                    HStack(spacing: 16) {
-                        ForEach(recomendenViewModel.article, id: \.id) { produkt in
-                            RecommendedCard(produkt: produkt)
+            ScrollView {
+                VStack(alignment: .leading) {
+                    Text("Empfohlen")
+                        .multilineTextAlignment(.leading)
+                        .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                    ScrollView(.horizontal){
+                        HStack(spacing: 16) {
+                            ForEach(recomendenViewModel.article, id: \.id) { produkt in
+                                RecommendedCard(produkt: produkt)
+                            }
+                            .padding(.top, 8)
+                            .padding(.bottom, 16)
+                            
                         }
-                        .padding(.top, 8)
-                        .padding(.bottom, 16)
                         
-}
-                    
+                    }
+                    Text("Weitere Anzeigen")
+                        .multilineTextAlignment(.leading)
+                        .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                    Spacer()
                 }
-                Text("Weitere Anzeigen")
-                    .multilineTextAlignment(.leading)
-                    .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
-                Spacer()
+                .padding(.leading, 16)
+                
             }
-            .padding(.leading, 16)
-            .searchable(text: $search)
+            
         }
+        .searchable(text: $search)
+        .navigationBarTitleDisplayMode(.inline)
         
     }
 }

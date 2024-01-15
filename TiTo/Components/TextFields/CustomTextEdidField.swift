@@ -14,28 +14,27 @@ struct CustomTextEdidField: View {
     
     var body: some View {
         
-        ZStack{
-            
-            TextEditor(text: $description)
-           
-            HStack(alignment: .top) {
+        ZStack(alignment: .leading) {
+            if description.isEmpty {
                 VStack {
-                    if description.isEmpty{
-                        Text(text)
-                            .font(.title2)
-                            .foregroundColor(.gray)
-                            .opacity(0.5)
-//                            .padding(.vertical,8)
-//                            .padding(.horizontal,4)
-                    }
+                    Text("Beschreibung")
+                        .font(.title2)
+                        .padding(.top, 8)
+                        .opacity(0.6)
                     Spacer()
                 }
+            }
+            
+            VStack {
+                TextEditor(text: $description)
+                    .font(.title2)
+                    .opacity(description.isEmpty ? 0.6 : 1)
                 Spacer()
             }
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 8)
-        .frame(width: 360, alignment: .leading)
+        .frame(width: .infinity, alignment: .leading)
         .cornerRadius(20)
         .overlay(
             RoundedRectangle(cornerRadius: 20)

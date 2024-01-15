@@ -13,23 +13,25 @@ struct CustomAddFieldNav: View {
     @Binding var text: String
     
     var body: some View {
-        HStack(spacing: 6) {
-         
+        NavigationStack {
+            HStack(spacing: 6) {
+                
                 TextField(hint, text: $text)
+                    .disabled(/*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)
                     .font(.title2)
-            Image(systemName: "chevron.right")
-                .foregroundColor(Color("advertisment"))
+                Image(systemName: "chevron.right")
+                    .foregroundColor(Color("advertisment"))
+            }
+            
+            .padding(.horizontal, 16)
+            .padding(.vertical, 8)
+            .frame(width: .infinity, alignment: .leading)
+            .cornerRadius(20)
+            .overlay(
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(Color("advertisment"))
+            )
         }
-       
-        .padding(.horizontal, 16)
-        .padding(.vertical, 8)
-        .frame(width: 360, alignment: .leading)
-        .cornerRadius(20)
-        .overlay(
-            RoundedRectangle(cornerRadius: 20)
-                .stroke(Color("advertisment"))
-        )
-    
     }
 }
 
