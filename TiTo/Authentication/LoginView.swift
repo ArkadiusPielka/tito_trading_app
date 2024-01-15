@@ -31,7 +31,7 @@ struct LoginView: View {
         VStack(spacing: 12) {
             
             if mode == .register {
-               
+                
                 HStack {
                     CheckBox(isSelected: $isCheckedPrivat, text1: "Privat")
                     
@@ -55,14 +55,17 @@ struct LoginView: View {
                 CustomTextField(hint: text, text: $name)
             }
             
-            CustomTextField(hint: "E-Mail", text: $email)
-                .autocapitalization(.none)
-            CustomSecureField(hint: "Password", text: $password)
-                .autocapitalization(.none)
+                CustomTextField(hint: "E-Mail", text: $email)
+                    .keyboardType(.emailAddress)
+                    .autocapitalization(.none)
+                CustomSecureField(hint: "Password", text: $password)
+                    .autocapitalization(.none)
+            
             PrimaryBtn(title: mode.titleBtn, action: authenticate)
-                .padding(.horizontal)
+               
             TextBtn(title: mode.titleTextBtn, action: switchAuthenticationMode)
         }
+        .padding(.horizontal)
         .background(RoundedRectangle(cornerRadius: 20).fill(Color.white.opacity(0.8)))
         .padding()
         .rotation3DEffect(

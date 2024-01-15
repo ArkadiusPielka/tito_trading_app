@@ -10,18 +10,21 @@ import SwiftUI
 struct AdvertisementView: View {
     
     @EnvironmentObject var photosPicker: PhotosPickerViewModel
+    @EnvironmentObject var produktViewModel: ProduktViewModel
     
-    @State var title = ""
-    @State var category = ""
-    @State var condition = ""
-    @State var shipment = ""
-    @State var optional = ""
-    @State var description = ""
-    @State var advertismentType = ""
-    @State var material = ""
-    @State var price = ""
-    @State var priceType = ""
-    @State var optionals = ""
+    
+//    @State var title = ""
+//    @State var category = ""
+//    @State var condition = ""
+//    @State var shipment = ""
+//    @State var optional = ""
+//    @State var description = ""
+//    @State var advertismentType = ""
+//    @State var material = ""
+//    @State var price = ""
+//    @State var priceType = ""
+//    @State var optionals = ""
+    
     
     @State var iOffer = true
     @State var iSearch = false
@@ -42,16 +45,17 @@ struct AdvertisementView: View {
                         // Image
                         VStack {
                             if let imageData = photosPicker.selectedImage {
+                                
                                 Image(uiImage: imageData)
                                     .resizable()
                                     .aspectRatio(contentMode: .fill)
                                     .frame(width: proxy.size.width, height: 400)
                                 
-                            } else {
-                                Image("produkt1")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
+                            }  else {
+                                
+                                PlaceholderView(icon: "photo.fill", title: "Ihr Bild")
                                     .frame(width: proxy.size.width, height: 400)
+
                                 
                             }
                         }
@@ -68,90 +72,91 @@ struct AdvertisementView: View {
                             .onChange(of: iOffer) { oldValue, newValue in
                                 if newValue  {
                                     iSearch = false
-                                    advertismentType = "Ich biete"
+                                    produktViewModel.advertismentType = "Ich biete"
                                 }
                             }
                             .onChange(of: iSearch) { oldValue, newValue in
                                 if newValue {
                                     iOffer = false
-                                    advertismentType = "Ich suche"
+                                    produktViewModel.advertismentType = "Ich suche"
                                 }
                             }
                             
-                            CustomAddField(hint: "Titel", text: $title)
+                            CustomAddField(hint: "Titel", text: $produktViewModel.title)
                             
-                            CustomAddFieldNav(hint: "Kategory", text: $category)
+                            CustomAddFieldNav(hint: "Kategory", text: $produktViewModel.category)
                                 .onTapGesture {
                                     categorySheet.toggle()
                                 }
                             
-                            if category == "Schmuck" {
-                                CustomAddFieldNav(hint: "Material", text: $material)
+                            if produktViewModel.category == "Schmuck" {
+                                CustomAddFieldNav(hint: "Material", text: $produktViewModel.material)
                                     .onTapGesture {
                                         materialSheet.toggle()
                                     }
                             }
                             
-                            CustomAddFieldNav(hint: "Zustand", text: $condition)
+                            CustomAddFieldNav(hint: "Zustand", text: $produktViewModel.condition)
                                 .onTapGesture {
                                     conditionSheet.toggle()
                                 }
                             
-                            CustomAddFieldNav(hint: "Versand", text: $shipment)
+                            CustomAddFieldNav(hint: "Versand", text: $produktViewModel.shipment)
                                 .onTapGesture {
                                     shipmentSheet.toggle()
                                 }
                             
-                            CustomTextEdidField(description: $description, text: "Beschreibung")
+                            CustomTextEdidField(description: $produktViewModel.description, text: "Beschreibung")
                                 .frame(minHeight: 150)
                             HStack {
-                                CustomPricingField(hint1: "Preis", price: $price)
-                                CustomPriceTypeField(hint2: "Preistyp", priceType: $priceType)
+                                CustomPricingField(hint1: "Preis", price: $produktViewModel.price)
+                                CustomPriceTypeField(hint2: "Preistyp", priceType: $produktViewModel.priceType)
                                     .onTapGesture {
                                         priceTypeSheet.toggle()
                                     }
                             }
                             
-                            CustomAddFieldNav(hint: "Optional", text: $optional)
+                            CustomAddFieldNav(hint: "Optional", text: $produktViewModel.optional)
                                 .onTapGesture {
                                     optionalSheet.toggle()
                                 }
                             
                             PrimaryBtn(title: "Anzeige aufgeben", action: startAdd)
-                            Spacer(minLength: 100)
+                            
+                            Spacer(minLength: 20)
                         }
                         .padding(.horizontal)
                     }
                     
                     .sheet(isPresented: $categorySheet) {
-                        CategoryView(category: $category, categorySheet: $categorySheet) { categorySelected in
-                            category = categorySelected
+                        CategoryView(category: $produktViewModel.category, categorySheet: $categorySheet) { categorySelected in
+                            produktViewModel.category = categorySelected
                         }
                     }
                     .sheet(isPresented: $conditionSheet) {
-                        ConditionView(condition: $condition, conditionSheet: $conditionSheet) { conditionSelected in
-                            condition = conditionSelected
+                        ConditionView(condition: $produktViewModel.condition, conditionSheet: $conditionSheet) { conditionSelected in
+                            produktViewModel.condition = conditionSelected
                         }
                     }
                     .sheet(isPresented: $shipmentSheet) {
-                        ShipmentView(shipment: $shipment, shipmentSheet: $shipmentSheet) { shipmentSelected in
-                            shipment = shipmentSelected
+                        ShipmentView(shipment: $produktViewModel.shipment, shipmentSheet: $shipmentSheet) { shipmentSelected in
+                            produktViewModel.shipment = shipmentSelected
                         }
                     }
                     .sheet(isPresented: $materialSheet) {
-                        MaterialView(material: $material, materialSheet: $materialSheet) { materialSelected in
-                            material = materialSelected
+                        MaterialView(material: $produktViewModel.material, materialSheet: $materialSheet) { materialSelected in
+                            produktViewModel.material = materialSelected
                         }
                     }
                     .sheet(isPresented: $priceTypeSheet) {
-                        PriceTypeView(priceType: $priceType, priceTypeSheet: $priceTypeSheet) { priceTypeSelected in
-                            priceType = priceTypeSelected
+                        PriceTypeView(priceType: $produktViewModel.priceType, priceTypeSheet: $priceTypeSheet) { priceTypeSelected in
+                            produktViewModel.priceType = priceTypeSelected
                         }
                         .presentationDetents([.fraction(0.35)])
                     }
                     .sheet(isPresented: $optionalSheet) {
-                        OptionalOptionsView(option: $optional, optionSheet: $optionalSheet) { optionalSelected in
-                            optional = optionalSelected
+                        OptionalOptionsView(option: $produktViewModel.optional, optionSheet: $optionalSheet) { optionalSelected in
+                            produktViewModel.optional = optionalSelected
                         }
                     }
                 }
@@ -165,11 +170,13 @@ struct AdvertisementView: View {
     }
     
     func startAdd(){
-        
+//        produktViewModel.image = photosPicker.selectedImage?.jpegData(compressionQuality: 1.0)
+        produktViewModel.createProduct()
     }
 }
 
 #Preview {
     AdvertisementView()
         .environmentObject(PhotosPickerViewModel())
+        .environmentObject(ProduktViewModel())
 }

@@ -27,8 +27,8 @@ struct ProfileView: View {
                     .cornerRadius(111)
                 
                 VStack(alignment: .leading, spacing: 6) {
-                    Text(userAuthViewModel.user?.name ?? "")
-                    Text(userAuthViewModel.user?.kontoType ?? "")
+                    Text(userAuthViewModel.user?.name ?? "akki")
+                    Text(userAuthViewModel.user?.kontoType ?? "privat")
                     Text(formattedDate)
                 }
                 .padding(.horizontal, 16)

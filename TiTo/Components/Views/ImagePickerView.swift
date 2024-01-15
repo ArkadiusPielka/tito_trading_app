@@ -20,26 +20,26 @@ struct ImagePickerView: View {
                 Image(uiImage: imageData)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: 100, height: 80)
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .frame(width: 40, height: 30)
+                    .clipShape(RoundedRectangle(cornerRadius: 5))
                 
             } else {
                 Image("produkt1")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: 100, height: 80)
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .frame(width: 40, height: 30)
+                    .clipShape(RoundedRectangle(cornerRadius: 5))
             }
             Rectangle()
-                .frame(width: 2, height: 80)
+                .frame(width: 2, height: 30)
                 .foregroundColor(Color("advertisment"))
             
             
-            PhotosPicker(selection: $photoPickerViewModel.imageSelection, matching: .images) {
+            PhotosPicker(selection: $photoPickerViewModel.imageSelection, matching: .images, preferredItemEncoding: .automatic) {
                 
                 Image(systemName: "camera.fill")
                     .resizable()
-                    .frame(width: 70, height: 50)
+                    .frame(width: 40, height: 30)
             }
             Spacer()
         }
