@@ -12,7 +12,7 @@ struct ProfileView: View {
     @EnvironmentObject var userAuthViewModel: UserAuthViewModel
     
     var body: some View {
-        VStack {
+        VStack(spacing: 16) {
             HStack(alignment: .center, spacing: 16) {
                 Rectangle()
                     .foregroundColor(.clear)
@@ -27,11 +27,17 @@ struct ProfileView: View {
                     .cornerRadius(111)
                 
                 VStack(alignment: .leading, spacing: 6) {
-                    Text(userAuthViewModel.user?.name ?? "akki")
                     Text(userAuthViewModel.user?.kontoType ?? "privat")
-                    Text(formattedDate)
+                    Text(userAuthViewModel.user?.name ?? "akki")
+                        .font(.title2)
+                        .bold()
+                    Group {
+                        Text("angemeldet am:")
+                        Text(formattedDate)
+                    }
+                    .foregroundColor(Color("subText"))
                 }
-                .padding(.horizontal, 16)
+//                .padding(.horizontal, 16)
                 .padding(.vertical, 8)
                 .frame(width: 186, alignment: .leading)
                 .cornerRadius(20)
@@ -44,20 +50,25 @@ struct ProfileView: View {
                     .inset(by: 0.5)
                     .stroke(Color("profil"))
             )
+            
             PrimaryBtn(title: "Profil bearbeiten", action: logOut)
                 .accentColor(Color("profil"))
+            
             
             PrimaryBtn(title: "Abmelden", action: logOut)
             Spacer()
             PrimaryBtn(title: "Löschen", action: deleteUser)
                 .accentColor(.red)
+            
+            
         }
+        .padding(.horizontal)
     }
     
     var formattedDate: String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-//        dateFormatter.timeStyle = .short
+        dateFormatter.dateStyle = .short
+        //        dateFormatter.timeStyle = .short
         
         return dateFormatter.string(from: userAuthViewModel.user?.registeredAt ?? Date())
     }

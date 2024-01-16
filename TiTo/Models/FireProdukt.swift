@@ -23,6 +23,7 @@ struct FireProdukt: Codable {
     var material: String?
     var price: String
     var priceType: String
-    var image: String?
-    
+//    var image: Data?
+    var imageURL: String?
+
 }

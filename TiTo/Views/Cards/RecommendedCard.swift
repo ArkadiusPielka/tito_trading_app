@@ -59,5 +59,5 @@ struct RecommendedCard: View {
     }
 
 #Preview {
-    RecommendedCard(produkt: Recommended(id: 1, img1: URL(string:  "https://arkadiuspielka.files.wordpress.com/2023/09/produkt1.jpg"), price: "9.95", title: "Tasche", category: "Box", descript: "Eine Einkaufstasche"))
+    RecommendedCard(produkt: Recommended(id: 1, img1: URL(string:  "https://firebasestorage.googleapis.com:443/v0/b/tito-91e64.appspot.com/o/images%2F073479CD-7A2D-4FFA-A860-0D1076C4303A.jpeg?alt=media&token=2da52bd1-8e81-4b23-8e58-bfa8add10800"), price: "9.95", title: "Tasche", category: "Box", descript: "Eine Einkaufstasche"))
 }

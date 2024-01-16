@@ -65,6 +65,7 @@
 		94BA61112B4C1EC400CCA37E /* PhotosPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BA61102B4C1EC400CCA37E /* PhotosPickerViewModel.swift */; };
 		94BA61132B4C1F2C00CCA37E /* PlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BA61122B4C1F2C00CCA37E /* PlaceholderView.swift */; };
 		94BA61152B4C1FB100CCA37E /* UserAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BA61142B4C1FB100CCA37E /* UserAuthViewModel.swift */; };
+		94C4901B2B5696B100C9C971 /* ProductCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C4901A2B5696B100C9C971 /* ProductCard.swift */; };
 		94C982C52B4D712100F4EDC6 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 94C982C42B4D712100F4EDC6 /* FirebaseCrashlytics */; };
 /* End PBXBuildFile section */
 
@@ -123,6 +124,7 @@
 		94BA61102B4C1EC400CCA37E /* PhotosPickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosPickerViewModel.swift; sourceTree = "<group>"; };
 		94BA61122B4C1F2C00CCA37E /* PlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderView.swift; sourceTree = "<group>"; };
 		94BA61142B4C1FB100CCA37E /* UserAuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAuthViewModel.swift; sourceTree = "<group>"; };
+		94C4901A2B5696B100C9C971 /* ProductCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				9492AF072B4EB76800CFEFDF /* RecommendedCard.swift */,
+				94C4901A2B5696B100C9C971 /* ProductCard.swift */,
 			);
 			path = Cards;
 			sourceTree = "<group>";
@@ -470,6 +473,7 @@
 			files = (
 				947FD7BA2B515A4C00CF6DB6 /* Material.swift in Sources */,
 				94BA60C02B4BE7D400CCA37E /* AdvertisementView.swift in Sources */,
+				94C4901B2B5696B100C9C971 /* ProductCard.swift in Sources */,
 				947FD7C02B5191D900CF6DB6 /* CustomPricingField.swift in Sources */,
 				947FD7B22B51502E00CF6DB6 /* Condition.swift in Sources */,
 				9492AF0A2B4EB82000CFEFDF /* Recommended.swift in Sources */,

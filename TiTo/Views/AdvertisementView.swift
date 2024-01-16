@@ -12,20 +12,6 @@ struct AdvertisementView: View {
     @EnvironmentObject var photosPicker: PhotosPickerViewModel
     @EnvironmentObject var produktViewModel: ProduktViewModel
     
-    
-//    @State var title = ""
-//    @State var category = ""
-//    @State var condition = ""
-//    @State var shipment = ""
-//    @State var optional = ""
-//    @State var description = ""
-//    @State var advertismentType = ""
-//    @State var material = ""
-//    @State var price = ""
-//    @State var priceType = ""
-//    @State var optionals = ""
-    
-    
     @State var iOffer = true
     @State var iSearch = false
     
@@ -122,6 +108,7 @@ struct AdvertisementView: View {
                                 }
                             
                             PrimaryBtn(title: "Anzeige aufgeben", action: startAdd)
+                                
                             
                             Spacer(minLength: 20)
                         }
@@ -169,9 +156,20 @@ struct AdvertisementView: View {
         
     }
     
+ 
+    
     func startAdd(){
-//        produktViewModel.image = photosPicker.selectedImage?.jpegData(compressionQuality: 1.0)
-        produktViewModel.createProduct()
+        produktViewModel.uploadImage(image: (photosPicker.selectedImage?.jpegData(compressionQuality: 0.6))!) { imageURL in
+            
+            if let imageURL = imageURL {
+                
+                produktViewModel.imageURL = imageURL
+                produktViewModel.createProduct()
+            } else {
+                
+                print("Fehler beim Hochladen des Bildes.")
+            }
+        }
     }
 }
 
