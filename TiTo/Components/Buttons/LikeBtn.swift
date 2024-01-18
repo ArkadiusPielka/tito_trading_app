@@ -29,7 +29,7 @@ struct LikeBtn: View {
         .background(content: {
             Circle()
                 .frame(width: 52, height: 52, alignment: .center)
-                .foregroundColor(Color.gray.opacity(0.5))
+                .foregroundColor(Color("cardBack"))
                 .offset(y: -2)
         })
     }

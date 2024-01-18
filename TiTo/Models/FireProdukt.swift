@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseFirestoreSwift
 
-struct FireProdukt: Codable {
+struct FireProdukt: Codable, Identifiable {
     
     @DocumentID var id: String?
     
@@ -23,6 +23,7 @@ struct FireProdukt: Codable {
     var material: String?
     var price: String
     var priceType: String
+    var startAdvertisment: Date
 //    var image: Data?
     var imageURL: String?
 

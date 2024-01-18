@@ -10,6 +10,8 @@ import SwiftUI
 struct HomeView: View {
     
     @StateObject var recomendenViewModel = RecommendenViewModel()
+    @EnvironmentObject var productViewModel: ProduktViewModel
+    
     @State var search = ""
     
     var body: some View {
@@ -33,9 +35,17 @@ struct HomeView: View {
                     Text("Weitere Anzeigen")
                         .multilineTextAlignment(.leading)
                         .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                        
+                    VStack(spacing: 16) {
+                        ForEach(productViewModel.products, id: \.id) { product in
+                            ProductCard(produkt: product)
+                        }
+                       
+                    }
+                   
                     Spacer()
                 }
-                .padding(.leading, 16)
+                .padding(.horizontal, 16)
                 
             }
             
@@ -48,4 +58,5 @@ struct HomeView: View {
 
 #Preview {
     HomeView()
+        .environmentObject(ProduktViewModel())
 }

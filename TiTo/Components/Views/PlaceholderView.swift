@@ -12,6 +12,8 @@ struct PlaceholderView: View {
     var body: some View {
         VStack(spacing: 20) {
             Image(systemName: icon)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
                 .font(.largeTitle)
             
             Text(title)

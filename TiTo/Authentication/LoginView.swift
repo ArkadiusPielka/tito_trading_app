@@ -65,7 +65,7 @@ struct LoginView: View {
                
             TextBtn(title: mode.titleTextBtn, action: switchAuthenticationMode)
         }
-        .padding(.horizontal)
+        .padding()
         .background(RoundedRectangle(cornerRadius: 20).fill(Color.white.opacity(0.8)))
         .padding()
         .rotation3DEffect(
