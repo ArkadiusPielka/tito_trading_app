@@ -14,11 +14,14 @@ class ProduktViewModel: ObservableObject {
     
     init() {
         fetchAllProducts()
+        fetchProdukt()
+        updateProductList()
     }
     
     private var listener: ListenerRegistration?
     
     @Published var products = [FireProdukt]()
+    @Published var userProducts = [FireProdukt]()
     
     @Published var title = ""
     @Published var category = ""
@@ -111,25 +114,45 @@ class ProduktViewModel: ObservableObject {
     }
 
     
-//    func fetchProdukt() {
-//        guard let userId = FirebaseManager.shared.userId else { return }
-//        
-//        self.listener = FirebaseManager.shared.database.collection("products")
-//            .whereField("userId", isEqualTo: userId)
-//            .addSnapshotListener { querySnapshot, error in
-//                if let error {
-//                    print(error.localizedDescription)
-//                    return
-//                }
-//                
-//                guard let documents = querySnapshot?.documents else {
-//                    print("Fehler beim Laden der Tasks")
-//                    return
-//                }
-//                
-//                self.produkts = documents.compactMap { queryDocumentSnapshot -> FireProdukt? in
-//                    try? queryDocumentSnapshot.data(as: FireProdukt.self)
-//                }
-//            }
-//    }
-}
+    func fetchProdukt() {
+        guard let userId = FirebaseManager.shared.userId else { return }
+        
+        self.listener = FirebaseManager.shared.database.collection("products")
+            .whereField("userId", isEqualTo: userId)
+            .addSnapshotListener { querySnapshot, error in
+                if let error {
+                    print(error.localizedDescription)
+                    return
+                }
+                
+                guard let documents = querySnapshot?.documents else {
+                    print("Fehler beim Laden der Tasks")
+                    return
+                }
+                
+                self.userProducts = documents.compactMap { queryDocumentSnapshot -> FireProdukt? in
+                    try? queryDocumentSnapshot.data(as: FireProdukt.self)
+                }
+            }
+    }
+    
+    func updateProductList() {
+        self.listener = FirebaseManager.shared.database.collection("products")
+                    .addSnapshotListener { querySnapshot, error in
+                        if let error = error {
+                            print("Error fetching products: \(error.localizedDescription)")
+                            return
+                        }
+
+                        guard let documents = querySnapshot?.documents else {
+                            print("No documents found")
+                            return
+                        }
+
+                        self.products = documents.compactMap { queryDocumentSnapshot -> FireProdukt? in
+                            try? queryDocumentSnapshot.data(as: FireProdukt.self)
+                        }
+                    }
+            }
+    }
+

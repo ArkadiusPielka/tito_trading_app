@@ -16,6 +16,7 @@ struct CategoryView: View {
     var body: some View {
         VStack {
             Text("Kategory")
+                .padding()
             
             List(Category.allCases, id: \.self) { category in
                 Button(action: {

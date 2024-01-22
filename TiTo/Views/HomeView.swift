@@ -8,55 +8,61 @@
 import SwiftUI
 
 struct HomeView: View {
-    
-    @StateObject var recomendenViewModel = RecommendenViewModel()
-    @EnvironmentObject var productViewModel: ProduktViewModel
-    
-    @State var search = ""
-    
-    var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading) {
-                    Text("Empfohlen")
-                        .multilineTextAlignment(.leading)
-                        .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
-                    ScrollView(.horizontal){
-                        HStack(spacing: 16) {
-                            ForEach(recomendenViewModel.article, id: \.id) { produkt in
-                                RecommendedCard(produkt: produkt)
-                            }
-                            .padding(.top, 8)
-                            .padding(.bottom, 16)
-                            
-                        }
-                        
-                    }
-                    Text("Weitere Anzeigen")
-                        .multilineTextAlignment(.leading)
-                        .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
-                        
-                    VStack(spacing: 16) {
-                        ForEach(productViewModel.products, id: \.id) { product in
-                            ProductCard(produkt: product)
-                        }
-                       
-                    }
-                   
-                    Spacer()
-                }
-                .padding(.horizontal, 16)
-                
+
+  @StateObject var recomendenViewModel = RecommendenViewModel()
+  @EnvironmentObject var productViewModel: ProduktViewModel
+    @EnvironmentObject var userAuthViewModel: UserAuthViewModel
+
+  @State var search = ""
+
+  var body: some View {
+
+    NavigationStack {
+
+      ScrollView {
+
+        VStack(alignment: .leading) {
+
+          Text("Empfohlen")
+            .multilineTextAlignment(.leading)
+            .font( /*@START_MENU_TOKEN@*/.title /*@END_MENU_TOKEN@*/)
+
+          ScrollView(.horizontal) {
+
+            HStack(spacing: 8) {
+
+              ForEach(recomendenViewModel.article, id: \.id) { produkt in
+                RecommendedCard(produkt: produkt)
+              }
+              .padding(.top, 8)
+              .padding(.bottom, 16)
+              .padding(.leading, 16)
             }
+          }
+         
             
+          Text("Weitere Anzeigen")
+            .multilineTextAlignment(.leading)
+            .font( /*@START_MENU_TOKEN@*/.title /*@END_MENU_TOKEN@*/)
+
+          VStack(spacing: 16) {
+              ForEach(productViewModel.products.filter { $0.userId != userAuthViewModel.user?.id }, id: \.id) { product in
+                  ProductCard(produkt: product)
+              }
+          }
+          .padding(.horizontal, 16)
+          Spacer(minLength: 20)
+                
         }
-        .searchable(text: $search)
-        .navigationBarTitleDisplayMode(.inline)
-        
+      }
     }
+    .searchable(text: $search)
+  }
+
 }
 
-#Preview {
-    HomeView()
-        .environmentObject(ProduktViewModel())
+#Preview{
+  HomeView()
+    .environmentObject(ProduktViewModel())
+    .environmentObject(UserAuthViewModel())
 }

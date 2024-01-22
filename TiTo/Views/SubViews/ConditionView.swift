@@ -16,6 +16,7 @@ struct ConditionView: View {
     var body: some View {
         VStack {
             Text("Zustand")
+                .padding()
             
             List(Condition.allCases, id: \.self) { condition in
                 Button(action: {

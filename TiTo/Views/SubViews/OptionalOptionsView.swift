@@ -16,6 +16,7 @@ struct OptionalOptionsView: View {
     var body: some View {
         VStack {
             Text("Optionen")
+                .padding()
             
             List(OptionalOptions.allCases, id: \.self) { option in
                 Button(action: {

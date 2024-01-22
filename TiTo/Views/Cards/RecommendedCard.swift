@@ -13,48 +13,41 @@ struct RecommendedCard: View {
     
     var body: some View {
         
-            HStack(alignment: .top, spacing: 0) {
-                Rectangle()
-                    .foregroundColor(.clear)
-                    .frame(width: 87, height: 107)
-                    .background(
-                        AsyncImage(url: produkt.img1) { image in
-                            image
-                                .resizable()
-                                .frame(width: 87, height: 107)
-                                .scaledToFit()
-                                .clipped()
-                        } placeholder: {
-                            Image(systemName: "photo")
-                                .resizable()
-//                                .font(.callout)
-                                .frame(width: 87, height: 107)
-                        }
-                            .multilineTextAlignment(.leading)
-                    )
-                
-                VStack(alignment: .leading) {
-                    Text(produkt.title)
-                        .font(.title2)
+            HStack(spacing: 12) {
+              
+                    Rectangle()
+                        .foregroundColor(.clear)
+                        .frame(width: CGFloat.cardWidth, height: CGFloat.cardHeight)
+                        .background(
+                            AsyncImage(url: produkt.img1) { image in
+                                image
+                                    .resizable()
+                                    .frame(width: CGFloat.cardWidth, height: CGFloat.cardHeight)
+                                    .scaledToFit()
+                                    .clipped()
+                            } placeholder: {
+                                Image(systemName: "photo")
+                                    .resizable()
+                                    .frame(width: CGFloat.cardWidth, height: CGFloat.cardHeight)
+                            }
+                        )
+                    
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text(produkt.title)
+                            .font(.title2)
                         
-                    Text(produkt.descript)
-                        .foregroundStyle(Color("subText"))
-                        .font(.footnote)
-                        .lineLimit(3)
-                    Spacer()
-                    Text(produkt.price)
-                        
-                }
-                .padding(.vertical, 8)
-                .padding(.horizontal, 12)
+                        Text(produkt.descript)
+                            .foregroundStyle(Color("subText"))
+                            .font(.footnote)
+                            .lineLimit(1)
+                        Text("\(produkt.price) €")
+                    }
                 Spacer()
             }
-            .frame(width: 350, height: 107, alignment: .top)
-            .padding(0)
+            .frame(width: CGFloat.recomendedWidth, height: CGFloat.cardHeight, alignment: .leading)
             .background(Color("cardBack"))
-            .cornerRadius(20)
+            .cornerRadius(CGFloat.cardCornerRadius)
             .shadow(color: Color("subText"), radius: 4, x: -2, y: 4)
-           
         }
     }
 

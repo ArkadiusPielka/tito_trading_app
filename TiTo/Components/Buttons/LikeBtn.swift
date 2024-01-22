@@ -26,12 +26,13 @@ struct LikeBtn: View {
                     image = like ? "heart.fill" : "heart"
                 }
         }
-        .background(content: {
-            Circle()
-                .frame(width: 52, height: 52, alignment: .center)
-                .foregroundColor(Color("cardBack"))
-                .offset(y: -2)
-        })
+//        .background(content: {
+//            Circle()
+//                .frame(width: 52, height: 52, alignment: .center)
+//                .background(.clear)
+//                .foregroundColor(Color("cardBack"))
+//                .offset(y: -2)
+//        })
     }
 }
 

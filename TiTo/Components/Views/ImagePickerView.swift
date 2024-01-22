@@ -22,17 +22,19 @@ struct ImagePickerView: View {
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 40, height: 30)
                     .clipShape(RoundedRectangle(cornerRadius: 5))
-                
-            } else {
-                Image("produkt1")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 40, height: 30)
-                    .clipShape(RoundedRectangle(cornerRadius: 5))
+                Rectangle()
+                    .frame(width: 2, height: 30)
+                    .foregroundColor(Color("advertisment"))
             }
-            Rectangle()
-                .frame(width: 2, height: 30)
-                .foregroundColor(Color("advertisment"))
+//            else {
+//                Image("produkt1")
+//                    .resizable()
+//                    .aspectRatio(contentMode: .fill)
+//                    .frame(width: 40, height: 30)
+//                    .clipShape(RoundedRectangle(cornerRadius: 5))
+//            }
+            
+            
             
             
             PhotosPicker(selection: $photoPickerViewModel.imageSelection, matching: .images, preferredItemEncoding: .automatic) {

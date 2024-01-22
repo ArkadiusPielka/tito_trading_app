@@ -16,9 +16,11 @@ class UserAuthViewModel: ObservableObject {
     
     @Published var user: FireUser?
     
+    
     var userLogIn: Bool {
         FirebaseManager.shared.auth.currentUser != nil
     }
+    
     
     private func checkAuth() {
         guard let currentUser = FirebaseManager.shared.auth.currentUser else {
@@ -28,6 +30,7 @@ class UserAuthViewModel: ObservableObject {
         
         self.fetchUser(with: currentUser.uid)
     }
+    
     
     func logIn(email: String, password: String) {
         FirebaseManager.shared.auth.signIn(withEmail: email, password: password) { authResult, error in

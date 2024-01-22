@@ -15,6 +15,7 @@ struct PlaceholderView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .font(.largeTitle)
+                .clipped()
             
             Text(title)
                 .font(.body)

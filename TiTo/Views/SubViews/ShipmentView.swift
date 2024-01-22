@@ -15,7 +15,8 @@ struct ShipmentView: View {
     
     var body: some View {
         VStack {
-            Text("Zustand")
+            Text("Versand")
+                .padding()
             
             List(Shipment.allCases, id: \.self) { shipment in
                 Button(action: {

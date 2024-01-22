@@ -15,7 +15,8 @@ struct MaterialView: View {
     
     var body: some View {
         VStack {
-            Text("Kategory")
+            Text("Material")
+                .padding()
             
             List(Material.allCases, id: \.self) { material in
                 Button(action: {
