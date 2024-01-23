@@ -13,5 +13,5 @@ extension CGFloat {
     static var recomendedWidth: CGFloat { return 340 }
     static var cardCornerRadius: CGFloat { return 20 }
     static var cardShadowRadius: CGFloat { return 4 }
-    static var cardShadowX: CGFloat { return 2 }
+    static var cardStroke: CGFloat { return 1 }
 }

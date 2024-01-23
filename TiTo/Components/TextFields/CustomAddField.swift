@@ -28,7 +28,7 @@ struct CustomAddField: View {
     .cornerRadius(20)
     .overlay(
       RoundedRectangle(cornerRadius: 20)
-        .stroke(strokeColor, lineWidth: 2)
+        .stroke(strokeColor, lineWidth: CGFloat.cardStroke)
     )
   }
 }

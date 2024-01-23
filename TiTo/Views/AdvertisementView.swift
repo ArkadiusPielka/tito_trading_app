@@ -45,7 +45,7 @@ struct AdvertisementView: View {
               }
             }
 
-            VStack(spacing: 24) {
+            VStack(spacing: 16) {
               ImagePickerView()
                 .padding(.top, 24)
               HStack {
@@ -69,24 +69,24 @@ struct AdvertisementView: View {
 
               CustomAddField(hint: "Titel", text: $produktViewModel.title, strokeColor: Color("advertisment"))
 
-              CustomAddFieldNav(hint: "Kategory", text: $produktViewModel.category)
+                CustomAddFieldNav(hint: "Kategorie", text: $produktViewModel.category, strokeColor: Color("advertisment"))
                 .onTapGesture {
                   categorySheet.toggle()
                 }
 
               if produktViewModel.category == "Schmuck" {
-                CustomAddFieldNav(hint: "Material", text: $produktViewModel.material)
+                  CustomAddFieldNav(hint: "Material", text: $produktViewModel.material, strokeColor: Color("advertisment"))
                   .onTapGesture {
                     materialSheet.toggle()
                   }
               }
 
-              CustomAddFieldNav(hint: "Zustand", text: $produktViewModel.condition)
+                CustomAddFieldNav(hint: "Zustand", text: $produktViewModel.condition, strokeColor: Color("advertisment"))
                 .onTapGesture {
                   conditionSheet.toggle()
                 }
 
-              CustomAddFieldNav(hint: "Versand", text: $produktViewModel.shipment)
+                CustomAddFieldNav(hint: "Versand", text: $produktViewModel.shipment, strokeColor: Color("advertisment"))
                 .onTapGesture {
                   shipmentSheet.toggle()
                 }
@@ -102,7 +102,7 @@ struct AdvertisementView: View {
                   }
               }
 
-              CustomAddFieldNav(hint: "Optional", text: $produktViewModel.optional)
+                CustomAddFieldNav(hint: "Optional", text: $produktViewModel.optional, strokeColor: Color("advertisment"))
                 .onTapGesture {
                   optionalSheet.toggle()
                 }

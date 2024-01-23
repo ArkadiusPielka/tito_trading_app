@@ -5,125 +5,215 @@
 //  Created by Arkadius Pielka on 22.01.24.
 //
 
-import SwiftUI
 import PhotosUI
+import SwiftUI
 
 struct UserDetailView: View {
-
-  @EnvironmentObject var userAuthViewModel: UserAuthViewModel
-  @EnvironmentObject var photosPicker: PhotosPickerViewModel
-
-  @Binding var showDetails: Bool
-
-  @State var street = ""
-  @State var plz = ""
-  @State var city = ""
-
-  var body: some View {
-      
-    VStack {
+    
+    @EnvironmentObject var userAuthViewModel: UserAuthViewModel
+    @EnvironmentObject var photosPicker: PhotosPickerViewModel
+    //    @EnvironmentObject var addressAutoCompleteViewModel: AddressAutoCompleteViewModel
+    
+    @Binding var showDetails: Bool
+    @State var showCountry = false
+    
+    @State var street = ""
+    @State var plz = ""
+    @State var city = ""
+    @State var hausNr = ""
+    @State var name = ""
+    @State var email = ""
+    @State var country = ""
+    @State var image = ""
+    
+    var body: some View {
         
-      if showDetails {
-        HStack {
-          Spacer()
-          TextBtn(title: "Acount löschen", action: deleteAccount)
-            .frame(maxWidth: 150)
-            .accentColor(.red)
-            .padding(.bottom, 24)
-        }
-      }
-        
-      HStack(alignment: .center, spacing: 16) {
-        Rectangle()
-          .foregroundColor(.clear)
-          .frame(width: 111, height: 111)
-          .background(
-            Group {
-              if let imageData = photosPicker.selectedImage {
-
-                Image(uiImage: imageData)
-                  .resizable()
-              } else {
-
-                Image(systemName: "person")
-                  .resizable()
-              }
+        VStack {
+            
+            if showDetails {
+                HStack {
+                    
+                    TextBtn(title: "Acount löschen", action: deleteAccount)
+                        .frame(maxWidth: 150)
+                        .accentColor(.red)
+                    
+                    Spacer()
+                    
+                    Button {
+                        showDetails.toggle()
+                    } label: {
+                        Image(systemName: "xmark.circle")
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                    }
+                }
+                .padding(.bottom, 24)
             }
-          )
-          .cornerRadius(111)
-
-        VStack(alignment: .leading, spacing: 6) {
             
-          Text(userAuthViewModel.user?.kontoType ?? "privat")
-          Text(userAuthViewModel.user?.name ?? "akki")
-            .font(.title2)
-            .bold()
-            
-          Group {
-            Text("angemeldet am:")
-            Text(formattedDate)
-          }
-          .foregroundColor(Color("subText"))
-        }
-        .padding(.vertical, 8)
-        .frame(width: 186, alignment: .leading)
-        .cornerRadius(20)
-      }
-        
-      if showDetails {
-          VStack(alignment: .leading, spacing: 16) {
-            PhotosPicker(selection: $photosPicker.imageSelection, matching: .images, preferredItemEncoding: .automatic) {
+            HStack(alignment: .center, spacing: 16) {
+                Rectangle()
+                    .foregroundColor(.clear)
+                    .frame(width: 111, height: 111)
+                    .background(
+                        Group {
+                            
+                            if let imageData = userAuthViewModel.user?.imageURL {
+                                
+                                Image(imageData)
+                                    .resizable()
+                            } else {
+                                
+                                Image(systemName: "person")
+                                    .resizable()
+                            }
+                        }
+                    )
+                    .cornerRadius(111)
                 
-                Image(systemName: "camera.fill")
-                    .resizable()
-                    .frame(width: 40, height: 30)
-                Text("Profilbild ändern")
+                VStack(alignment: .leading, spacing: 8) {
+                    
+                    Text(userAuthViewModel.user?.kontoType ?? "privat")
+                    if showDetails {
+                        CustomAddField(hint: "Name", text:  $name, strokeColor: Color("profil"))
+                    } else {
+                        Text(userAuthViewModel.user?.name ?? "akki")
+                            .font(.title2)
+                            .bold()
+                    }
+                    Group {
+                        Text("angemeldet am:")
+                        Text(formattedDate)
+                    }
+                    .foregroundColor(Color("subText"))
+                }
+                .frame(width: 186, alignment: .leading)
+                Spacer()
             }
-            .padding(.top)
-              
-          CustomAddField(hint: "Straße", text: $street, strokeColor: Color("profil"))
+            
+            if showDetails {
+                VStack(alignment: .leading, spacing: 16) {
+                    PhotosPicker(
+                        selection: $photosPicker.imageSelection, matching: .images,
+                        preferredItemEncoding: .automatic
+                    ) {
+                        Image(systemName: "camera.fill")
+                            .resizable()
+                            .frame(width: 40, height: 30)
+                        Text("Profilbild ändern")
+                    }
+                    .padding(.top)
+                    CustomAddField(hint: "E-Mail", text:  $email, strokeColor: Color("profil"))
+                    HStack {
+                        CustomAddField(hint: "Straße", text:  $street, strokeColor: Color("profil"))
+                        CustomAddField(hint: "Nr.", text: $hausNr, strokeColor: Color("profil"))
+                            .frame(width: /*@START_MENU_TOKEN@*/ 100 /*@END_MENU_TOKEN@*/)
+                    }
+                    HStack {
+                        CustomAddField(hint: "PLZ", text: $plz, strokeColor: Color("profil"))
+                            .keyboardType(.numberPad)
+                            .frame(width: /*@START_MENU_TOKEN@*/ 100 /*@END_MENU_TOKEN@*/)
+                        CustomAddField(hint: "Stadt", text: $city, strokeColor: Color("profil"))
+                    }
+                    
+                    CustomAddFieldNav(hint: "Land", text: $country, strokeColor: Color("profil"))
+                        .onTapGesture {
+                            showCountry.toggle()
+                        }
+                    
+                    PrimaryBtn(title: "Profil speichern", action: updateProfilWithImage)
+                        .accentColor(Color("profil"))
+                    
+                }
+                .onAppear{
+                    city = userAuthViewModel.user?.city ?? ""
+                    plz = userAuthViewModel.user?.plz ?? ""
+                    hausNr = userAuthViewModel.user?.housenumber ?? ""
+                    street = userAuthViewModel.user?.street ?? ""
+                    email = userAuthViewModel.user?.email ?? ""
+                    name = userAuthViewModel.user?.name ?? ""
+                    country = userAuthViewModel.user?.country ?? ""
+                }
+            }
+        }
+        .sheet(isPresented: $showCountry) {
+            CountryView(country: $country, countrySheet: $showCountry) {
+                countrySelected in
+                country = countrySelected
+            }
+            .presentationDetents([.fraction(0.35)])
+        }
+        .padding(16)
+        .frame(width: .infinity, alignment: .center)
+        .cornerRadius(20)
+        .overlay(
+            RoundedRectangle(cornerRadius: CGFloat.cardCornerRadius)
+                .inset(by: 0.5)
+                .stroke(Color("profil"))
+        )
+    }
+    
+    var formattedDate: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .short
+        
+        return dateFormatter.string(from: userAuthViewModel.user?.registeredAt ?? Date())
+    }
+    
+    func updateProfile() {
+        
+        let currentFirebaseUser = userAuthViewModel.user
+        
+        let updatedUser = FireUser(
+            id: userAuthViewModel.user?.id ?? "",
+            name: name,
+            email: email,
+            registeredAt: userAuthViewModel.user?.registeredAt ?? Date(),
+            kontoType: userAuthViewModel.user?.kontoType ?? "",
+            plz: plz,
+            housenumber: hausNr,
+            street: street,
+            country: country,
+            city: city,
+            imageURL: image
+        )
+        
+        if updatedUser.name != currentFirebaseUser?.name ||
+            updatedUser.email != currentFirebaseUser?.email ||
+            updatedUser.plz != currentFirebaseUser?.plz ||
+            updatedUser.housenumber != currentFirebaseUser?.housenumber ||
+            updatedUser.street != currentFirebaseUser?.street ||
+            updatedUser.country != currentFirebaseUser?.country ||
+            updatedUser.imageURL != currentFirebaseUser?.imageURL ||
+            updatedUser.city != currentFirebaseUser?.city {
+            userAuthViewModel.updateUser(user: updatedUser)
+        }
+        showDetails.toggle()
+        //TODO: func
+    }
+    
+    func updateProfilWithImage() {
+      userAuthViewModel.uploadImage(
+        image: (photosPicker.selectedImage?.jpegData(compressionQuality: 0.6))!
+      ) { imageURL in
 
-          HStack {
-            CustomAddField(hint: "PLZ", text: $plz, strokeColor: Color("profil"))
-              .keyboardType(.numberPad)
-              .frame(width: /*@START_MENU_TOKEN@*/ 100 /*@END_MENU_TOKEN@*/)
-            CustomAddField(hint: "Stadt", text: $city, strokeColor: Color("profil"))
-          }
-          PrimaryBtn(title: "Profil speichern", action: updateProfile)
-            .accentColor(Color("profil"))
+        if let imageURL = imageURL {
+
+          image = imageURL
+          updateProfile()
+        } else {
+
+          print("Fehler beim Hochladen des Bildes.")
         }
       }
     }
-
-    .padding(16)
-    .frame(width: 360, alignment: .center)
-    .cornerRadius(20)
-    .overlay(
-      RoundedRectangle(cornerRadius: 20)
-        .inset(by: 0.5)
-        .stroke(Color("profil"))
-    )
-  }
-
-  var formattedDate: String {
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateStyle = .short
-
-    return dateFormatter.string(from: userAuthViewModel.user?.registeredAt ?? Date())
-  }
-
-  func updateProfile() {
-    showDetails.toggle()
-    //TODO: func
-  }
-
-  func deleteAccount() {
-
-  }
+    func deleteAccount() {
+        //TODO: func
+    }
 }
 
 #Preview{
-  UserDetailView(showDetails: .constant(true))
-    .environmentObject(UserAuthViewModel())
-    .environmentObject(PhotosPickerViewModel())
+    UserDetailView(showDetails: .constant(true))
+        .environmentObject(UserAuthViewModel())
+        .environmentObject(PhotosPickerViewModel())
+    //        .environmentObject(AddressAutoCompleteViewModel())
 }

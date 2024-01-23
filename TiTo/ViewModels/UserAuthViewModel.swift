@@ -114,4 +114,57 @@ class UserAuthViewModel: ObservableObject {
             }
         }
     }
+    
+    func updateUser(user: FireUser) {
+        
+        guard let userId = FirebaseManager.shared.userId else { return }
+        
+        let user = ["plz": user.plz,
+                    "name": user.name,
+                    "imageURL": user.imageURL,
+                    "email": user.email,
+                    "housenumber": user.housenumber,
+                    "street": user.street,
+                    "country": user.country,
+                    "city": user.city
+        ]
+        FirebaseManager.shared.database.collection("users").document(userId).setData(user as [String : Any], merge: true) { error in
+            if let error {
+                print("Profil wurde nicht aktualisiert", error.localizedDescription)
+                return
+            }
+            
+            print("Profil aktualisiert!")
+        }
+        fetchUser(with: userId)
+    }
+    
+    func uploadImage(image: Data, completion: @escaping (String?) -> Void) {
+        let storage = FirebaseManager.shared.storage.reference()
+        
+        let path = "profil/\(UUID().uuidString).jpeg"
+        let fileRef = storage.child(path)
+        
+        let uploadTask = fileRef.putData(image, metadata: nil) { metadata, error in
+            if error == nil && metadata != nil {
+                
+                fileRef.downloadURL { url, error in
+                    guard let downloadURL = url, error == nil else {
+                        print("Fehler beim Abrufen der Download-URL: \(error!.localizedDescription)")
+                        completion(nil)
+                        return
+                    }
+                    
+                    let imageURL = downloadURL.absoluteString
+                    
+                    completion(imageURL)
+                    
+                    print("Download-URL des hochgeladenen Bilds: \(downloadURL)")
+                }
+            } else {
+                print("Fehler beim Hochladen des Bildes: \(error?.localizedDescription ?? "Unbekannter Fehler")")
+                completion(nil)
+            }
+        }
+    }
 }

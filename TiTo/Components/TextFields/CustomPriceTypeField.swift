@@ -29,7 +29,7 @@ struct CustomPriceTypeField: View {
         .cornerRadius(20)
         .overlay(
             RoundedRectangle(cornerRadius: 20)
-                .stroke(Color("advertisment"))
+                .stroke(Color("advertisment"), lineWidth: CGFloat.cardStroke)
         )
     }
 }

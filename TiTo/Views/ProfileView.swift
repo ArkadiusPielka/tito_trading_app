@@ -18,24 +18,33 @@ struct ProfileView: View {
   var body: some View {
     ScrollView {
       VStack(spacing: 16) {
-
-        UserDetailView(showDetails: $showDetails)
-
-        PrimaryBtn(title: "Profil bearbeiten", action: userDetails)
-          .accentColor(Color("profil"))
-
-        PrimaryBtn(title: "Abmelden", action: logOut)
-
+          Group {
+              UserDetailView(showDetails: $showDetails)
+              
+              PrimaryBtn(title: "Profil bearbeiten", action: userDetails)
+                  .accentColor(Color("profil"))
+              
+              PrimaryBtn(title: "Abmelden", action: logOut)
+          }
+          .padding(.horizontal)
+          
         VStack(spacing: 16) {
 
           ForEach(productViewModel.userProducts, id: \.id) { product in
             ProductCard(produkt: product)
           }
+          
         }
+        .padding(.horizontal)
+
+      }
+      .onAppear{
+          productViewModel.fetchProdukt()
       }
       Spacer(minLength: 20)
+            
     }
-    .padding(.horizontal)
+    
   }
 
   var formattedDate: String {
@@ -51,6 +60,7 @@ struct ProfileView: View {
 
   func logOut() {
     userAuthViewModel.logOut()
+      productViewModel.removeListener()
   }
 
   func deleteUser() {

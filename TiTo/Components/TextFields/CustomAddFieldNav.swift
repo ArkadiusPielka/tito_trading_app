@@ -11,6 +11,7 @@ struct CustomAddFieldNav: View {
     
     var hint: String
     @Binding var text: String
+    var strokeColor: Color
     
     var body: some View {
         NavigationStack {
@@ -20,21 +21,22 @@ struct CustomAddFieldNav: View {
                     .disabled(/*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)
                     .font(.title2)
                 Image(systemName: "chevron.right")
-                    .foregroundColor(Color("advertisment"))
+                    .foregroundColor(strokeColor)
             }
             
             .padding(.horizontal, 16)
             .padding(.vertical, 8)
-            .frame(width: .infinity, alignment: .leading)
+            .frame(width: .infinity,  alignment: .leading)
             .cornerRadius(20)
             .overlay(
                 RoundedRectangle(cornerRadius: 20)
-                    .stroke(Color("advertisment"))
+                    .stroke(strokeColor, lineWidth: CGFloat.cardStroke)
             )
         }
+        .frame(height: 50)
     }
 }
 
 #Preview {
-    CustomAddFieldNav(hint: "Kategory", text: .constant(""))
+    CustomAddFieldNav(hint: "Kategory", text: .constant(""), strokeColor: Color("advertisment"))
 }

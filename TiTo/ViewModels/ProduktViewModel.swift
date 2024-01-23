@@ -55,7 +55,7 @@ class ProduktViewModel: ObservableObject {
                                   imageURL: imageURL
                                   
         )
-
+        
         do {
             try FirebaseManager.shared.database.collection("products").addDocument(from: product)
         } catch let error {
@@ -101,18 +101,18 @@ class ProduktViewModel: ObservableObject {
                     print("Error fetching all products: \(error.localizedDescription)")
                     return
                 }
-
+                
                 guard let documents = querySnapshot?.documents else {
                     print("No documents found")
                     return
                 }
-
+                
                 self.products = documents.compactMap { queryDocumentSnapshot -> FireProdukt? in
                     try? queryDocumentSnapshot.data(as: FireProdukt.self)
                 }
             }
     }
-
+    
     
     func fetchProdukt() {
         guard let userId = FirebaseManager.shared.userId else { return }
@@ -138,21 +138,26 @@ class ProduktViewModel: ObservableObject {
     
     func updateProductList() {
         self.listener = FirebaseManager.shared.database.collection("products")
-                    .addSnapshotListener { querySnapshot, error in
-                        if let error = error {
-                            print("Error fetching products: \(error.localizedDescription)")
-                            return
-                        }
-
-                        guard let documents = querySnapshot?.documents else {
-                            print("No documents found")
-                            return
-                        }
-
-                        self.products = documents.compactMap { queryDocumentSnapshot -> FireProdukt? in
-                            try? queryDocumentSnapshot.data(as: FireProdukt.self)
-                        }
-                    }
+            .addSnapshotListener { querySnapshot, error in
+                if let error = error {
+                    print("Error fetching products: \(error.localizedDescription)")
+                    return
+                }
+                
+                guard let documents = querySnapshot?.documents else {
+                    print("No documents found")
+                    return
+                }
+                
+                self.products = documents.compactMap { queryDocumentSnapshot -> FireProdukt? in
+                    try? queryDocumentSnapshot.data(as: FireProdukt.self)
+                }
             }
     }
+    
+    func removeListener() {
+        userProducts.removeAll()
+        listener?.remove()
+    }
+}
 
