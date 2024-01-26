@@ -9,7 +9,6 @@ import Foundation
 
 enum Category: String, CaseIterable {
     
-    case category
     case videogame
     case beauty
     case jewelry
@@ -17,10 +16,18 @@ enum Category: String, CaseIterable {
     var title: String {
         switch self {
             
-        case .category: return ""
         case .videogame: return "Viedeospiele"
         case .beauty: return "Beauty"
         case .jewelry: return "Schmuck"
+        }
+    }
+    
+    var image: String {
+        switch self {
+            
+        case .videogame: return "gamecontroller.fill"
+        case .beauty: return "gamecontroller.fill"
+        case .jewelry: return "gamecontroller.fill"
         }
     }
 }

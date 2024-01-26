@@ -28,6 +28,7 @@ struct TiToApp: App {
                 NavigationView()
             } else {
                 AuthenticationView()
+                    .preferredColorScheme(.dark)
             }
         }
         .environmentObject(userAuthViewModel)

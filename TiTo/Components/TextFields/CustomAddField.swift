@@ -24,10 +24,8 @@ struct CustomAddField: View {
     .padding(.horizontal, 16)
     .padding(.vertical, 8)
     .frame(width: .infinity, alignment: .leading)
-
-    .cornerRadius(20)
     .overlay(
-      RoundedRectangle(cornerRadius: 20)
+      RoundedRectangle(cornerRadius: CGFloat.textFieldCornerRadius)
         .stroke(strokeColor, lineWidth: CGFloat.cardStroke)
     )
   }

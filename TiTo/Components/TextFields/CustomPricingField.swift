@@ -29,9 +29,8 @@ struct CustomPricingField: View {
             .padding(.horizontal, 16)
             .padding(.vertical, 8)
             .frame(width: 150)
-            .cornerRadius(20)
             .overlay(
-                RoundedRectangle(cornerRadius: 20)
+                RoundedRectangle(cornerRadius: CGFloat.textFieldCornerRadius)
                     .stroke(Color("advertisment"), lineWidth: CGFloat.cardStroke)
             )
             Spacer()

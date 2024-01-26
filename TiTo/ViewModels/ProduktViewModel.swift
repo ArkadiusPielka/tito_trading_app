@@ -22,6 +22,7 @@ class ProduktViewModel: ObservableObject {
     
     @Published var products = [FireProdukt]()
     @Published var userProducts = [FireProdukt]()
+    @Published var userFavoriteProducts = [FireProdukt]()
     
     @Published var title = ""
     @Published var category = ""

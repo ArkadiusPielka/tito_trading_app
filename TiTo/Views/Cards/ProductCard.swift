@@ -100,7 +100,7 @@ struct ProductCard: View {
     }
     
     func isLike() {
-        
+        //TODO: func
     }
 }
 

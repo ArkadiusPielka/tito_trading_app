@@ -24,7 +24,7 @@ import SwiftUI
                     .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
                     .background(Color.blue)
                     .foregroundColor(.white)
-                    .cornerRadius(8)
+                    .cornerRadius(CGFloat.textFieldCornerRadius)
             }
         }
     }

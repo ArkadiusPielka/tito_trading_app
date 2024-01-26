@@ -16,7 +16,7 @@ struct CustomTextField: View {
         TextField(hint, text: $text)
             .padding(12)
             .background(Color.gray.opacity(0.2))
-            .cornerRadius(20)
+            .cornerRadius(CGFloat.textFieldCornerRadius)
             
     }
 }

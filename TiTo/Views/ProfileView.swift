@@ -16,33 +16,42 @@ struct ProfileView: View {
   @State var showDetails = false
 
   var body: some View {
-    ScrollView {
-      VStack(spacing: 16) {
-          Group {
-              UserDetailView(showDetails: $showDetails)
-              
-              PrimaryBtn(title: "Profil bearbeiten", action: userDetails)
-                  .accentColor(Color("profil"))
-              
-              PrimaryBtn(title: "Abmelden", action: logOut)
+      NavigationStack {
+          ScrollView {
+              VStack(spacing: 16) {
+                  Group {
+                      UserDetailView(showDetails: $showDetails)
+                      
+                      PrimaryBtn(title: "Profil bearbeiten", action: userDetails)
+                          .accentColor(Color("profil"))
+                      
+                      PrimaryBtn(title: "Abmelden", action: logOut)
+                  }
+                  .padding(.horizontal)
+                  
+                  VStack(spacing: 16) {
+                      
+                      ForEach(productViewModel.userProducts, id: \.id) { product in
+                          ProductCard(produkt: product)
+                              .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                  Button {
+                                      
+                                  } label: {
+                                      Image(systemName: "trash")
+                                  }
+                                  .tint(.red)
+                              }
+                      }
+                      
+                  }
+                  .padding(.horizontal)
+                  
+              }
+              .onAppear{
+                  productViewModel.fetchProdukt()
+              }
+              Spacer(minLength: 20)
           }
-          .padding(.horizontal)
-          
-        VStack(spacing: 16) {
-
-          ForEach(productViewModel.userProducts, id: \.id) { product in
-            ProductCard(produkt: product)
-          }
-          
-        }
-        .padding(.horizontal)
-
-      }
-      .onAppear{
-          productViewModel.fetchProdukt()
-      }
-      Spacer(minLength: 20)
-            
     }
     
   }
