@@ -34,5 +34,5 @@ struct NavigationView: View {
         .environmentObject(UserAuthViewModel())
         .environmentObject(PhotosPickerViewModel())
         .environmentObject(ProduktViewModel())
-        .environmentObject(AddressAutoCompleteViewModel())
+       
 }

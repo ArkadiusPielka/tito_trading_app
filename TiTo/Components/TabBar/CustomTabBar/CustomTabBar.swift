@@ -170,6 +170,6 @@ struct TabBarTopCurve: Shape {
         .environmentObject(UserAuthViewModel())
         .environmentObject(PhotosPickerViewModel())
         .environmentObject(ProduktViewModel())
-        .environmentObject(AddressAutoCompleteViewModel())
+        
 }
 

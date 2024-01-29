@@ -16,6 +16,9 @@ struct UserDetailView: View {
     
     @Binding var showDetails: Bool
     @State var showCountry = false
+    @State var address = ""
+    
+    @State var selectedImage: UIImage?
     
     @State var street = ""
     @State var plz = ""
@@ -27,7 +30,6 @@ struct UserDetailView: View {
     @State var image = ""
     
     var body: some View {
-        
         VStack {
             
             if showDetails {
@@ -55,16 +57,36 @@ struct UserDetailView: View {
                     .foregroundColor(.clear)
                     .frame(width: 111, height: 111)
                     .background(
-                        Group {
-                            
-                            if let imageData = userAuthViewModel.user?.imageURL {
-                                
-                                Image(imageData)
+                        AsyncImage(url: URL(string: userAuthViewModel.user?.imageURL ?? "")) { phase in
+                            switch phase {
+                            case .empty:
+                                Image(systemName: "person.crop.circle.fill")
                                     .resizable()
-                            } else {
-                                
-                                Image(systemName: "person")
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 111, height: 111)
+                            case .success(let image):
+                                if let selectedImage = photosPicker.selectedImage {
+                                    Image(uiImage: selectedImage)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 111, height: 111)
+                                } else {
+                                    image
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 111, height: 111)
+                                }
+                            case .failure:
+                                Image(systemName: "exclamationmark.triangle.fill")
                                     .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 111, height: 111)
+                                
+                            @unknown default:
+                                Image(systemName: "questionmark.circle.fill")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 111, height: 111)
                             }
                         }
                     )
@@ -72,11 +94,11 @@ struct UserDetailView: View {
                 
                 VStack(alignment: .leading, spacing: 8) {
                     
-                    Text(userAuthViewModel.user?.kontoType ?? "privat")
+                    Text(userAuthViewModel.user?.kontoType ?? "")
                     if showDetails {
                         CustomAddField(hint: "Name", text:  $name, strokeColor: Color("profil"))
                     } else {
-                        Text(userAuthViewModel.user?.name ?? "akki")
+                        Text(userAuthViewModel.user?.name ?? "")
                             .font(.title2)
                             .bold()
                     }
@@ -101,8 +123,11 @@ struct UserDetailView: View {
                             .frame(width: 40, height: 30)
                         Text("Profilbild ändern")
                     }
+                    
                     .padding(.top)
+                    
                     CustomAddField(hint: "E-Mail", text:  $email, strokeColor: Color("profil"))
+
                     HStack {
                         CustomAddField(hint: "Straße", text:  $street, strokeColor: Color("profil"))
                         CustomAddField(hint: "Nr.", text: $hausNr, strokeColor: Color("profil"))
@@ -132,9 +157,11 @@ struct UserDetailView: View {
                     email = userAuthViewModel.user?.email ?? ""
                     name = userAuthViewModel.user?.name ?? ""
                     country = userAuthViewModel.user?.country ?? ""
+                    image = userAuthViewModel.user?.imageURL ?? ""
                 }
             }
         }
+        
         .sheet(isPresented: $showCountry) {
             CountryView(country: $country, countrySheet: $showCountry) {
                 countrySelected in
@@ -144,7 +171,6 @@ struct UserDetailView: View {
         }
         .padding(16)
         .frame(width: .infinity, alignment: .center)
-        .cornerRadius(20)
         .overlay(
             RoundedRectangle(cornerRadius: CGFloat.cardCornerRadius)
                 .inset(by: 0.5)
@@ -192,19 +218,19 @@ struct UserDetailView: View {
     }
     
     func updateProfilWithImage() {
-      userAuthViewModel.uploadImage(
-        image: (photosPicker.selectedImage?.jpegData(compressionQuality: 0.6))!
-      ) { imageURL in
-
-        if let imageURL = imageURL {
-
-          image = imageURL
-          updateProfile()
-        } else {
-
-          print("Fehler beim Hochladen des Bildes.")
+        userAuthViewModel.uploadImage(
+            image: (photosPicker.selectedImage?.jpegData(compressionQuality: 0.6))!
+        ) { imageURL in
+            
+            if let imageURL = imageURL {
+                
+                image = imageURL
+                updateProfile()
+            } else {
+                
+                print("Fehler beim Hochladen des Bildes.")
+            }
         }
-      }
     }
     func deleteAccount() {
         //TODO: func
@@ -213,6 +239,7 @@ struct UserDetailView: View {
 
 #Preview{
     UserDetailView(showDetails: .constant(true))
+    
         .environmentObject(UserAuthViewModel())
         .environmentObject(PhotosPickerViewModel())
     //        .environmentObject(AddressAutoCompleteViewModel())

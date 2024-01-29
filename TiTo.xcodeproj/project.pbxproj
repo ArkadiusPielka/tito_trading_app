@@ -70,10 +70,7 @@
 		94BA61112B4C1EC400CCA37E /* PhotosPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BA61102B4C1EC400CCA37E /* PhotosPickerViewModel.swift */; };
 		94BA61132B4C1F2C00CCA37E /* PlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BA61122B4C1F2C00CCA37E /* PlaceholderView.swift */; };
 		94BA61152B4C1FB100CCA37E /* UserAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BA61142B4C1FB100CCA37E /* UserAuthViewModel.swift */; };
-		94C330002B5FB7E9000F0E29 /* AddressDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C32FFF2B5FB7E9000F0E29 /* AddressDetails.swift */; };
-		94C330022B5FBA78000F0E29 /* AddressAutoComplete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C330012B5FBA78000F0E29 /* AddressAutoComplete.swift */; };
-		94C330042B5FBC74000F0E29 /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C330032B5FBC74000F0E29 /* Address.swift */; };
-		94C330062B5FC315000F0E29 /* AddressAutoCompleteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C330052B5FC315000F0E29 /* AddressAutoCompleteViewModel.swift */; };
+		94C330002B5FB7E9000F0E29 /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C32FFF2B5FB7E9000F0E29 /* Address.swift */; };
 		94C330082B6004EB000F0E29 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C330072B6004EB000F0E29 /* Country.swift */; };
 		94C3300A2B60055F000F0E29 /* CountryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C330092B60055F000F0E29 /* CountryView.swift */; };
 		94C4901B2B5696B100C9C971 /* ProductCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C4901A2B5696B100C9C971 /* ProductCard.swift */; };
@@ -140,10 +137,7 @@
 		94BA61102B4C1EC400CCA37E /* PhotosPickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosPickerViewModel.swift; sourceTree = "<group>"; };
 		94BA61122B4C1F2C00CCA37E /* PlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderView.swift; sourceTree = "<group>"; };
 		94BA61142B4C1FB100CCA37E /* UserAuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAuthViewModel.swift; sourceTree = "<group>"; };
-		94C32FFF2B5FB7E9000F0E29 /* AddressDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressDetails.swift; sourceTree = "<group>"; };
-		94C330012B5FBA78000F0E29 /* AddressAutoComplete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressAutoComplete.swift; sourceTree = "<group>"; };
-		94C330032B5FBC74000F0E29 /* Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
-		94C330052B5FC315000F0E29 /* AddressAutoCompleteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressAutoCompleteViewModel.swift; sourceTree = "<group>"; };
+		94C32FFF2B5FB7E9000F0E29 /* Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
 		94C330072B6004EB000F0E29 /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
 		94C330092B60055F000F0E29 /* CountryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryView.swift; sourceTree = "<group>"; };
 		94C4901A2B5696B100C9C971 /* ProductCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCard.swift; sourceTree = "<group>"; };
@@ -205,7 +199,6 @@
 			children = (
 				9492AF0C2B4EB9A600CFEFDF /* Enum */,
 				9492AF0F2B4EB9FA00CFEFDF /* RecommendedRepository.swift */,
-				94C330012B5FBA78000F0E29 /* AddressAutoComplete.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -376,8 +369,7 @@
 				94BA610D2B4C1E5500CCA37E /* FireUser.swift */,
 				9474D9F72B55536D003F6DA1 /* FireProdukt.swift */,
 				9492AF092B4EB82000CFEFDF /* Recommended.swift */,
-				94C32FFF2B5FB7E9000F0E29 /* AddressDetails.swift */,
-				94C330032B5FBC74000F0E29 /* Address.swift */,
+				94C32FFF2B5FB7E9000F0E29 /* Address.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -388,7 +380,6 @@
 				94BA61142B4C1FB100CCA37E /* UserAuthViewModel.swift */,
 				9474D9F92B5554D6003F6DA1 /* ProduktViewModel.swift */,
 				9492AF112B4EBAE700CFEFDF /* RecommendenViewModel.swift */,
-				94C330052B5FC315000F0E29 /* AddressAutoCompleteViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -520,20 +511,18 @@
 				9492AF0A2B4EB82000CFEFDF /* Recommended.swift in Sources */,
 				94BA60AF2B4BE5F800CCA37E /* CustomTabBar.swift in Sources */,
 				9492AF122B4EBAE700CFEFDF /* RecommendenViewModel.swift in Sources */,
-				94C330062B5FC315000F0E29 /* AddressAutoCompleteViewModel.swift in Sources */,
 				9477B8322B57C50300390B31 /* View+Extentions.swift in Sources */,
 				94BA60C42B4BE7F400CCA37E /* ProfileView.swift in Sources */,
 				94BA609E2B4BE48700CCA37E /* TiToApp.swift in Sources */,
 				9474D9EE2B5526D4003F6DA1 /* CustomPriceTypeField.swift in Sources */,
 				947FD7B42B51527400CF6DB6 /* ConditionView.swift in Sources */,
 				94BA60CB2B4BF4C500CCA37E /* PrimaryBtn.swift in Sources */,
-				94C330002B5FB7E9000F0E29 /* AddressDetails.swift in Sources */,
+				94C330002B5FB7E9000F0E29 /* Address.swift in Sources */,
 				94BA61112B4C1EC400CCA37E /* PhotosPickerViewModel.swift in Sources */,
 				94BA60B62B4BE69500CCA37E /* Extension.swift in Sources */,
 				94BA61152B4C1FB100CCA37E /* UserAuthViewModel.swift in Sources */,
 				94BA60BC2B4BE79D00CCA37E /* HomeView.swift in Sources */,
 				947FD7AD2B5142E700CF6DB6 /* Category.swift in Sources */,
-				94C330022B5FBA78000F0E29 /* AddressAutoComplete.swift in Sources */,
 				9492AF0E2B4EB9B600CFEFDF /* HTTPError.swift in Sources */,
 				94BA60D72B4BFA3C00CCA37E /* TextBtn.swift in Sources */,
 				94BA610E2B4C1E5500CCA37E /* FireUser.swift in Sources */,
@@ -553,7 +542,6 @@
 				94C3300A2B60055F000F0E29 /* CountryView.swift in Sources */,
 				9474D9EC2B552521003F6DA1 /* PriceTypeView.swift in Sources */,
 				948417C62B5E94CF000722FA /* CGFloat.swift in Sources */,
-				94C330042B5FBC74000F0E29 /* Address.swift in Sources */,
 				94BA610C2B4C1CE800CCA37E /* FirebaseManager.swift in Sources */,
 				94BA60DB2B4C13AE00CCA37E /* AuthenticationView.swift in Sources */,
 				9474D9EA2B5524B8003F6DA1 /* PriceType.swift in Sources */,
