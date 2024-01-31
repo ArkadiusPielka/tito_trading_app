@@ -17,6 +17,10 @@ final class PhotosPickerViewModel: ObservableObject {
         }
     }
     
+    func clearSelectedImage() {
+           selectedImage = nil
+       }
+    
     private func setImage(from selection: PhotosPickerItem?) {
         guard let selection else { return }
         

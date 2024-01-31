@@ -5,8 +5,9 @@
 //  Created by Arkadius Pielka on 08.01.24.
 //
 
-import Foundation
+import SwiftUI
 import FirebaseAuth
+import PhotosUI
 
 class UserAuthViewModel: ObservableObject {
     
@@ -15,6 +16,9 @@ class UserAuthViewModel: ObservableObject {
     }
     
     @Published var user: FireUser?
+    
+    @Published var selectedImage: PhotosPickerItem?
+        @Published var selectedImageData: Data?
     
     
     var userLogIn: Bool {
@@ -140,10 +144,13 @@ class UserAuthViewModel: ObservableObject {
     }
     
     func uploadImage(image: Data, completion: @escaping (String?) -> Void) {
+        
+        guard let userId = FirebaseManager.shared.userId else { return }
+        
         let storage = FirebaseManager.shared.storage.reference()
         
         let path = "profil/\(UUID().uuidString).jpeg"
-        let fileRef = storage.child(path)
+        let fileRef = storage.child(userId).child(path)
         
         let uploadTask = fileRef.putData(image, metadata: nil) { metadata, error in
             if error == nil && metadata != nil {
@@ -163,6 +170,20 @@ class UserAuthViewModel: ObservableObject {
                 }
             } else {
                 print("Fehler beim Hochladen des Bildes: \(error?.localizedDescription ?? "Unbekannter Fehler")")
+                completion(nil)
+            }
+        }
+    }
+    
+    func deleteImageFromStorage(imageURL: String, completion: @escaping (Error?) -> Void) {
+        let storage = FirebaseManager.shared.storage.reference(forURL: imageURL)
+        
+        storage.delete { error in
+            if let error = error {
+                print("Fehler beim Löschen des Bildes im Storage: \(error.localizedDescription)")
+                completion(error)
+            } else {
+                print("Bild erfolgreich aus dem Storage gelöscht")
                 completion(nil)
             }
         }

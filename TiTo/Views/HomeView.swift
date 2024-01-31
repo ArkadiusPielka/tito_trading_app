@@ -19,8 +19,11 @@ struct HomeView: View {
     var body: some View {
         
         NavigationStack {
+            
             VStack {
+                
                 CustomSearchView(searchText: $search, showFilter: $showFilter)
+                
                 ScrollView {
                     
                     VStack(alignment: .leading) {
@@ -29,9 +32,10 @@ struct HomeView: View {
                             .multilineTextAlignment(.leading)
                             .font( /*@START_MENU_TOKEN@*/.title /*@END_MENU_TOKEN@*/)
                             .padding(.horizontal, 16)
+                        
                         ScrollView(.horizontal) {
                             
-                            HStack(spacing: 8) {
+                            LazyHStack(spacing: 8) {
                                 
                                 ForEach(recomendenViewModel.article, id: \.id) { produkt in
                                     RecommendedCard(produkt: produkt)
@@ -46,20 +50,23 @@ struct HomeView: View {
                             .multilineTextAlignment(.leading)
                             .font( /*@START_MENU_TOKEN@*/.title /*@END_MENU_TOKEN@*/)
                             .padding(.horizontal, 16)
-                        VStack(spacing: 16) {
+                        
+                        LazyVStack(spacing: 16) {
                             ForEach(productViewModel.products.filter { $0.userId != userAuthViewModel.user?.id }, id: \.id) { product in
                                 ProductCard(produkt: product)
                             }
+                            .frame(width: .infinity, height: CGFloat.cardHeight, alignment: .top)
+                            .background(Color("cardBack"))
+                            .cornerRadius(CGFloat.cardCornerRadius)
+                            .shadow(color: Color("subText"), radius: 4, x: -2, y: 4)
+                            .environmentObject(userAuthViewModel)
                         }
                         .padding(.horizontal, 16)
                         Spacer(minLength: 20)
                     }
                 }
             }
-//            .searchable(text: $search)
-            
         }
-        
     }
 }
 

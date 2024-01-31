@@ -39,6 +39,8 @@
 		949623D12B5001A40075582F /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949623D02B5001A40075582F /* CheckBox.swift */; };
 		949623D32B5038EF0075582F /* CustomAddFieldNav.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949623D22B5038EF0075582F /* CustomAddFieldNav.swift */; };
 		949623D52B5044390075582F /* CustomTextEdidField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949623D42B5044390075582F /* CustomTextEdidField.swift */; };
+		94ACDF372B6931D500040CD5 /* SwipeActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94ACDF362B6931D500040CD5 /* SwipeActionView.swift */; };
+		94ACDF392B69525700040CD5 /* ProductCardWithSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94ACDF382B69525700040CD5 /* ProductCardWithSwipe.swift */; };
 		94BA609E2B4BE48700CCA37E /* TiToApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BA609D2B4BE48700CCA37E /* TiToApp.swift */; };
 		94BA60A22B4BE48800CCA37E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 94BA60A12B4BE48800CCA37E /* Assets.xcassets */; };
 		94BA60A52B4BE48800CCA37E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 94BA60A42B4BE48800CCA37E /* Preview Assets.xcassets */; };
@@ -109,6 +111,8 @@
 		949623D02B5001A40075582F /* CheckBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
 		949623D22B5038EF0075582F /* CustomAddFieldNav.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAddFieldNav.swift; sourceTree = "<group>"; };
 		949623D42B5044390075582F /* CustomTextEdidField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextEdidField.swift; sourceTree = "<group>"; };
+		94ACDF362B6931D500040CD5 /* SwipeActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeActionView.swift; sourceTree = "<group>"; };
+		94ACDF382B69525700040CD5 /* ProductCardWithSwipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCardWithSwipe.swift; sourceTree = "<group>"; };
 		94BA609A2B4BE48700CCA37E /* TiTo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TiTo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		94BA609D2B4BE48700CCA37E /* TiToApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TiToApp.swift; sourceTree = "<group>"; };
 		94BA60A12B4BE48800CCA37E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -189,6 +193,7 @@
 			isa = PBXGroup;
 			children = (
 				9492AF072B4EB76800CFEFDF /* RecommendedCard.swift */,
+				94ACDF382B69525700040CD5 /* ProductCardWithSwipe.swift */,
 				94C4901A2B5696B100C9C971 /* ProductCard.swift */,
 			);
 			path = Cards;
@@ -216,6 +221,14 @@
 				94C330072B6004EB000F0E29 /* Country.swift */,
 			);
 			path = Enum;
+			sourceTree = "<group>";
+		};
+		94ACDF352B6931B400040CD5 /* SwipeActionView */ = {
+			isa = PBXGroup;
+			children = (
+				94ACDF362B6931D500040CD5 /* SwipeActionView.swift */,
+			);
+			path = SwipeActionView;
 			sourceTree = "<group>";
 		};
 		94BA60912B4BE48700CCA37E = {
@@ -265,6 +278,7 @@
 		94BA60AB2B4BE55B00CCA37E /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				94ACDF352B6931B400040CD5 /* SwipeActionView */,
 				9477B8332B57C5CB00390B31 /* Extentions */,
 				94BA610F2B4C1EB500CCA37E /* Views */,
 				94BA60CE2B4BF60600CCA37E /* TextFields */,
@@ -508,6 +522,7 @@
 				94C4901B2B5696B100C9C971 /* ProductCard.swift in Sources */,
 				947FD7C02B5191D900CF6DB6 /* CustomPricingField.swift in Sources */,
 				947FD7B22B51502E00CF6DB6 /* Condition.swift in Sources */,
+				94ACDF392B69525700040CD5 /* ProductCardWithSwipe.swift in Sources */,
 				9492AF0A2B4EB82000CFEFDF /* Recommended.swift in Sources */,
 				94BA60AF2B4BE5F800CCA37E /* CustomTabBar.swift in Sources */,
 				9492AF122B4EBAE700CFEFDF /* RecommendenViewModel.swift in Sources */,
@@ -532,6 +547,7 @@
 				94C330082B6004EB000F0E29 /* Country.swift in Sources */,
 				94BA60D22B4BF67600CCA37E /* CustomSecureField.swift in Sources */,
 				9474D9F42B554660003F6DA1 /* OptionalOptions.swift in Sources */,
+				94ACDF372B6931D500040CD5 /* SwipeActionView.swift in Sources */,
 				947FD7BC2B515ACD00CF6DB6 /* MaterialView.swift in Sources */,
 				94BA60BE2B4BE7BC00CCA37E /* MessageView.swift in Sources */,
 				9474D9F02B553530003F6DA1 /* ImagePickerView.swift in Sources */,

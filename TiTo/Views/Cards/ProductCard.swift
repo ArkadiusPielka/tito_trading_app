@@ -76,13 +76,16 @@ struct ProductCard: View {
                 .padding(.horizontal, 12)
             }
             
+            
         }
-        .frame(width: .infinity, height: CGFloat.cardHeight, alignment: .top)
-        .padding(0)
-        .background(Color("cardBack"))
-        .cornerRadius(CGFloat.cardCornerRadius)
-        .shadow(color: Color("subText"), radius: 4, x: -2, y: 4)
+        
+//        .frame(width: .infinity, height: CGFloat.cardHeight, alignment: .top)
+//        .background(Color("cardBack"))
+//        .cornerRadius(CGFloat.cardCornerRadius)
+//        .shadow(color: Color("subText"), radius: 4, x: -2, y: 4)
+       
     }
+    
     
     var formattedDate: String {
         let dateFormatter = DateFormatter()

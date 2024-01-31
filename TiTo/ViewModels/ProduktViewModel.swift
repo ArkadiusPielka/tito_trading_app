@@ -5,18 +5,13 @@
 //  Created by Arkadius Pielka on 15.01.24.
 //
 
-import Foundation
+import SwiftUI
+import PhotosUI
 import FirebaseStorage
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 class ProduktViewModel: ObservableObject {
-    
-    init() {
-        fetchAllProducts()
-        fetchProdukt()
-        updateProductList()
-    }
     
     private var listener: ListenerRegistration?
     
@@ -35,8 +30,10 @@ class ProduktViewModel: ObservableObject {
     @Published var price = ""
     @Published var priceType = ""
     @Published var optionals = ""
-    @Published var imageURL = ""
     @Published var startAdvertisment = Date.now
+    
+    @Published var selectedImage: PhotosPickerItem?
+    @Published var selectedImageData: Data?
     
     func createProduct() {
         guard let userId = FirebaseManager.shared.userId else { return }
@@ -52,45 +49,67 @@ class ProduktViewModel: ObservableObject {
                                   material: material,
                                   price: price,
                                   priceType: priceType,
-                                  startAdvertisment: startAdvertisment,
-                                  imageURL: imageURL
+                                  startAdvertisment: startAdvertisment
                                   
         )
         
         do {
-            try FirebaseManager.shared.database.collection("products").addDocument(from: product)
+            let documentReference = try FirebaseManager.shared.database.collection("products").addDocument(from: product)
+            
+            let id = documentReference.documentID
+            print(id)
+            updateImage(id: id)
+            
         } catch let error {
             print("Fehler beim Speichern des Tasks: \(error)")
         }
+
         fetchAllProducts()
     }
     
-    func uploadImage(image: Data, completion: @escaping (String?) -> Void) {
-        let storage = FirebaseManager.shared.storage.reference()
+    func updateImage(id: String) {
         
-        let path = "images/\(UUID().uuidString).jpeg"
-        let fileRef = storage.child(path)
+        guard let userId = FirebaseManager.shared.userId, let selectedImageData = selectedImageData else { return }
         
-        let uploadTask = fileRef.putData(image, metadata: nil) { metadata, error in
-            if error == nil && metadata != nil {
-                
-                fileRef.downloadURL { url, error in
-                    guard let downloadURL = url, error == nil else {
-                        print("Fehler beim Abrufen der Download-URL: \(error!.localizedDescription)")
-                        completion(nil)
-                        return
-                    }
-                    
-                    let imageURL = downloadURL.absoluteString
-                    
-                    completion(imageURL)
-                    
-                    print("Download-URL des hochgeladenen Bilds: \(downloadURL)")
-                }
-            } else {
-                print("Fehler beim Hochladen des Bildes: \(error?.localizedDescription ?? "Unbekannter Fehler")")
-                completion(nil)
+        // Referenz erstellen zum Speicherort des Bildes
+        let reference = FirebaseManager.shared.storage.reference().child(userId).child("productImages").child("\(id).jpg")
+        
+        reference.putData(selectedImageData, metadata: nil) { _, error in
+            if let error {
+                print("Image upload failed!", error)
+                return
             }
+            
+            self.getImageURL(from: reference, id: id)
+        }
+    }
+    
+    private func getImageURL(from reference: StorageReference, id: String) {
+        
+        reference.downloadURL { url, error in
+            if let error {
+                print("Image upload failed!", error)
+                return
+            }
+            
+            guard let url else {
+                print("We don't have a URL, something went wrong!")
+                return
+            }
+            
+            let data = ["imageURL": url.absoluteString]
+            self.updateProduct(id: id, with: data)
+        }
+    }
+    
+    private func updateProduct(id: String, with data: [String: String]) {
+        FirebaseManager.shared.database.collection("products").document(id).setData(data, merge: true) { error in
+            if let error {
+                print("Task wurde nicht aktualisiert", error.localizedDescription)
+                return
+            }
+            
+            print("Task aktualisiert!")
         }
     }
     
@@ -159,6 +178,28 @@ class ProduktViewModel: ObservableObject {
     func removeListener() {
         userProducts.removeAll()
         listener?.remove()
+    }
+    
+    func deleteAdvertisment(with id: String) {
+        
+        guard let userId = FirebaseManager.shared.userId else { return }
+        
+        
+        FirebaseManager.shared.storage.reference().child(userId).child("productImages").child("\(id).jpg").delete { error in
+            if let error {
+                print("Bild für Task kann nicht gelöscht werden", error)
+                return
+            }
+        }
+        
+        FirebaseManager.shared.database.collection("products").document(id).delete() { error in
+            if let error {
+                print("Task kann nicht gelöscht werden", error)
+                return
+            }
+            
+            print("Task mit ID \(id) gelöscht")
+        }
     }
 }
 

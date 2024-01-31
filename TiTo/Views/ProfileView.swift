@@ -21,6 +21,11 @@ struct ProfileView: View {
               VStack(spacing: 16) {
                   Group {
                       UserDetailView(showDetails: $showDetails)
+                          .animation(
+                              .easeInOut(duration: 2)
+                                  .delay(1),
+                              value: 2
+                          )
                       
                       PrimaryBtn(title: "Profil bearbeiten", action: userDetails)
                           .accentColor(Color("profil"))
@@ -29,21 +34,12 @@ struct ProfileView: View {
                   }
                   .padding(.horizontal)
                   
-                  VStack(spacing: 16) {
-                      
-                      ForEach(productViewModel.userProducts, id: \.id) { product in
-                          ProductCard(produkt: product)
-                              .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                                  Button {
-                                      
-                                  } label: {
-                                      Image(systemName: "trash")
-                                  }
-                                  .tint(.red)
-                              }
+                  LazyVStack(spacing: 16) {
+                     
+                          ForEach(productViewModel.userProducts) { product in
+                              ProductCardWithSwipe(produkt: product)
+                          }
                       }
-                      
-                  }
                   .padding(.horizontal)
                   
               }

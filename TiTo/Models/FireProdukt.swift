@@ -24,7 +24,6 @@ struct FireProdukt: Codable, Identifiable {
     var price: String
     var priceType: String
     var startAdvertisment: Date
-//    var image: Data?
     var imageURL: String?
 
 }

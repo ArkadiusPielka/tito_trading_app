@@ -16,7 +16,7 @@ struct UserDetailView: View {
     
     @Binding var showDetails: Bool
     @State var showCountry = false
-    @State var address = ""
+    @State var searchAddress = ""
     
     @State var selectedImage: UIImage?
     
@@ -89,6 +89,7 @@ struct UserDetailView: View {
                                     .frame(width: 111, height: 111)
                             }
                         }
+                        
                     )
                     .cornerRadius(111)
                 
@@ -113,41 +114,40 @@ struct UserDetailView: View {
             }
             
             if showDetails {
-                VStack(alignment: .leading, spacing: 16) {
-                    PhotosPicker(
-                        selection: $photosPicker.imageSelection, matching: .images,
-                        preferredItemEncoding: .automatic
-                    ) {
-                        Image(systemName: "camera.fill")
-                            .resizable()
-                            .frame(width: 40, height: 30)
-                        Text("Profilbild ändern")
-                    }
-                    
-                    .padding(.top)
-                    
-                    CustomAddField(hint: "E-Mail", text:  $email, strokeColor: Color("profil"))
-
-                    HStack {
-                        CustomAddField(hint: "Straße", text:  $street, strokeColor: Color("profil"))
-                        CustomAddField(hint: "Nr.", text: $hausNr, strokeColor: Color("profil"))
-                            .frame(width: /*@START_MENU_TOKEN@*/ 100 /*@END_MENU_TOKEN@*/)
-                    }
-                    HStack {
-                        CustomAddField(hint: "PLZ", text: $plz, strokeColor: Color("profil"))
-                            .keyboardType(.numberPad)
-                            .frame(width: /*@START_MENU_TOKEN@*/ 100 /*@END_MENU_TOKEN@*/)
-                        CustomAddField(hint: "Stadt", text: $city, strokeColor: Color("profil"))
-                    }
-                    
-                    CustomAddFieldNav(hint: "Land", text: $country, strokeColor: Color("profil"))
-                        .onTapGesture {
-                            showCountry.toggle()
+                    VStack(alignment: .leading, spacing: 16) {
+                        PhotosPicker(
+                            selection: $photosPicker.imageSelection, matching: .images,
+                            preferredItemEncoding: .automatic
+                        ) {
+                            Image(systemName: "camera.fill")
+                                .resizable()
+                                .frame(width: 40, height: 30)
+                            Text("Profilbild ändern")
                         }
-                    
-                    PrimaryBtn(title: "Profil speichern", action: updateProfilWithImage)
-                        .accentColor(Color("profil"))
-                    
+                        
+                        .padding(.top)
+                        
+                        CustomAddField(hint: "E-Mail", text:  $email, strokeColor: Color("profil"))
+                        
+                        HStack {
+                            CustomAddField(hint: "Straße", text:  $street, strokeColor: Color("profil"))
+                            CustomAddField(hint: "Nr.", text: $hausNr, strokeColor: Color("profil"))
+                                .frame(width: /*@START_MENU_TOKEN@*/ 100 /*@END_MENU_TOKEN@*/)
+                        }
+                        HStack {
+                            CustomAddField(hint: "PLZ", text: $plz, strokeColor: Color("profil"))
+                                .keyboardType(.numberPad)
+                                .frame(width: /*@START_MENU_TOKEN@*/ 100 /*@END_MENU_TOKEN@*/)
+                            CustomAddField(hint: "Stadt", text: $city, strokeColor: Color("profil"))
+                        }
+                        
+                        CustomAddFieldNav(hint: "Land", text: $country, strokeColor: Color("profil"))
+                            .onTapGesture {
+                                showCountry.toggle()
+                            }
+                        
+                        PrimaryBtn(title: "Profil speichern", action: updateProfilWithImage)
+                            .accentColor(Color("profil"))
                 }
                 .onAppear{
                     city = userAuthViewModel.user?.city ?? ""
@@ -159,6 +159,7 @@ struct UserDetailView: View {
                     country = userAuthViewModel.user?.country ?? ""
                     image = userAuthViewModel.user?.imageURL ?? ""
                 }
+               
             }
         }
         
@@ -212,26 +213,43 @@ struct UserDetailView: View {
             updatedUser.imageURL != currentFirebaseUser?.imageURL ||
             updatedUser.city != currentFirebaseUser?.city {
             userAuthViewModel.updateUser(user: updatedUser)
+            
+            
         }
-        showDetails.toggle()
-        //TODO: func
     }
     
     func updateProfilWithImage() {
-        userAuthViewModel.uploadImage(
-            image: (photosPicker.selectedImage?.jpegData(compressionQuality: 0.6))!
-        ) { imageURL in
-            
-            if let imageURL = imageURL {
-                
-                image = imageURL
-                updateProfile()
-            } else {
-                
-                print("Fehler beim Hochladen des Bildes.")
+        
+        if let selectedImage = photosPicker.selectedImage {
+            if !image.isEmpty {
+                userAuthViewModel.deleteImageFromStorage(imageURL: image) { error in
+                    if let error = error {
+                        print("Fehler beim Löschen des vorherigen Bildes: \(error.localizedDescription)")
+                    }
+                }
+            }
+
+            userAuthViewModel.uploadImage(image: selectedImage.jpegData(compressionQuality: 0.6)!) { imageURL in
+                if let imageURL = imageURL {
+                    image = imageURL
+                    updateProfile()
+                    photosPicker.clearSelectedImage()
+
+                    DispatchQueue.main.async {
+                        self.showDetails.toggle()
+                    }
+                } else {
+                    print("Fehler beim Hochladen des Bildes.")
+                }
+            }
+        } else {
+            updateProfile()
+            DispatchQueue.main.async {
+                self.showDetails.toggle()
             }
         }
     }
+
     func deleteAccount() {
         //TODO: func
     }
