@@ -15,11 +15,12 @@ struct CustomAddFieldNav: View {
     
     var body: some View {
         NavigationStack {
-            HStack(spacing: 6) {
+            HStack {
                 
                 TextField(hint, text: $text)
                     .disabled(/*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)
                     .font(.title2)
+                
                 Image(systemName: "chevron.right")
                     .foregroundColor(strokeColor)
             }
@@ -27,6 +28,7 @@ struct CustomAddFieldNav: View {
             .padding(.horizontal, 16)
             .padding(.vertical, 8)
             .frame(width: .infinity,  alignment: .leading)
+            .contentShape(Rectangle())
             .overlay(
                 RoundedRectangle(cornerRadius: CGFloat.textFieldCornerRadius)
                     .stroke(strokeColor, lineWidth: CGFloat.cardStroke)

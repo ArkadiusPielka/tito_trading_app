@@ -16,7 +16,7 @@ struct CategoryView: View {
     var body: some View {
         VStack {
             Text("Kategory")
-                .padding()
+                .padding(.vertical, CGFloat.sheetTitleVertical)
             
             List(Category.allCases, id: \.self) { category in
                 Button(action: {
@@ -25,6 +25,8 @@ struct CategoryView: View {
                 }) {
                     Text(category.title)
                         .foregroundColor(.primary)
+                        .font(.title2)
+                        
                 }
             }
         }

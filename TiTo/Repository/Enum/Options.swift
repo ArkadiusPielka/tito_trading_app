@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum OptionalOptions: String, CaseIterable {
+enum Options: String, CaseIterable {
     
    case normal
     

@@ -10,8 +10,7 @@ import SwiftUI
 struct ProfileView: View {
 
   @EnvironmentObject var userAuthViewModel: UserAuthViewModel
-  @EnvironmentObject var productViewModel: ProduktViewModel
-  @EnvironmentObject var photosPicker: PhotosPickerViewModel
+  @EnvironmentObject var productViewModel: ProductViewModel
 
   @State var showDetails = false
 
@@ -37,7 +36,7 @@ struct ProfileView: View {
                   LazyVStack(spacing: 16) {
                      
                           ForEach(productViewModel.userProducts) { product in
-                              ProductCardWithSwipe(produkt: product)
+                              ProductCardWithSwipe(product: product)
                           }
                       }
                   .padding(.horizontal)
@@ -68,14 +67,10 @@ struct ProfileView: View {
       productViewModel.removeListener()
   }
 
-  func deleteUser() {
-    userAuthViewModel.deleteUser()
-  }
 }
 
 #Preview{
   ProfileView()
     .environmentObject(UserAuthViewModel())
-    .environmentObject(ProduktViewModel())
-    .environmentObject(PhotosPickerViewModel())
+    .environmentObject(ProductViewModel())
 }

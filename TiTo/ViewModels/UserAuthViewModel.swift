@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FirebaseAuth
+import FirebaseStorage
 import PhotosUI
 
 class UserAuthViewModel: ObservableObject {
@@ -125,7 +126,6 @@ class UserAuthViewModel: ObservableObject {
         
         let user = ["plz": user.plz,
                     "name": user.name,
-                    "imageURL": user.imageURL,
                     "email": user.email,
                     "housenumber": user.housenumber,
                     "street": user.street,
@@ -140,52 +140,99 @@ class UserAuthViewModel: ObservableObject {
             
             print("Profil aktualisiert!")
         }
+        updateImage(id: userId)
         fetchUser(with: userId)
     }
     
-    func uploadImage(image: Data, completion: @escaping (String?) -> Void) {
+    func updateImage(id: String) {
         
-        guard let userId = FirebaseManager.shared.userId else { return }
+        guard let userId = FirebaseManager.shared.userId, let selectedImageData = selectedImageData else { return }
         
-        let storage = FirebaseManager.shared.storage.reference()
+        // Referenz erstellen zum Speicherort des Bildes
+        let reference = FirebaseManager.shared.storage.reference().child(userId).child("profilImage").child("\(id).jpg")
         
-        let path = "profil/\(UUID().uuidString).jpeg"
-        let fileRef = storage.child(userId).child(path)
-        
-        let uploadTask = fileRef.putData(image, metadata: nil) { metadata, error in
-            if error == nil && metadata != nil {
-                
-                fileRef.downloadURL { url, error in
-                    guard let downloadURL = url, error == nil else {
-                        print("Fehler beim Abrufen der Download-URL: \(error!.localizedDescription)")
-                        completion(nil)
-                        return
-                    }
-                    
-                    let imageURL = downloadURL.absoluteString
-                    
-                    completion(imageURL)
-                    
-                    print("Download-URL des hochgeladenen Bilds: \(downloadURL)")
-                }
-            } else {
-                print("Fehler beim Hochladen des Bildes: \(error?.localizedDescription ?? "Unbekannter Fehler")")
-                completion(nil)
+        reference.putData(selectedImageData, metadata: nil) { _, error in
+            if let error {
+                print("Image upload failed!", error)
+                return
             }
+            
+            self.getImageURL(from: reference, id: id)
         }
     }
     
-    func deleteImageFromStorage(imageURL: String, completion: @escaping (Error?) -> Void) {
-        let storage = FirebaseManager.shared.storage.reference(forURL: imageURL)
+    private func getImageURL(from reference: StorageReference, id: String) {
         
-        storage.delete { error in
-            if let error = error {
-                print("Fehler beim Löschen des Bildes im Storage: \(error.localizedDescription)")
-                completion(error)
-            } else {
-                print("Bild erfolgreich aus dem Storage gelöscht")
-                completion(nil)
+        reference.downloadURL { url, error in
+            if let error {
+                print("Image upload failed!", error)
+                return
             }
+            
+            guard let url else {
+                print("We don't have a URL, something went wrong!")
+                return
+            }
+            
+            let data = ["imageURL": url.absoluteString]
+            self.updateUserImage(id: id, with: data)
         }
     }
+    
+    private func updateUserImage(id: String, with data: [String: String]) {
+        FirebaseManager.shared.database.collection("users").document(id).setData(data, merge: true) { error in
+            if let error {
+                print("Task wurde nicht aktualisiert", error.localizedDescription)
+                return
+            }
+            
+            print("Task aktualisiert!")
+        }
+    }
+    
+//    func uploadImage(image: Data, completion: @escaping (String?) -> Void) {
+//        
+//        guard let userId = FirebaseManager.shared.userId else { return }
+//        
+//        let storage = FirebaseManager.shared.storage.reference()
+//        
+//        let path = "profil/\(UUID().uuidString).jpeg"
+//        let fileRef = storage.child(userId).child(path)
+//        
+//        let uploadTask = fileRef.putData(image, metadata: nil) { metadata, error in
+//            if error == nil && metadata != nil {
+//                
+//                fileRef.downloadURL { url, error in
+//                    guard let downloadURL = url, error == nil else {
+//                        print("Fehler beim Abrufen der Download-URL: \(error!.localizedDescription)")
+//                        completion(nil)
+//                        return
+//                    }
+//                    
+//                    let imageURL = downloadURL.absoluteString
+//                    
+//                    completion(imageURL)
+//                    
+//                    print("Download-URL des hochgeladenen Bilds: \(downloadURL)")
+//                }
+//            } else {
+//                print("Fehler beim Hochladen des Bildes: \(error?.localizedDescription ?? "Unbekannter Fehler")")
+//                completion(nil)
+//            }
+//        }
+//    }
+    
+//    func deleteImageFromStorage(imageURL: String, completion: @escaping (Error?) -> Void) {
+//        let storage = FirebaseManager.shared.storage.reference(forURL: imageURL)
+//        
+//        storage.delete { error in
+//            if let error = error {
+//                print("Fehler beim Löschen des Bildes im Storage: \(error.localizedDescription)")
+//                completion(error)
+//            } else {
+//                print("Bild erfolgreich aus dem Storage gelöscht")
+//                completion(nil)
+//            }
+//        }
+//    }
 }

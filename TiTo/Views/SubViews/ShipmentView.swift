@@ -16,7 +16,7 @@ struct ShipmentView: View {
     var body: some View {
         VStack {
             Text("Versand")
-                .padding()
+                .padding(.vertical, CGFloat.sheetTitleVertical)
             
             List(Shipment.allCases, id: \.self) { shipment in
                 Button(action: {
@@ -26,6 +26,7 @@ struct ShipmentView: View {
                     VStack(alignment: .leading) {
                         Text(shipment.title)
                             .foregroundColor(.primary)
+                            .font(.title2)
                             .padding(.bottom, 8)
                         
                     }

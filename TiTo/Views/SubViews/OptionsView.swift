@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct OptionalOptionsView: View {
+struct OptionsView: View {
     
     @Binding var option: String
     @Binding var optionSheet: Bool
@@ -16,9 +16,9 @@ struct OptionalOptionsView: View {
     var body: some View {
         VStack {
             Text("Optionen")
-                .padding()
+                .padding(.vertical, CGFloat.sheetTitleVertical)
             
-            List(OptionalOptions.allCases, id: \.self) { option in
+            List(Options.allCases, id: \.self) { option in
                 Button(action: {
                     selectedOption(option.title)
                     optionSheet = false
@@ -40,5 +40,5 @@ struct OptionalOptionsView: View {
 }
 
 #Preview {
-    OptionalOptionsView(option: .constant(""), optionSheet: .constant(false), selectedOption: {_ in})
+    OptionsView(option: .constant(""), optionSheet: .constant(false), selectedOption: {_ in})
 }

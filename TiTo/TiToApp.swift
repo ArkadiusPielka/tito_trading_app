@@ -17,8 +17,7 @@ struct TiToApp: App {
     }
     
     @StateObject var userAuthViewModel = UserAuthViewModel()
-    @StateObject var photoPickerViewModel = PhotosPickerViewModel()
-    @StateObject var produktViewModel = ProduktViewModel()
+    @StateObject var produktViewModel = ProductViewModel()
     
     var body: some Scene {
         
@@ -31,7 +30,6 @@ struct TiToApp: App {
             }
         }
         .environmentObject(userAuthViewModel)
-        .environmentObject(photoPickerViewModel)
         .environmentObject(produktViewModel)
     }
 }

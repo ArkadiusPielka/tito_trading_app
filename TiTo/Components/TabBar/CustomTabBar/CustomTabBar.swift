@@ -168,8 +168,7 @@ struct TabBarTopCurve: Shape {
 #Preview {
     NavigationView()
         .environmentObject(UserAuthViewModel())
-        .environmentObject(PhotosPickerViewModel())
-        .environmentObject(ProduktViewModel())
+        .environmentObject(ProductViewModel())
         
 }
 

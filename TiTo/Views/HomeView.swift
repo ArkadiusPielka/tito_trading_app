@@ -10,7 +10,7 @@ import SwiftUI
 struct HomeView: View {
     
     @StateObject var recomendenViewModel = RecommendenViewModel()
-    @EnvironmentObject var productViewModel: ProduktViewModel
+    @EnvironmentObject var productViewModel: ProductViewModel
     @EnvironmentObject var userAuthViewModel: UserAuthViewModel
     
     @State var search = ""
@@ -38,7 +38,7 @@ struct HomeView: View {
                             LazyHStack(spacing: 8) {
                                 
                                 ForEach(recomendenViewModel.article, id: \.id) { produkt in
-                                    RecommendedCard(produkt: produkt)
+                                    RecommendedCard(product: produkt)
                                 }
                                 .padding(.top, 8)
                                 .padding(.bottom, 16)
@@ -53,7 +53,7 @@ struct HomeView: View {
                         
                         LazyVStack(spacing: 16) {
                             ForEach(productViewModel.products.filter { $0.userId != userAuthViewModel.user?.id }, id: \.id) { product in
-                                ProductCard(produkt: product)
+                                ProductCard(product: product)
                             }
                             .frame(width: .infinity, height: CGFloat.cardHeight, alignment: .top)
                             .background(Color("cardBack"))
@@ -72,6 +72,6 @@ struct HomeView: View {
 
 #Preview{
     HomeView()
-        .environmentObject(ProduktViewModel())
+        .environmentObject(ProductViewModel())
         .environmentObject(UserAuthViewModel())
 }

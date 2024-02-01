@@ -11,7 +11,7 @@ import FirebaseStorage
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-class ProduktViewModel: ObservableObject {
+class ProductViewModel: ObservableObject {
     
     private var listener: ListenerRegistration?
     

@@ -12,10 +12,10 @@ struct ProductCard: View {
     @EnvironmentObject var userAuthViewModel: UserAuthViewModel
     
     var showLikeBtn: Bool {
-        return produkt.userId != userAuthViewModel.user?.id
+        return product.userId != userAuthViewModel.user?.id
     }
     
-    let produkt: FireProdukt
+    let product: FireProdukt
     
     var body: some View {
         ZStack {
@@ -35,7 +35,7 @@ struct ProductCard: View {
                     .foregroundColor(.clear)
                     .frame(width: CGFloat.cardWidth, height: CGFloat.cardHeight)
                     .background(
-                        AsyncImage(url: URL(string: produkt.imageURL ?? "")) { image in
+                        AsyncImage(url: URL(string: product.imageURL ?? "")) { image in
                             image
                                 .resizable()
                                 .frame(width: CGFloat.cardWidth, height: CGFloat.cardHeight)
@@ -52,7 +52,7 @@ struct ProductCard: View {
                 VStack(alignment: .leading, spacing: 10) {
                     HStack {
                         Group {
-                            Text(produkt.advertismentType)
+                            Text(product.advertismentType)
                             Spacer()
                             Text(formattedDate)
                         }
@@ -61,13 +61,13 @@ struct ProductCard: View {
                         .font(.title3)
                     }
                     
-                    Text(produkt.title)
+                    Text(product.title)
                         .font(.title2)
                         .lineLimit(1)
                     
                     HStack {
-                        Text("\(produkt.price) €")
-                        Text(produkt.priceType)
+                        Text("\(product.price) €")
+                        Text(product.priceType)
                             .bold()
                         Spacer()
                     }
@@ -92,14 +92,14 @@ struct ProductCard: View {
         
         let currentDate = Date()
         
-        if Calendar.current.isDateInToday(produkt.startAdvertisment) {
+        if Calendar.current.isDateInToday(product.startAdvertisment) {
             dateFormatter.locale = Locale(identifier: "de_DE")
             dateFormatter.dateFormat = "E, HH:mm"
         } else {
             dateFormatter.dateStyle = .short
         }
         
-        return dateFormatter.string(from: produkt.startAdvertisment)
+        return dateFormatter.string(from: product.startAdvertisment)
     }
     
     func isLike() {
@@ -109,7 +109,7 @@ struct ProductCard: View {
 
 #Preview{
     ProductCard(
-        produkt: FireProdukt(
+        product: FireProdukt(
             userId: "1", title: "Einkaufstascheasdasdad", category: "", condition: "VB", shipment: "",
             description: "", advertismentType: "Ich biete", price: "20", priceType: "VB",
             startAdvertisment: Date.now,

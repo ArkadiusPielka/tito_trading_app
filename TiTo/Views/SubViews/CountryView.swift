@@ -16,7 +16,7 @@ struct CountryView: View {
     var body: some View {
         VStack {
             Text("Land")
-                .padding()
+                .padding(.vertical, CGFloat.sheetTitleVertical)
             
             List(Country.allCases, id: \.self) { country in
                 Button(action: {
@@ -27,7 +27,6 @@ struct CountryView: View {
                         Text(country.title)
                             .foregroundColor(.primary)
                             .font(.title2)
-                            .bold()
                             .padding(.bottom, 8)
                         
                     }

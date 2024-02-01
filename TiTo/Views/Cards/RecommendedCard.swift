@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RecommendedCard: View {
     
-    let produkt: Recommended
+    let product: Recommended
     
     var body: some View {
         
@@ -19,7 +19,7 @@ struct RecommendedCard: View {
                         .foregroundColor(.clear)
                         .frame(width: CGFloat.cardWidth, height: CGFloat.cardHeight)
                         .background(
-                            AsyncImage(url: produkt.img1) { image in
+                            AsyncImage(url: product.img1) { image in
                                 image
                                     .resizable()
                                     .frame(width: CGFloat.cardWidth, height: CGFloat.cardHeight)
@@ -33,14 +33,14 @@ struct RecommendedCard: View {
                         )
                     
                     VStack(alignment: .leading, spacing: 8) {
-                        Text(produkt.title)
+                        Text(product.title)
                             .font(.title2)
                         
-                        Text(produkt.descript)
+                        Text(product.descript)
                             .foregroundStyle(Color("subText"))
                             .font(.footnote)
                             .lineLimit(1)
-                        Text("\(produkt.price) €")
+                        Text("\(product.price) €")
                     }
                 Spacer()
             }
@@ -52,5 +52,5 @@ struct RecommendedCard: View {
     }
 
 #Preview {
-    RecommendedCard(produkt: Recommended(id: 1, img1: URL(string:  "https://firebasestorage.googleapis.com:443/v0/b/tito-91e64.appspot.com/o/images%2F073479CD-7A2D-4FFA-A860-0D1076C4303A.jpeg?alt=media&token=2da52bd1-8e81-4b23-8e58-bfa8add10800"), price: "9.95", title: "Tasche", category: "Box", descript: "Eine Einkaufstasche"))
+    RecommendedCard(product: Recommended(id: 1, img1: URL(string:  "https://firebasestorage.googleapis.com:443/v0/b/tito-91e64.appspot.com/o/images%2F073479CD-7A2D-4FFA-A860-0D1076C4303A.jpeg?alt=media&token=2da52bd1-8e81-4b23-8e58-bfa8add10800"), price: "9.95", title: "Tasche", category: "Box", descript: "Eine Einkaufstasche"))
 }

@@ -35,6 +35,7 @@ struct CustomTextEdidField: View {
         .padding(.horizontal, 16)
         .padding(.vertical, 8)
         .frame(width: .infinity, alignment: .leading)
+        .contentShape(Rectangle())
         .overlay(
             RoundedRectangle(cornerRadius: CGFloat.textFieldCornerRadius)
                 .stroke(Color("advertisment"), lineWidth: CGFloat.cardStroke)

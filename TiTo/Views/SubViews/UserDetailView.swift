@@ -11,14 +11,10 @@ import SwiftUI
 struct UserDetailView: View {
     
     @EnvironmentObject var userAuthViewModel: UserAuthViewModel
-    @EnvironmentObject var photosPicker: PhotosPickerViewModel
-    //    @EnvironmentObject var addressAutoCompleteViewModel: AddressAutoCompleteViewModel
     
     @Binding var showDetails: Bool
     @State var showCountry = false
     @State var searchAddress = ""
-    
-    @State var selectedImage: UIImage?
     
     @State var street = ""
     @State var plz = ""
@@ -27,7 +23,7 @@ struct UserDetailView: View {
     @State var name = ""
     @State var email = ""
     @State var country = ""
-    @State var image = ""
+    @State var imageURL = ""
     
     var body: some View {
         VStack {
@@ -65,8 +61,8 @@ struct UserDetailView: View {
                                     .aspectRatio(contentMode: .fill)
                                     .frame(width: 111, height: 111)
                             case .success(let image):
-                                if let selectedImage = photosPicker.selectedImage {
-                                    Image(uiImage: selectedImage)
+                                if let selectedImage = userAuthViewModel.selectedImageData, let image = UIImage(data: selectedImage) {
+                                    Image(uiImage: image)
                                         .resizable()
                                         .aspectRatio(contentMode: .fill)
                                         .frame(width: 111, height: 111)
@@ -89,7 +85,6 @@ struct UserDetailView: View {
                                     .frame(width: 111, height: 111)
                             }
                         }
-                        
                     )
                     .cornerRadius(111)
                 
@@ -116,7 +111,7 @@ struct UserDetailView: View {
             if showDetails {
                     VStack(alignment: .leading, spacing: 16) {
                         PhotosPicker(
-                            selection: $photosPicker.imageSelection, matching: .images,
+                            selection: $userAuthViewModel.selectedImage, matching: .images,
                             preferredItemEncoding: .automatic
                         ) {
                             Image(systemName: "camera.fill")
@@ -146,7 +141,7 @@ struct UserDetailView: View {
                                 showCountry.toggle()
                             }
                         
-                        PrimaryBtn(title: "Profil speichern", action: updateProfilWithImage)
+                        PrimaryBtn(title: "Profil speichern", action: updateProfile)
                             .accentColor(Color("profil"))
                 }
                 .onAppear{
@@ -157,12 +152,17 @@ struct UserDetailView: View {
                     email = userAuthViewModel.user?.email ?? ""
                     name = userAuthViewModel.user?.name ?? ""
                     country = userAuthViewModel.user?.country ?? ""
-                    image = userAuthViewModel.user?.imageURL ?? ""
+                    imageURL = userAuthViewModel.user?.imageURL ?? ""
                 }
-               
+                .onChange(of: userAuthViewModel.selectedImage) { _, newItem in
+                    Task {
+                        if let data = try? await newItem?.loadTransferable(type: Data.self) {
+                            userAuthViewModel.selectedImageData = data
+                        }
+                    }
+                }
             }
         }
-        
         .sheet(isPresented: $showCountry) {
             CountryView(country: $country, countrySheet: $showCountry) {
                 countrySelected in
@@ -201,7 +201,7 @@ struct UserDetailView: View {
             street: street,
             country: country,
             city: city,
-            imageURL: image
+            imageURL: imageURL
         )
         
         if updatedUser.name != currentFirebaseUser?.name ||
@@ -212,42 +212,10 @@ struct UserDetailView: View {
             updatedUser.country != currentFirebaseUser?.country ||
             updatedUser.imageURL != currentFirebaseUser?.imageURL ||
             updatedUser.city != currentFirebaseUser?.city {
+            
             userAuthViewModel.updateUser(user: updatedUser)
-            
-            
         }
-    }
-    
-    func updateProfilWithImage() {
-        
-        if let selectedImage = photosPicker.selectedImage {
-            if !image.isEmpty {
-                userAuthViewModel.deleteImageFromStorage(imageURL: image) { error in
-                    if let error = error {
-                        print("Fehler beim Löschen des vorherigen Bildes: \(error.localizedDescription)")
-                    }
-                }
-            }
-
-            userAuthViewModel.uploadImage(image: selectedImage.jpegData(compressionQuality: 0.6)!) { imageURL in
-                if let imageURL = imageURL {
-                    image = imageURL
-                    updateProfile()
-                    photosPicker.clearSelectedImage()
-
-                    DispatchQueue.main.async {
-                        self.showDetails.toggle()
-                    }
-                } else {
-                    print("Fehler beim Hochladen des Bildes.")
-                }
-            }
-        } else {
-            updateProfile()
-            DispatchQueue.main.async {
-                self.showDetails.toggle()
-            }
-        }
+        showDetails.toggle()
     }
 
     func deleteAccount() {
@@ -257,8 +225,7 @@ struct UserDetailView: View {
 
 #Preview{
     UserDetailView(showDetails: .constant(true))
-    
         .environmentObject(UserAuthViewModel())
-        .environmentObject(PhotosPickerViewModel())
-    //        .environmentObject(AddressAutoCompleteViewModel())
+
 }
+
