@@ -16,4 +16,5 @@ extension CGFloat {
     static var cardShadowRadius: CGFloat { return 4 }
     static var cardStroke: CGFloat { return 1 }
     static var sheetTitleVertical: CGFloat { return 8 }
+    static var maxScreenWidth: CGFloat { return UIScreen.main.bounds.width }
 }

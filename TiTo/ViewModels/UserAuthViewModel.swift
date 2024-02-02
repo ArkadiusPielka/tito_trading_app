@@ -17,6 +17,7 @@ class UserAuthViewModel: ObservableObject {
     }
     
     @Published var user: FireUser?
+    @Published var productUser: FireUser?
     
     @Published var selectedImage: PhotosPickerItem?
         @Published var selectedImageData: Data?
@@ -120,6 +121,26 @@ class UserAuthViewModel: ObservableObject {
         }
     }
     
+    func fetchProductUser(with id: String) {
+        FirebaseManager.shared.database.collection("users").document(id).getDocument { document, error in
+            if let error {
+                print("Fetching user failed:", error.localizedDescription)
+                return
+            }
+            
+            guard let document else {
+                print("Dokument existiert nicht!")
+                return
+            }
+            
+            do {
+                let user = try document.data(as: FireUser.self)
+                self.productUser = user
+            } catch {
+                print("Dokument ist kein User", error.localizedDescription)
+            }
+        }
+    }
     func updateUser(user: FireUser) {
         
         guard let userId = FirebaseManager.shared.userId else { return }
@@ -148,7 +169,6 @@ class UserAuthViewModel: ObservableObject {
         
         guard let userId = FirebaseManager.shared.userId, let selectedImageData = selectedImageData else { return }
         
-        // Referenz erstellen zum Speicherort des Bildes
         let reference = FirebaseManager.shared.storage.reference().child(userId).child("profilImage").child("\(id).jpg")
         
         reference.putData(selectedImageData, metadata: nil) { _, error in

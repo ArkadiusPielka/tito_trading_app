@@ -13,6 +13,11 @@ import FirebaseFirestoreSwift
 
 class ProductViewModel: ObservableObject {
     
+    init() {
+        fetchAllProducts()
+        fetchProdukt()
+    }
+    
     private var listener: ListenerRegistration?
     
     @Published var products = [FireProdukt]()

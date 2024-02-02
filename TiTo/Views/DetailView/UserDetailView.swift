@@ -155,9 +155,14 @@ struct UserDetailView: View {
                     imageURL = userAuthViewModel.user?.imageURL ?? ""
                 }
                 .onChange(of: userAuthViewModel.selectedImage) { _, newItem in
+                    //TODO: komprimierte Speicherung
                     Task {
                         if let data = try? await newItem?.loadTransferable(type: Data.self) {
-                            userAuthViewModel.selectedImageData = data
+                            if let compressedData = UIImage(data: data)?.jpegData(compressionQuality: 0.5) {
+                                userAuthViewModel.selectedImageData = compressedData
+                            } else {
+                                print("Bildkomprimierung fehlgeschlagen")
+                            }
                         }
                     }
                 }

@@ -182,7 +182,6 @@
 				9474D9EB2B552521003F6DA1 /* PriceTypeView.swift */,
 				94C330092B60055F000F0E29 /* CountryView.swift */,
 				9474D9F52B554749003F6DA1 /* OptionsView.swift */,
-				948417C32B5E5F9E000722FA /* UserDetailView.swift */,
 			);
 			path = SubViews;
 			sourceTree = "<group>";
@@ -191,6 +190,7 @@
 			isa = PBXGroup;
 			children = (
 				94843ED72B6BE4CA00C7E9EB /* ProductDetailView.swift */,
+				948417C32B5E5F9E000722FA /* UserDetailView.swift */,
 			);
 			path = DetailView;
 			sourceTree = "<group>";

@@ -41,7 +41,7 @@ struct ProductCardWithSwipe: View {
             userId: "1", title: "Einkaufstascheasdasdad", category: "", condition: "VB", shipment: "",
             description: "", advertismentType: "Ich biete", price: "20", priceType: "VB",
             startAdvertisment: Date.now,
-            imageURL: "https://firebasestorage.googleapis.com:443/v0/b/tito-91e64.appspot.com/o/images%2F073479CD-7A2D-4FFA-A860-0D1076C4303A.jpeg?alt=media&token=2da52bd1-8e81-4b23-8e58-bfa8add10800"
+            imageURL: "https://arkadiuspielka.files.wordpress.com/2024/02/71qmz4m-yjl.jpg"
         ))
     .environmentObject(UserAuthViewModel())
     .environmentObject(ProductViewModel())

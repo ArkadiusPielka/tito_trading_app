@@ -15,41 +15,103 @@ struct ProductDetailView: View {
     var product: FireProdukt
     
     var body: some View {
-        VStack(alignment: .leading) {
-            HStack(spacing: 10) {
+        VStack {
+            ScrollView {
                 AsyncImage(url: URL(string: product.imageURL ?? "")) { image in
                     image
                         .resizable()
-                        .frame(width: 80, height: 80)
                         .scaledToFit()
                         .clipped()
+                        
                 } placeholder: {
                     Image(systemName: "photo")
                         .resizable()
                         .font(.callout)
-                        .frame(width: 60, height: 60)
                 }
-                .cornerRadius(CGFloat.cardCornerRadius)
-                VStack(alignment: .leading) {
-                    Text(product.title)
+                .frame(maxWidth: CGFloat.maxScreenWidth, maxHeight: 300)
+                .padding(.vertical, 16)
+                
+                VStack(alignment: .leading, spacing: 10) {
                     HStack {
-                        Text("\(product.price) €")
-                        Text(product.priceType)
+                        VStack(alignment: .leading, spacing: 10) {
+                            
+                            Text(product.advertismentType)
+                                .font(.title2)
+                                .bold()
+                                .foregroundColor(Color("advertisment"))
+                            
+                            Text(product.title)
+                                .font(.title)
+                                .bold()
+                                .lineLimit(1)
+                            
+                            HStack {
+                                Text("\(product.price) €")
+                                Text(product.priceType)
+                                Spacer()
+                                Text(formattedDate)
+                            }
+                            .foregroundColor(Color("advertisment"))
+                            .font(.title2)
+                            .bold()
+                            if ((userAuthViewModel.productUser?.plz == "") && (userAuthViewModel.productUser?.city == "")) {
+                                HStack {
+                                    Text(userAuthViewModel.productUser?.plz ?? "46535")
+                                    Text(userAuthViewModel.productUser?.city ?? "Dinslaken")
+                                }
+                            }
+                        }
+                        Spacer()
                     }
+                    
+                    RoundedRectangle(cornerRadius: 1)
+                        .frame(width: .infinity, height: 2)
+                        .foregroundColor(Color("advertisment"))
+                    
+                    
+                    
+                    Text(product.description)
                 }
+                .padding(.horizontal)
             }
+            
+            PrimaryBtn(title: "Nachricht an \(userAuthViewModel.productUser?.name ?? "Akki")", action: sendMessage)
+                .padding()
+                .accentColor(Color("advertisment"))
         }
+        .onAppear{
+            userAuthViewModel.fetchProductUser(with: product.userId)
+        }
+        
+    }
+    func sendMessage() {
+        
+    }
+    
+    var formattedDate: String {
+        let dateFormatter = DateFormatter()
+        
+        let currentDate = Date()
+        
+        if Calendar.current.isDateInToday(product.startAdvertisment) {
+            dateFormatter.locale = Locale(identifier: "de_DE")
+            dateFormatter.dateFormat = "E, HH:mm"
+        } else {
+            dateFormatter.dateStyle = .short
+        }
+        
+        return dateFormatter.string(from: product.startAdvertisment)
     }
 }
 
 #Preview {
     ProductDetailView(product: FireProdukt(
-        userId: "1", title: "Einkaufstascheasdasdad", category: "", condition: "VB", shipment: "",
-        description: "", advertismentType: "Ich biete", price: "20", priceType: "VB",
+        userId: "1", title: "Einkaufstascheasdasdad", category: "Videospiel", condition: "VB", shipment: "Versand möglich",
+        description: "Die Nintendo Switch-Konsole hat einen Controller auf jeder Seite, die beide auch zusammen verwendet werden können: die Joy-Con", advertismentType: "Ich biete", price: "20", priceType: "VB",
         startAdvertisment: Date.now,
         imageURL:
-            "https://firebasestorage.googleapis.com:443/v0/b/tito-91e64.appspot.com/o/1jPo8dAjiCXwyWfWDLcuAo6uRWH3%2FproductImages%2FQn1tA9vRR6ETOhyOYB58.jpg?alt=media&token=2808da4e-d62d-4d12-875a-a6ba43a1b813"
+            "https://arkadiuspielka.files.wordpress.com/2024/02/71qmz4m-yjl.jpg"
     ))
-        .environmentObject(UserAuthViewModel())
-        .environmentObject(ProductViewModel())
+    .environmentObject(UserAuthViewModel())
+    .environmentObject(ProductViewModel())
 }

@@ -51,15 +51,18 @@ struct HomeView: View {
                             .font( /*@START_MENU_TOKEN@*/.title /*@END_MENU_TOKEN@*/)
                             .padding(.horizontal, 16)
                         
-                        LazyVStack(spacing: 16) {
+                      LazyVStack(spacing: 16) {
                             ForEach(productViewModel.products.filter { $0.userId != userAuthViewModel.user?.id }, id: \.id) { product in
-                                ProductCard(product: product)
+                                NavigationLink(destination: ProductDetailView(product: product)) {
+                                    ProductCard(product: product)
+                                        .foregroundColor(.primary)
+                                }
+                                
                             }
                             .frame(width: .infinity, height: CGFloat.cardHeight, alignment: .top)
                             .background(Color("cardBack"))
                             .cornerRadius(CGFloat.cardCornerRadius)
                             .shadow(color: Color("subText"), radius: 4, x: -2, y: 4)
-                            .environmentObject(userAuthViewModel)
                         }
                         .padding(.horizontal, 16)
                         Spacer(minLength: 20)
