@@ -145,10 +145,6 @@ struct CustomTabBar: View {
     }
 }
 
-#Preview {
-    NavigationView()
-}
-
 struct TabBarTopCurve: Shape {
     func path(in rect: CGRect) -> Path {
         return Path { path in
@@ -168,3 +164,11 @@ struct TabBarTopCurve: Shape {
         }
     }
 }
+
+#Preview {
+    NavigationView()
+        .environmentObject(UserAuthViewModel())
+        .environmentObject(ProductViewModel())
+        
+}
+

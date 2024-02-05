@@ -8,60 +8,69 @@
 import SwiftUI
 
 struct ProfileView: View {
-    
-    @EnvironmentObject var userAuthViewModel: UserAuthViewModel
-    
-    var body: some View {
-        VStack {
-            HStack(alignment: .center, spacing: 16) {
-                Rectangle()
-                    .foregroundColor(.clear)
-                    .frame(width: 111, height: 111)
-                    .background(
-                        Image("bild2")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 111, height: 111)
-                            .clipped()
-                    )
-                    .cornerRadius(111)
-                
-                VStack(alignment: .leading, spacing: 6) {
-                    Text(userAuthViewModel.user?.name ?? "")
-                    Text(formattedDate)
-                }
-                .padding(.horizontal, 16)
-                .padding(.vertical, 8)
-                .frame(width: 186, alignment: .leading)
-                .cornerRadius(20)
-            }
-            .padding(16)
-            .frame(width: 360, alignment: .center)
-            .cornerRadius(20)
-            .overlay(
-                RoundedRectangle(cornerRadius: 20)
-                    .inset(by: 0.5)
-                    .stroke(Color("profil"))
-            )
-            
-            PrimaryBtn(title: "Abmelden", action: logOut)
-        }
+
+  @EnvironmentObject var userAuthViewModel: UserAuthViewModel
+  @EnvironmentObject var productViewModel: ProductViewModel
+
+  @State var showDetails = false
+
+  var body: some View {
+      NavigationStack {
+          ScrollView {
+              VStack(spacing: 16) {
+                  Group {
+                      UserDetailView(showDetails: $showDetails)
+                          .animation(
+                              .easeInOut(duration: 2)
+                                  .delay(1),
+                              value: 2
+                          )
+                      
+                      PrimaryBtn(title: "Profil bearbeiten", action: userDetails)
+                          .accentColor(Color("profil"))
+                      
+                      PrimaryBtn(title: "Abmelden", action: logOut)
+                  }
+                  .padding(.horizontal)
+                  
+                  LazyVStack(spacing: 16) {
+                     
+                          ForEach(productViewModel.userProducts) { product in
+                              ProductCardWithSwipe(product: product)
+                          }
+                      }
+                  .padding(.horizontal)
+                  
+              }
+              .onAppear{
+                  productViewModel.fetchProdukt()
+              }
+              Spacer(minLength: 20)
+          }
     }
     
-    var formattedDate: String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-//        dateFormatter.timeStyle = .short
-        
-        return dateFormatter.string(from: userAuthViewModel.user?.registeredAt ?? Date())
-    }
-    
-    func logOut() {
-        userAuthViewModel.logOut()
-    }
+  }
+
+  var formattedDate: String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateStyle = .short
+
+    return dateFormatter.string(from: userAuthViewModel.user?.registeredAt ?? Date())
+  }
+
+  func userDetails() {
+    showDetails.toggle()
+  }
+
+  func logOut() {
+    userAuthViewModel.logOut()
+      productViewModel.removeListener()
+  }
+
 }
 
-#Preview {
-    ProfileView()
-        .environmentObject(UserAuthViewModel())
+#Preview{
+  ProfileView()
+    .environmentObject(UserAuthViewModel())
+    .environmentObject(ProductViewModel())
 }

@@ -32,8 +32,8 @@ struct CustomSecureField: View {
         }
         .padding(12)
         .background(Color.gray.opacity(0.2))
-        .cornerRadius(20)
-        .padding(.horizontal)
+        .cornerRadius(CGFloat.textFieldCornerRadius)
+        
     }
 }
 

@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct PrimaryBtn: View {
     
     let title: String
@@ -24,9 +22,8 @@ struct PrimaryBtn: View {
                 
         }
         .padding(.vertical, 12)
-        
         .background(Color.accentColor)
-        .cornerRadius(20)
+        .cornerRadius(CGFloat.textFieldCornerRadius)
     }
 }
 

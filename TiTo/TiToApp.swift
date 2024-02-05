@@ -17,6 +17,7 @@ struct TiToApp: App {
     }
     
     @StateObject var userAuthViewModel = UserAuthViewModel()
+    @StateObject var produktViewModel = ProductViewModel()
     
     var body: some Scene {
         
@@ -25,8 +26,10 @@ struct TiToApp: App {
                 NavigationView()
             } else {
                 AuthenticationView()
+                    .preferredColorScheme(.dark)
             }
         }
         .environmentObject(userAuthViewModel)
+        .environmentObject(produktViewModel)
     }
 }

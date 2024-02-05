@@ -31,4 +31,7 @@ struct NavigationView: View {
 
 #Preview {
     NavigationView()
+        .environmentObject(UserAuthViewModel())
+        .environmentObject(ProductViewModel())
+       
 }

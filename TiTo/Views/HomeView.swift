@@ -8,11 +8,74 @@
 import SwiftUI
 
 struct HomeView: View {
+    
+    @StateObject var recomendenViewModel = RecommendenViewModel()
+    @EnvironmentObject var productViewModel: ProductViewModel
+    @EnvironmentObject var userAuthViewModel: UserAuthViewModel
+    
+    @State var search = ""
+    @State var showFilter = false
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        
+        NavigationStack {
+            
+            VStack {
+                
+                CustomSearchView(searchText: $search, showFilter: $showFilter)
+                
+                ScrollView {
+                    
+                    VStack(alignment: .leading) {
+                        
+                        Text("Empfohlen")
+                            .multilineTextAlignment(.leading)
+                            .font( /*@START_MENU_TOKEN@*/.title /*@END_MENU_TOKEN@*/)
+                            .padding(.horizontal, 16)
+                        
+                        ScrollView(.horizontal) {
+                            
+                            LazyHStack(spacing: 8) {
+                                
+                                ForEach(recomendenViewModel.article, id: \.id) { produkt in
+                                    RecommendedCard(product: produkt)
+                                }
+                                .padding(.top, 8)
+                                .padding(.bottom, 16)
+                                .padding(.leading, 16)
+                            }
+                        }
+                        
+                        Text("Weitere Anzeigen")
+                            .multilineTextAlignment(.leading)
+                            .font( /*@START_MENU_TOKEN@*/.title /*@END_MENU_TOKEN@*/)
+                            .padding(.horizontal, 16)
+                        
+                      LazyVStack(spacing: 16) {
+                            ForEach(productViewModel.products.filter { $0.userId != userAuthViewModel.user?.id }, id: \.id) { product in
+                                NavigationLink(destination: ProductDetailView(product: product)) {
+                                    ProductCard(product: product)
+                                        .foregroundColor(.primary)
+                                }
+                                
+                            }
+                            .frame(maxWidth: .infinity)
+                            .frame(height: CGFloat.cardHeight, alignment: .top)
+                            .background(Color("cardBack"))
+                            .cornerRadius(CGFloat.cardCornerRadius)
+                            .shadow(color: Color("subText"), radius: 4, x: -2, y: 4)
+                        }
+                        .padding(.horizontal, 16)
+                        Spacer(minLength: 20)
+                    }
+                }
+            }
+        }
     }
 }
 
-#Preview {
+#Preview{
     HomeView()
+        .environmentObject(ProductViewModel())
+        .environmentObject(UserAuthViewModel())
 }
