@@ -33,7 +33,7 @@ struct ProductDetailView: View {
                 
                 VStack(alignment: .leading, spacing: 10) {
                     HStack {
-                        VStack(alignment: .leading, spacing: 10) {
+                        VStack(alignment: .leading, spacing: 12) {
                             
                             Text(product.advertismentType)
                                 .font(.title2)
@@ -61,16 +61,55 @@ struct ProductDetailView: View {
                                 }
                             }
                         }
-                        Spacer()
                     }
                     
                     RoundedRectangle(cornerRadius: 1)
-                        .frame(width: .infinity, height: 2)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 2)
                         .foregroundColor(Color("advertisment"))
                     
+                    VStack(spacing: 16) {
+                        Text(product.description)
+                        
+                        RoundedRectangle(cornerRadius: 1)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 2)                            .foregroundColor(Color("advertisment"))
+                        HStack {
+                            Text("Kategorie:")
+                            Spacer()
+                            Text(product.category)
+                        }
+                        
+                        if product.category == "Schmuck" {
+                            HStack {
+                                Text("Materieal:")
+                                Spacer()
+                                Text(product.material ?? "")
+                            }
+                        }
+                       
+                        RoundedRectangle(cornerRadius: 1)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 2)
+                            .foregroundColor(Color("advertisment"))
+                        
+                        HStack {
+                            Text("Zusand:")
+                            Spacer()
+                            Text(product.condition)
+                        }
+                        RoundedRectangle(cornerRadius: 1)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 2)
+                            .foregroundColor(Color("advertisment"))
+                        HStack {
+                            Text("Versand:")
+                            Spacer()
+                            Text(product.shipment)
+                        }
+                    }
+                    .padding(.top)
                     
-                    
-                    Text(product.description)
                 }
                 .padding(.horizontal)
             }
@@ -91,8 +130,6 @@ struct ProductDetailView: View {
     var formattedDate: String {
         let dateFormatter = DateFormatter()
         
-        let currentDate = Date()
-        
         if Calendar.current.isDateInToday(product.startAdvertisment) {
             dateFormatter.locale = Locale(identifier: "de_DE")
             dateFormatter.dateFormat = "E, HH:mm"
@@ -106,7 +143,7 @@ struct ProductDetailView: View {
 
 #Preview {
     ProductDetailView(product: FireProdukt(
-        userId: "1", title: "Einkaufstascheasdasdad", category: "Videospiel", condition: "VB", shipment: "Versand möglich",
+        userId: "1", title: "Nintendo Switch", category: "Videospiel", condition: "gut", shipment: "Versand möglich",
         description: "Die Nintendo Switch-Konsole hat einen Controller auf jeder Seite, die beide auch zusammen verwendet werden können: die Joy-Con", advertismentType: "Ich biete", price: "20", priceType: "VB",
         startAdvertisment: Date.now,
         imageURL:

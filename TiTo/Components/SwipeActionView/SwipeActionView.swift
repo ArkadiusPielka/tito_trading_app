@@ -124,6 +124,7 @@ struct Action {
         Action(color: .blue, name: "Bearbeiten", systemIcon: "pencil", action: { print("bearbeiten")}),
         Action(color: .yellow, name: "folder", systemIcon: "folder", action: { print("folder")})
     ]) {   Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+         
     
     }
 }

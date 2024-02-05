@@ -59,7 +59,8 @@ struct HomeView: View {
                                 }
                                 
                             }
-                            .frame(width: .infinity, height: CGFloat.cardHeight, alignment: .top)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: CGFloat.cardHeight, alignment: .top)
                             .background(Color("cardBack"))
                             .cornerRadius(CGFloat.cardCornerRadius)
                             .shadow(color: Color("subText"), radius: 4, x: -2, y: 4)
