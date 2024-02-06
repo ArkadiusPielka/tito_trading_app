@@ -109,40 +109,40 @@ struct UserDetailView: View {
             }
             
             if showDetails {
-                    VStack(alignment: .leading, spacing: 16) {
-                        PhotosPicker(
-                            selection: $userAuthViewModel.selectedImage, matching: .images,
-                            preferredItemEncoding: .automatic
-                        ) {
-                            Image(systemName: "camera.fill")
-                                .resizable()
-                                .frame(width: 40, height: 30)
-                            Text("Profilbild ändern")
+                VStack(alignment: .leading, spacing: 16) {
+                    PhotosPicker(
+                        selection: $userAuthViewModel.selectedImage, matching: .images,
+                        preferredItemEncoding: .automatic
+                    ) {
+                        Image(systemName: "camera.fill")
+                            .resizable()
+                            .frame(width: 40, height: 30)
+                        Text("Profilbild ändern")
+                    }
+                    
+                    .padding(.top)
+                    
+                    CustomAddField(hint: "E-Mail", text:  $email, strokeColor: Color("profil"))
+                    
+                    HStack {
+                        CustomAddField(hint: "Straße", text:  $street, strokeColor: Color("profil"))
+                        CustomAddField(hint: "Nr.", text: $hausNr, strokeColor: Color("profil"))
+                            .frame(width: /*@START_MENU_TOKEN@*/ 100 /*@END_MENU_TOKEN@*/)
+                    }
+                    HStack {
+                        CustomAddField(hint: "PLZ", text: $plz, strokeColor: Color("profil"))
+                            .keyboardType(.numberPad)
+                            .frame(width: /*@START_MENU_TOKEN@*/ 100 /*@END_MENU_TOKEN@*/)
+                        CustomAddField(hint: "Stadt", text: $city, strokeColor: Color("profil"))
+                    }
+                    
+                    CustomAddFieldNav(hint: "Land", text: $country, strokeColor: Color("profil"))
+                        .onTapGesture {
+                            showCountry.toggle()
                         }
-                        
-                        .padding(.top)
-                        
-                        CustomAddField(hint: "E-Mail", text:  $email, strokeColor: Color("profil"))
-                        
-                        HStack {
-                            CustomAddField(hint: "Straße", text:  $street, strokeColor: Color("profil"))
-                            CustomAddField(hint: "Nr.", text: $hausNr, strokeColor: Color("profil"))
-                                .frame(width: /*@START_MENU_TOKEN@*/ 100 /*@END_MENU_TOKEN@*/)
-                        }
-                        HStack {
-                            CustomAddField(hint: "PLZ", text: $plz, strokeColor: Color("profil"))
-                                .keyboardType(.numberPad)
-                                .frame(width: /*@START_MENU_TOKEN@*/ 100 /*@END_MENU_TOKEN@*/)
-                            CustomAddField(hint: "Stadt", text: $city, strokeColor: Color("profil"))
-                        }
-                        
-                        CustomAddFieldNav(hint: "Land", text: $country, strokeColor: Color("profil"))
-                            .onTapGesture {
-                                showCountry.toggle()
-                            }
-                        
-                        PrimaryBtn(title: "Profil speichern", action: updateProfile)
-                            .accentColor(Color("profil"))
+                    
+                    PrimaryBtn(title: "Profil speichern", action: updateProfile)
+                        .accentColor(Color("profil"))
                 }
                 .onAppear{
                     city = userAuthViewModel.user?.city ?? ""
@@ -222,7 +222,7 @@ struct UserDetailView: View {
         }
         showDetails.toggle()
     }
-
+    
     func deleteAccount() {
         //TODO: func
     }
@@ -231,6 +231,6 @@ struct UserDetailView: View {
 #Preview{
     UserDetailView(showDetails: .constant(true))
         .environmentObject(UserAuthViewModel())
-
+    
 }
 

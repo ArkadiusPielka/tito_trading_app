@@ -20,6 +20,7 @@ struct ProductCardWithSwipe: View {
         NavigationStack {
             SwipeActionView(actions: [
                 Action(color: .blue, name: "Edit", systemIcon: "pencil", action: { 
+                    
                     isEditing = true
                 }),
                 Action(color: .red, name: "Delete", systemIcon: "trash.fill", action: { delete() })

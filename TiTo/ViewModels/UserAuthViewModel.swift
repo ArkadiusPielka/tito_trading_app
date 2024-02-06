@@ -141,6 +141,7 @@ class UserAuthViewModel: ObservableObject {
             }
         }
     }
+    
     func updateUser(user: FireUser) {
         
         guard let userId = FirebaseManager.shared.userId else { return }

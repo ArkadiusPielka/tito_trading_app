@@ -66,7 +66,7 @@ class ProductViewModel: ObservableObject {
             updateImage(id: id)
             
         } catch let error {
-            print("Fehler beim Speichern des Tasks: \(error)")
+            print("Fehler beim Speichern des Products: \(error)")
         }
 
         fetchAllProducts()
@@ -116,6 +116,33 @@ class ProductViewModel: ObservableObject {
             
             print("Task aktualisiert!")
         }
+    }
+    
+    func updateProductDetails(id: String, product: FireProdukt) {
+        
+        guard let userId = FirebaseManager.shared.userId else { return }
+        
+        let product = ["title": product.title,
+                    "category": product.category,
+                    "condition": product.condition,
+                    "shipment": product.shipment,
+                    "optional": product.optional,
+                    "description": product.description,
+                    "material": product.material,
+                       "price": product.price,
+                       "priceType": product.priceType
+                      
+        ]
+        FirebaseManager.shared.database.collection("products").document(id).setData(product as [String : Any], merge: true) { error in
+            if let error {
+                print("Profil wurde nicht aktualisiert", error.localizedDescription)
+                return
+            }
+            
+            print("Profil aktualisiert!")
+        }
+        updateImage(id: userId)
+        fetchAllProducts()
     }
     
     func fetchAllProducts() {
