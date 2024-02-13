@@ -18,6 +18,7 @@ struct TiToApp: App {
     
     @StateObject var userAuthViewModel = UserAuthViewModel()
     @StateObject var produktViewModel = ProductViewModel()
+    @StateObject var chatViewModel = ChatViewModel()
     
     var body: some Scene {
         
@@ -31,5 +32,6 @@ struct TiToApp: App {
         }
         .environmentObject(userAuthViewModel)
         .environmentObject(produktViewModel)
+        .environmentObject(chatViewModel)
     }
 }

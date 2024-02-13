@@ -24,6 +24,8 @@ class ProductViewModel: ObservableObject {
     @Published var userProducts = [FireProdukt]()
     @Published var userFavoriteProducts = [FireProdukt]()
     
+    @Published var currentProduct: FireProdukt?
+    
     @Published var title = ""
     @Published var category = ""
     @Published var condition = ""
@@ -36,6 +38,8 @@ class ProductViewModel: ObservableObject {
     @Published var priceType = ""
     @Published var optionals = ""
     @Published var startAdvertisment = Date.now
+    @Published var productUserId = ""
+    @Published var productId = ""
     
     @Published var selectedImage: PhotosPickerItem?
     @Published var selectedImageData: Data?
@@ -62,6 +66,8 @@ class ProductViewModel: ObservableObject {
             let documentReference = try FirebaseManager.shared.database.collection("products").addDocument(from: product)
             
             let id = documentReference.documentID
+            productUserId = userId
+            productId = id
             print(id)
             updateImage(id: id)
             
@@ -233,5 +239,13 @@ class ProductViewModel: ObservableObject {
             print("Task mit ID \(id) gelöscht")
         }
     }
+    
+    func getProduct(for id: String) -> FireProdukt? {
+        return products.first { $0.id == id }
+    }
+    
+    func setCurrentProduct(_ product: FireProdukt) {
+            self.currentProduct = product
+        }
 }
 

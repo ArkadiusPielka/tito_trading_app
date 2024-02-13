@@ -7,28 +7,22 @@
 
 import SwiftUI
 
-    struct NavigationBtn<Content: View>: View {
-        
-        let destination: Content
-        let label: String
-
-//        init(destination: Content, label: String) {
-//            self.destination = destination
-//            self.label = label
-//        }
-
-        var body: some View {
+struct NavigationBtn<Destination: View>: View {
+    
+    var title: String
+    var destination: Destination
+    var action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
             NavigationLink(destination: destination) {
-                Text(label)
-                    .padding()
-                    .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(CGFloat.textFieldCornerRadius)
+                Text(title)
             }
+            .buttonStyle(PlainButtonStyle())
         }
     }
+}
 
 #Preview {
-    NavigationBtn(destination: HomeView(), label: "Nachricht senden")
+    NavigationBtn(title: "Nachricht senden", destination: HomeView()) {}
 }

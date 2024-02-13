@@ -47,7 +47,7 @@ struct ProductCardWithSwipe: View {
 #Preview {
     ProductCardWithSwipe(
         product: FireProdukt(
-            userId: "1", title: "Einkaufstascheasdasdad", category: "", condition: "VB", shipment: "",
+            userId: "1", title: "Einkaufstasche", category: "", condition: "VB", shipment: "",
             description: "", advertismentType: "Ich biete", price: "20", priceType: "VB",
             startAdvertisment: Date.now,
             imageURL: "https://arkadiuspielka.files.wordpress.com/2024/02/71qmz4m-yjl.jpg"

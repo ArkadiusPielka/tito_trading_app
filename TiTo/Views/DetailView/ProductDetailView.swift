@@ -9,8 +9,14 @@ import SwiftUI
 
 struct ProductDetailView: View {
     
+    @EnvironmentObject var chatViewModel: ChatViewModel
     @EnvironmentObject var userAuthViewModel: UserAuthViewModel
     @EnvironmentObject var productViewModel: ProductViewModel
+    
+    
+    @State var isSendingMessage = false
+    @State var text = ""
+    
     
     var product: FireProdukt
     
@@ -22,7 +28,7 @@ struct ProductDetailView: View {
                         .resizable()
                         .scaledToFit()
                         .clipped()
-                        
+                    
                 } placeholder: {
                     Image(systemName: "photo")
                         .resizable()
@@ -87,7 +93,7 @@ struct ProductDetailView: View {
                                 Text(product.material ?? "")
                             }
                         }
-                       
+                        
                         RoundedRectangle(cornerRadius: 1)
                             .frame(maxWidth: .infinity)
                             .frame(height: 2)
@@ -114,17 +120,30 @@ struct ProductDetailView: View {
                 .padding(.horizontal)
             }
             
-            PrimaryBtn(title: "Nachricht an \(userAuthViewModel.productUser?.name ?? "Akki")", action: sendMessage)
-                .padding()
+            Button {
+                
+            }label: {
+                NavigationLink(destination: ChatView(product: product)) {
+                    Text("Nachricht senden")
+                        .font(.headline)
+                        .frame(maxWidth: .infinity)
+                        .foregroundColor(.white)
+                }
+                .padding(.vertical, 12)
+                .background(Color.accentColor)
+                .cornerRadius(CGFloat.textFieldCornerRadius)
                 .accentColor(Color("advertisment"))
+            }
         }
+        .padding(.bottom, 26)
         .onAppear{
             userAuthViewModel.fetchProductUser(with: product.userId)
         }
         
     }
-    func sendMessage() {
-        
+    
+    func toggleSendMessage() {
+        isSendingMessage.toggle()
     }
     
     var formattedDate: String {
@@ -151,4 +170,5 @@ struct ProductDetailView: View {
     ))
     .environmentObject(UserAuthViewModel())
     .environmentObject(ProductViewModel())
+    .environmentObject(ChatViewModel())
 }

@@ -15,6 +15,7 @@ struct AdvertisementView: View {
     @State var iOffer = true
     @State var iSearch = false
     
+    
     @State var categorySheet = false
     @State var conditionSheet = false
     @State var shipmentSheet = false

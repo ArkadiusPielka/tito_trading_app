@@ -144,6 +144,8 @@ struct ProductEditView: View {
                         }
                     
                     PrimaryBtn(title: "Anzeige Speichern", action: updateProduct)
+                    
+                    Spacer(minLength: 20)
                 }
                 .padding(.horizontal)
             }

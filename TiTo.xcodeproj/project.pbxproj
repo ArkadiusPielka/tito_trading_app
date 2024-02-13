@@ -31,6 +31,11 @@
 		94843ED82B6BE4CA00C7E9EB /* ProductDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94843ED72B6BE4CA00C7E9EB /* ProductDetailView.swift */; };
 		9487D6662B61112400820E59 /* CustomSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9487D6652B61112400820E59 /* CustomSearchView.swift */; };
 		9488CDF32B7106060016BA71 /* ProductEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9488CDF22B7106060016BA71 /* ProductEditView.swift */; };
+		9491A0282B7A10BE00B2B749 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9491A0272B7A10BE00B2B749 /* Message.swift */; };
+		9491A02C2B7A11B300B2B749 /* MessageInOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9491A02B2B7A11B300B2B749 /* MessageInOutView.swift */; };
+		9491A02E2B7A189800B2B749 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9491A02D2B7A189800B2B749 /* ChatViewModel.swift */; };
+		9491A0302B7A2A1800B2B749 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9491A02F2B7A2A1800B2B749 /* MessageView.swift */; };
+		9491A0322B7A4F1B00B2B749 /* ChatCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9491A0312B7A4F1B00B2B749 /* ChatCard.swift */; };
 		9492AF082B4EB76800CFEFDF /* RecommendedCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9492AF072B4EB76800CFEFDF /* RecommendedCard.swift */; };
 		9492AF0A2B4EB82000CFEFDF /* Recommended.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9492AF092B4EB82000CFEFDF /* Recommended.swift */; };
 		9492AF0E2B4EB9B600CFEFDF /* HTTPError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9492AF0D2B4EB9B600CFEFDF /* HTTPError.swift */; };
@@ -50,7 +55,7 @@
 		94BA60B62B4BE69500CCA37E /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BA60B52B4BE69500CCA37E /* Extension.swift */; };
 		94BA60B92B4BE71600CCA37E /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BA60B82B4BE71600CCA37E /* NavigationView.swift */; };
 		94BA60BC2B4BE79D00CCA37E /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BA60BB2B4BE79D00CCA37E /* HomeView.swift */; };
-		94BA60BE2B4BE7BC00CCA37E /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BA60BD2B4BE7BC00CCA37E /* MessageView.swift */; };
+		94BA60BE2B4BE7BC00CCA37E /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BA60BD2B4BE7BC00CCA37E /* ChatView.swift */; };
 		94BA60C02B4BE7D400CCA37E /* AdvertisementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BA60BF2B4BE7D400CCA37E /* AdvertisementView.swift */; };
 		94BA60C22B4BE7E100CCA37E /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BA60C12B4BE7E100CCA37E /* FavoritesView.swift */; };
 		94BA60C42B4BE7F400CCA37E /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BA60C32B4BE7F400CCA37E /* ProfileView.swift */; };
@@ -103,6 +108,11 @@
 		94843ED72B6BE4CA00C7E9EB /* ProductDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailView.swift; sourceTree = "<group>"; };
 		9487D6652B61112400820E59 /* CustomSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSearchView.swift; sourceTree = "<group>"; };
 		9488CDF22B7106060016BA71 /* ProductEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductEditView.swift; sourceTree = "<group>"; };
+		9491A0272B7A10BE00B2B749 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		9491A02B2B7A11B300B2B749 /* MessageInOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageInOutView.swift; sourceTree = "<group>"; };
+		9491A02D2B7A189800B2B749 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
+		9491A02F2B7A2A1800B2B749 /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
+		9491A0312B7A4F1B00B2B749 /* ChatCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCard.swift; sourceTree = "<group>"; };
 		9492AF072B4EB76800CFEFDF /* RecommendedCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendedCard.swift; sourceTree = "<group>"; };
 		9492AF092B4EB82000CFEFDF /* Recommended.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recommended.swift; sourceTree = "<group>"; };
 		9492AF0D2B4EB9B600CFEFDF /* HTTPError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPError.swift; sourceTree = "<group>"; };
@@ -123,7 +133,7 @@
 		94BA60B52B4BE69500CCA37E /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		94BA60B82B4BE71600CCA37E /* NavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationView.swift; sourceTree = "<group>"; };
 		94BA60BB2B4BE79D00CCA37E /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		94BA60BD2B4BE7BC00CCA37E /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
+		94BA60BD2B4BE7BC00CCA37E /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		94BA60BF2B4BE7D400CCA37E /* AdvertisementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertisementView.swift; sourceTree = "<group>"; };
 		94BA60C12B4BE7E100CCA37E /* FavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesView.swift; sourceTree = "<group>"; };
 		94BA60C32B4BE7F400CCA37E /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
@@ -184,6 +194,8 @@
 				9474D9EB2B552521003F6DA1 /* PriceTypeView.swift */,
 				94C330092B60055F000F0E29 /* CountryView.swift */,
 				9474D9F52B554749003F6DA1 /* OptionsView.swift */,
+				9491A02B2B7A11B300B2B749 /* MessageInOutView.swift */,
+				94BA60BD2B4BE7BC00CCA37E /* ChatView.swift */,
 			);
 			path = SubViews;
 			sourceTree = "<group>";
@@ -211,6 +223,7 @@
 				9492AF072B4EB76800CFEFDF /* RecommendedCard.swift */,
 				94ACDF382B69525700040CD5 /* ProductCardWithSwipe.swift */,
 				94C4901A2B5696B100C9C971 /* ProductCard.swift */,
+				9491A0312B7A4F1B00B2B749 /* ChatCard.swift */,
 			);
 			path = Cards;
 			sourceTree = "<group>";
@@ -354,7 +367,7 @@
 				947FD7B02B514F4500CF6DB6 /* SubViews */,
 				9492AF062B4EB73700CFEFDF /* Cards */,
 				94BA60BB2B4BE79D00CCA37E /* HomeView.swift */,
-				94BA60BD2B4BE7BC00CCA37E /* MessageView.swift */,
+				9491A02F2B7A2A1800B2B749 /* MessageView.swift */,
 				94BA60BF2B4BE7D400CCA37E /* AdvertisementView.swift */,
 				94BA60C12B4BE7E100CCA37E /* FavoritesView.swift */,
 				94BA60C32B4BE7F400CCA37E /* ProfileView.swift */,
@@ -402,6 +415,7 @@
 				9474D9F72B55536D003F6DA1 /* FireProdukt.swift */,
 				9492AF092B4EB82000CFEFDF /* Recommended.swift */,
 				94C32FFF2B5FB7E9000F0E29 /* Address.swift */,
+				9491A0272B7A10BE00B2B749 /* Message.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -412,6 +426,7 @@
 				94BA61142B4C1FB100CCA37E /* UserAuthViewModel.swift */,
 				9474D9F92B5554D6003F6DA1 /* ProductViewModel.swift */,
 				9492AF112B4EBAE700CFEFDF /* RecommendenViewModel.swift */,
+				9491A02D2B7A189800B2B749 /* ChatViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -543,6 +558,7 @@
 				94BA60AF2B4BE5F800CCA37E /* CustomTabBar.swift in Sources */,
 				9492AF122B4EBAE700CFEFDF /* RecommendenViewModel.swift in Sources */,
 				9477B8322B57C50300390B31 /* View+Extentions.swift in Sources */,
+				9491A02C2B7A11B300B2B749 /* MessageInOutView.swift in Sources */,
 				9488CDF32B7106060016BA71 /* ProductEditView.swift in Sources */,
 				94BA60C42B4BE7F400CCA37E /* ProfileView.swift in Sources */,
 				94BA609E2B4BE48700CCA37E /* TiToApp.swift in Sources */,
@@ -563,9 +579,10 @@
 				94C330082B6004EB000F0E29 /* Country.swift in Sources */,
 				94BA60D22B4BF67600CCA37E /* CustomSecureField.swift in Sources */,
 				9474D9F42B554660003F6DA1 /* Options.swift in Sources */,
+				9491A0322B7A4F1B00B2B749 /* ChatCard.swift in Sources */,
 				94ACDF372B6931D500040CD5 /* SwipeActionView.swift in Sources */,
 				947FD7BC2B515ACD00CF6DB6 /* MaterialView.swift in Sources */,
-				94BA60BE2B4BE7BC00CCA37E /* MessageView.swift in Sources */,
+				94BA60BE2B4BE7BC00CCA37E /* ChatView.swift in Sources */,
 				9492AF142B4EE95700CFEFDF /* CustomAddField.swift in Sources */,
 				9474D9FA2B5554D6003F6DA1 /* ProductViewModel.swift in Sources */,
 				94BA60D52B4BF83900CCA37E /* LoginView.swift in Sources */,
@@ -576,6 +593,7 @@
 				94BA610C2B4C1CE800CCA37E /* FirebaseManager.swift in Sources */,
 				94BA60DB2B4C13AE00CCA37E /* AuthenticationView.swift in Sources */,
 				94843ED82B6BE4CA00C7E9EB /* ProductDetailView.swift in Sources */,
+				9491A0302B7A2A1800B2B749 /* MessageView.swift in Sources */,
 				9474D9EA2B5524B8003F6DA1 /* PriceType.swift in Sources */,
 				9474D9F62B554749003F6DA1 /* OptionsView.swift in Sources */,
 				94BA60C92B4BF49000CCA37E /* LikeBtn.swift in Sources */,
@@ -584,7 +602,9 @@
 				9492AF102B4EB9FA00CFEFDF /* RecommendedRepository.swift in Sources */,
 				949623D12B5001A40075582F /* CheckBox.swift in Sources */,
 				94BA61132B4C1F2C00CCA37E /* PlaceholderView.swift in Sources */,
+				9491A0282B7A10BE00B2B749 /* Message.swift in Sources */,
 				94BA60B32B4BE64B00CCA37E /* Tab.swift in Sources */,
+				9491A02E2B7A189800B2B749 /* ChatViewModel.swift in Sources */,
 				94BA60CD2B4BF51A00CCA37E /* NavigationBtn.swift in Sources */,
 				947FD7AF2B5147C900CF6DB6 /* CategoryView.swift in Sources */,
 				94BA60C22B4BE7E100CCA37E /* FavoritesView.swift in Sources */,
