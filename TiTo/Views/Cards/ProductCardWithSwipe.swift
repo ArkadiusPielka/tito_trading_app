@@ -13,8 +13,9 @@ struct ProductCardWithSwipe: View {
     @EnvironmentObject var produktViewModel: ProductViewModel
     
     @State private var isEditing = false
+    @State private var showAlert = false
     
-    let product: FireProdukt
+    let product: FireProduct
     
     var body: some View {
         NavigationStack {
@@ -29,7 +30,8 @@ struct ProductCardWithSwipe: View {
                 ProductCard(product: product)
             }
         }
-        .frame(width: .infinity, height: CGFloat.cardHeight, alignment: .top)
+        .frame(maxWidth: .infinity, alignment: .top)
+        .frame(height: CGFloat.cardHeight)
         .background(Color("cardBack"))
         .cornerRadius(CGFloat.cardCornerRadius)
         .shadow(color: Color("subText"), radius: 4, x: -2, y: 4)
@@ -37,7 +39,7 @@ struct ProductCardWithSwipe: View {
                     NavigationLink("", destination: ProductEditView(product: product), isActive: $isEditing)
                     )
     }
-    
+
     func delete() {
         produktViewModel.deleteAdvertisment(with: product.id!)
         print("delete")
@@ -46,7 +48,7 @@ struct ProductCardWithSwipe: View {
 
 #Preview {
     ProductCardWithSwipe(
-        product: FireProdukt(
+        product: FireProduct(
             userId: "1", title: "Einkaufstasche", category: "", condition: "VB", shipment: "",
             description: "", advertismentType: "Ich biete", price: "20", priceType: "VB",
             startAdvertisment: Date.now,

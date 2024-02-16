@@ -9,34 +9,79 @@ import SwiftUI
 
 struct ChatView: View {
     
-    @EnvironmentObject var chatViewModel: ChatViewModel
+    @EnvironmentObject var messagesViewModel: MessagesViewModel
     @EnvironmentObject var productViewModel: ProductViewModel
-    @State var text = ""
+    @EnvironmentObject var userAuthViewModel: UserAuthViewModel
     
-    var product: FireProdukt
+    var productId: String
+    
+    var messages: [Message] {
+        let unsortedMessages = messagesViewModel.productMessages.elements.first(where: { $0.key == productId } )?.value ?? []
+        return unsortedMessages.sorted { $0.createdAt < $1.createdAt }
+    }
+    
+    var selectedProduct: FireProduct? {
+        productViewModel.products.first(where: { $0.id == productId } )
+    }
+    @State var text = ""
     
     var body: some View {
         VStack {
             ScrollView(showsIndicators: false) {
-                ForEach(chatViewModel.messages, id: \.id) { message in
-                    MessageInOutView(message: message)
+                
+                ForEach(messages, id: \.id) { message in
+//                    MessageInOutView(message: message)
+                    if message.recipientId == userAuthViewModel.user?.id || message.senderId == userAuthViewModel.user?.id {
+                            VStack(alignment: .trailing) {
+                                VStack(alignment: .trailing) {
+                                    Text(message.text)
+                                        .padding()
+                                        .foregroundColor(.white)
+                                      
+                                        .background(Color("message").opacity(0.5))
+                                        .cornerRadius(CGFloat.cardCornerRadius)
+                                }
+                                .padding(.horizontal, 16)
+                                .frame(maxWidth: 280, alignment: .trailing)
+                            }
+                            .frame(maxWidth: 360, alignment: .trailing)
+                        } else {
+                            VStack(alignment: .leading) {
+                                VStack {
+                                    Text(message.text)
+                                        .padding()
+                                        .foregroundColor(.white)
+                                        
+                                        .background(Color("cardBack"))
+                                        .cornerRadius(CGFloat.cardCornerRadius)
+                                }
+                                .padding(.horizontal, 16)
+                                .frame(maxWidth: 280, alignment: .leading)
+                            }
+                            .frame(maxWidth: 360, alignment: .leading)
+                        }
                 }
             }
+            
             HStack {
                 TextField("Deine Nachricht", text: $text, axis: .vertical)
                     .padding(16)
-                    
+                
                 if !text.isEmpty {
                     Button {
-                        chatViewModel.sendFirstMessage(text: text, recipientId: productViewModel.currentProduct?.userId ?? "", productId: product.id ?? "") { succses in
-                            if succses {
-                                print(text)
-                                text = ""
-                                
-                            } else {
-                                print("fehler beim senden der nachricht")
-                            }
+                        if let product = productViewModel.getProduct(for: productId) {
+                            let recipientId = product.userId
+                            let senderId =  userAuthViewModel.user?.id ?? ""
+
+                            
+                            let finalRecipientId = senderId == recipientId ? senderId : recipientId
+                            
+                            let finalSenderId = senderId == recipientId ? userAuthViewModel.productUser?.id ?? "" : senderId
+                            
+                            messagesViewModel.sendMessage(text: text, recipientId: finalRecipientId, senderId: finalSenderId, productId: productId)
                         }
+                        // fehler in der id vergabe
+//                        messagesViewModel.sendMessage(text: text, recipientId: selectedProduct?.userId ?? "", productId: productId)
                     }label: {
                         Image(systemName: "paperplane.fill")
                             .foregroundColor(Color("message"))
@@ -49,26 +94,14 @@ struct ChatView: View {
                     .stroke(Color("message"), lineWidth: 1)
             )
         }
-        .onAppear {
-            productViewModel.setCurrentProduct(product)
-        }
         .padding(.horizontal, 16)
         .padding(.bottom, 26)
-//        .onChange(of: text) {  newText in
-//            text = newText
-//        }
     }
 }
 
 #Preview {
-    ChatView(
-        product: FireProdukt(
-            userId: "1", title: "Einkaufstascheasdasdad", category: "", condition: "VB", shipment: "",
-            description: "", advertismentType: "Ich biete", price: "20", priceType: "VB",
-            startAdvertisment: Date.now,
-            imageURL:
-                "https://arkadiuspielka.files.wordpress.com/2024/02/71qmz4m-yjl.jpg"
-        ))
-    .environmentObject(ChatViewModel())
-    .environmentObject(ProductViewModel())
+    ChatView(productId: "")
+        .environmentObject(MessagesViewModel())
+        .environmentObject(ProductViewModel())
+        .environmentObject(UserAuthViewModel())
 }

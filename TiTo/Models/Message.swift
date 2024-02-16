@@ -8,35 +8,22 @@
 import Foundation
 import FirebaseFirestoreSwift
 
-struct Message: Codable, Identifiable {
+struct Message: Codable, Identifiable, Equatable {
     
     @DocumentID var id: String?
     
-//    let conversationId: String
-    
-    let userId: String
+    let senderId: String
     let recipientId: String
     let text: String
     let createdAt: Date
+    let productId: String
     
     func isFormCurrentUser() -> Bool {
         guard let currentUser = FirebaseManager.shared.userId else {
             return false
         }
         
-        if currentUser == userId {
-            return true
-        } else {
-            return false
-        }
+        return currentUser == senderId
+     
     }
-    
-    var dictionary: [String: Any] {
-            return [
-                "userId": userId,
-                "recipientId": recipientId,
-                "text": text,
-                "createdAt": createdAt
-            ]
-        }
 }

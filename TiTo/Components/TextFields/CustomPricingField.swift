@@ -37,7 +37,7 @@ struct CustomPricingField: View {
             Spacer()
             
         }
-        .frame(width: .infinity)
+        .frame(maxWidth: .infinity)
     }
 }
 

@@ -1,5 +1,5 @@
 //
-//  FireProdukt.swift
+//  FireProduct.swift
 //  TiTo
 //
 //  Created by Arkadius Pielka on 15.01.24.
@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseFirestoreSwift
 
-struct FireProdukt: Codable, Identifiable {
+struct FireProduct: Codable, Identifiable {
     
     @DocumentID var id: String?
     

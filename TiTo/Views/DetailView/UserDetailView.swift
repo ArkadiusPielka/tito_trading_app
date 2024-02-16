@@ -176,7 +176,7 @@ struct UserDetailView: View {
             .presentationDetents([.fraction(0.35)])
         }
         .padding(16)
-        .frame(width: .infinity, alignment: .center)
+        .frame(maxWidth: .infinity, alignment: .center)
         .overlay(
             RoundedRectangle(cornerRadius: CGFloat.cardCornerRadius)
                 .inset(by: 0.5)

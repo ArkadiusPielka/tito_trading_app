@@ -9,11 +9,12 @@ import SwiftUI
 
 struct MessageInOutView: View {
     
+    
     var message: Message
     
     var body: some View {
         
-            if message.isFormCurrentUser() {
+        if message.isFormCurrentUser() {
                 VStack(alignment: .trailing) {
                     VStack(alignment: .trailing) {
                         Text(message.text)
@@ -46,6 +47,6 @@ struct MessageInOutView: View {
     
 }
 
-#Preview {
-    MessageInOutView(message: Message(id: "11", userId: "111", recipientId: "2", text: "hallo wie geht es dir denn heute so ich wollte ", createdAt: Date()))
-}
+//#Preview {
+//    MessageInOutView(message: Message(id: "11", userId: "111", recipientId: "2", text: "hallo wie geht es dir denn heute so ich wollte ", createdAt: Date()))
+//}

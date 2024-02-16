@@ -9,35 +9,38 @@ import SwiftUI
 
 struct MessageView: View {
     
-    @EnvironmentObject var chatViewModel: ChatViewModel
+    @EnvironmentObject var chatViewModel: MessagesViewModel
     @EnvironmentObject var userAuthViewModel: UserAuthViewModel
     @EnvironmentObject var productViewModel: ProductViewModel
     
-    
     var body: some View {
+        
         NavigationStack {
-            VStack {
-                if let product = productViewModel.currentProduct {
-                    // NavigationLink zur ChatView
-                    NavigationLink(destination: ChatView(product: product)) {
-                        ChatCard(product: product)
-                            .environmentObject(chatViewModel)
-                            .environmentObject(userAuthViewModel)
-                            .environmentObject(productViewModel)
+            
+            displayChatCards()
+            
+        }
+    }
+    
+  
+    func displayChatCards() -> some View {
+        ScrollView {
+            VStack(spacing: 24) {
+                ForEach(chatViewModel.productMessages.elements, id: \.key) { message in
+                    NavigationLink(destination: ChatView(productId: message.key)) {
+                        if let pdoduct = productViewModel.getProduct(for: message.key){
+                            ChatCard(product: pdoduct)
+                        }
                     }
-                } else {
-                    Text("Produkt nicht gefunden")
                 }
-            }
-            .onAppear{
-                chatViewModel.loadExistingConversations()
+                .buttonStyle(PlainButtonStyle())
             }
         }
     }
 }
 
 #Preview {
-    MessageView().environmentObject(ChatViewModel())
+    MessageView().environmentObject(MessagesViewModel())
         .environmentObject(UserAuthViewModel())
         .environmentObject(ProductViewModel())
 }

@@ -103,7 +103,7 @@ struct ActionButton: View {
                        
                 }
                 .clipped()
-                .frame(width: width)
+                .frame(maxWidth: width)
                 
         }
         .buttonStyle(.plain)

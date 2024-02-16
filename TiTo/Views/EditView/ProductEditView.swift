@@ -12,7 +12,7 @@ struct ProductEditView: View {
     
     @EnvironmentObject var productViewModel: ProductViewModel
     
-    var product: FireProdukt
+    var product: FireProduct
     
     @State var selectedImage: PhotosPickerItem?
     @State var selectedImageData: Data?
@@ -216,7 +216,7 @@ struct ProductEditView: View {
 
 #Preview {
     ProductEditView(
-        product: FireProdukt(
+        product: FireProduct(
             userId: "1", title: "Einkaufstascheasdasdad", category: "Videospiel", condition: "VB", shipment: "Nur Abholung",
             description: "blabla", advertismentType: "Ich biete", price: "20", priceType: "VB",
             startAdvertisment: Date.now,

@@ -34,7 +34,7 @@ struct CustomTextEdidField: View {
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 8)
-        .frame(width: .infinity, alignment: .leading)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .contentShape(Rectangle())
         .overlay(
             RoundedRectangle(cornerRadius: CGFloat.textFieldCornerRadius)

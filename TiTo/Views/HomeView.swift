@@ -66,7 +66,11 @@ struct HomeView: View {
                             .shadow(color: Color("subText"), radius: 4, x: -2, y: 4)
                         }
                         .padding(.horizontal, 16)
+                        .onAppear{
+                            productViewModel.fetchAllProducts()
+                        }
                         Spacer(minLength: 20)
+                        
                     }
                 }
             }

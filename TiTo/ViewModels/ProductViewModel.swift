@@ -20,11 +20,11 @@ class ProductViewModel: ObservableObject {
     
     private var listener: ListenerRegistration?
     
-    @Published var products = [FireProdukt]()
-    @Published var userProducts = [FireProdukt]()
-    @Published var userFavoriteProducts = [FireProdukt]()
+    @Published var products = [FireProduct]()
+    @Published var userProducts = [FireProduct]()
+    @Published var userFavoriteProducts = [FireProduct]()
     
-    @Published var currentProduct: FireProdukt?
+    @Published var currentProduct: FireProduct?
     
     @Published var title = ""
     @Published var category = ""
@@ -47,7 +47,7 @@ class ProductViewModel: ObservableObject {
     func createProduct() {
         guard let userId = FirebaseManager.shared.userId else { return }
         
-        let product = FireProdukt(userId: userId,
+        let product = FireProduct(userId: userId,
                                   title: title,
                                   category: category,
                                   condition: condition,
@@ -74,7 +74,7 @@ class ProductViewModel: ObservableObject {
         } catch let error {
             print("Fehler beim Speichern des Products: \(error)")
         }
-
+        
         fetchAllProducts()
     }
     
@@ -82,7 +82,6 @@ class ProductViewModel: ObservableObject {
         
         guard let userId = FirebaseManager.shared.userId, let selectedImageData = selectedImageData else { return }
         
-        // Referenz erstellen zum Speicherort des Bildes
         let reference = FirebaseManager.shared.storage.reference().child(userId).child("productImages").child("\(id).jpg")
         
         reference.putData(selectedImageData, metadata: nil) { _, error in
@@ -124,7 +123,7 @@ class ProductViewModel: ObservableObject {
         }
     }
     
-    func updateProductDetails(id: String, product: FireProdukt) {
+    func updateProductDetails(id: String, product: FireProduct) {
         
         guard let userId = FirebaseManager.shared.userId else { return }
         
@@ -149,6 +148,7 @@ class ProductViewModel: ObservableObject {
         }
         updateImage(id: userId)
         fetchAllProducts()
+        updateProductList()
     }
     
     func fetchAllProducts() {
@@ -165,8 +165,8 @@ class ProductViewModel: ObservableObject {
                     return
                 }
                 
-                self.products = documents.compactMap { queryDocumentSnapshot -> FireProdukt? in
-                    try? queryDocumentSnapshot.data(as: FireProdukt.self)
+                self.products = documents.compactMap { queryDocumentSnapshot -> FireProduct? in
+                    try? queryDocumentSnapshot.data(as: FireProduct.self)
                 }
             }
     }
@@ -188,8 +188,8 @@ class ProductViewModel: ObservableObject {
                     return
                 }
                 
-                self.userProducts = documents.compactMap { queryDocumentSnapshot -> FireProdukt? in
-                    try? queryDocumentSnapshot.data(as: FireProdukt.self)
+                self.userProducts = documents.compactMap { queryDocumentSnapshot -> FireProduct? in
+                    try? queryDocumentSnapshot.data(as: FireProduct.self)
                 }
             }
     }
@@ -207,8 +207,8 @@ class ProductViewModel: ObservableObject {
                     return
                 }
                 
-                self.products = documents.compactMap { queryDocumentSnapshot -> FireProdukt? in
-                    try? queryDocumentSnapshot.data(as: FireProdukt.self)
+                self.products = documents.compactMap { queryDocumentSnapshot -> FireProduct? in
+                    try? queryDocumentSnapshot.data(as: FireProduct.self)
                 }
             }
     }
@@ -219,32 +219,33 @@ class ProductViewModel: ObservableObject {
     }
     
     func deleteAdvertisment(with id: String) {
-        
         guard let userId = FirebaseManager.shared.userId else { return }
         
-        
-        FirebaseManager.shared.storage.reference().child(userId).child("productImages").child("\(id).jpg").delete { error in
+        let imageReference = FirebaseManager.shared.storage.reference().child(userId).child("productImages").child("\(id).jpg")
+        imageReference.delete { error in
             if let error {
-                print("Bild für Task kann nicht gelöscht werden", error)
+                print("Bild für Anzeige kann nicht gelöscht werden", error)
                 return
             }
         }
         
-        FirebaseManager.shared.database.collection("products").document(id).delete() { error in
+        FirebaseManager.shared.database.collection("products").document(id).delete { error in
             if let error {
-                print("Task kann nicht gelöscht werden", error)
+                print("Anzeige kann nicht gelöscht werden", error)
                 return
             }
+            print("Anzeige mit ID \(id) gelöscht")
             
-            print("Task mit ID \(id) gelöscht")
+            self.products.removeAll { $0.id == id }
+            self.fetchAllProducts()
         }
     }
     
-    func getProduct(for id: String) -> FireProdukt? {
+    func getProduct(for id: String) -> FireProduct? {
         return products.first { $0.id == id }
     }
     
-    func setCurrentProduct(_ product: FireProdukt) {
+    func setCurrentProduct(_ product: FireProduct) {
             self.currentProduct = product
         }
 }

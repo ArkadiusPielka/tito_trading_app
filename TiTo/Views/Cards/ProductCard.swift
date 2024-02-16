@@ -15,7 +15,7 @@ struct ProductCard: View {
         return product.userId != userAuthViewModel.user?.id
     }
     
-    let product: FireProdukt
+    let product: FireProduct
     
     var body: some View {
         ZStack {
@@ -109,7 +109,7 @@ struct ProductCard: View {
 
 #Preview{
     ProductCard(
-        product: FireProdukt(
+        product: FireProduct(
             userId: "1", title: "Einkaufstascheasdasdad", category: "", condition: "VB", shipment: "",
             description: "", advertismentType: "Ich biete", price: "20", priceType: "VB",
             startAdvertisment: Date.now,
