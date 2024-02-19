@@ -76,7 +76,7 @@ struct ChatCard: View {
         }
        
         .onAppear{
-            userAuthViewModel.fetchProductUser(with: product.userId)
+            userAuthViewModel.fetchProductOwner(with: product.userId)
         }
         .padding(.horizontal, 16)
     }

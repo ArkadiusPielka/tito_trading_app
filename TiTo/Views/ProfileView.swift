@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ProfileView: View {
 
+    
   @EnvironmentObject var userAuthViewModel: UserAuthViewModel
   @EnvironmentObject var productViewModel: ProductViewModel
 
@@ -43,7 +44,7 @@ struct ProfileView: View {
                   
               }
               .onAppear{
-                  productViewModel.fetchProdukt()
+                  productViewModel.fetchUserProducts()
               }
               Spacer(minLength: 20)
           }
@@ -73,4 +74,5 @@ struct ProfileView: View {
   ProfileView()
     .environmentObject(UserAuthViewModel())
     .environmentObject(ProductViewModel())
+    
 }

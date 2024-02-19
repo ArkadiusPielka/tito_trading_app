@@ -15,7 +15,7 @@ class ProductViewModel: ObservableObject {
     
     init() {
         fetchAllProducts()
-        fetchProdukt()
+        fetchUserProducts()
     }
     
     private var listener: ListenerRegistration?
@@ -68,7 +68,7 @@ class ProductViewModel: ObservableObject {
             let id = documentReference.documentID
             productUserId = userId
             productId = id
-            print(id)
+            
             updateImage(id: id)
             
         } catch let error {
@@ -108,6 +108,7 @@ class ProductViewModel: ObservableObject {
             }
             
             let data = ["imageURL": url.absoluteString]
+            
             self.updateProduct(id: id, with: data)
         }
     }
@@ -128,15 +129,15 @@ class ProductViewModel: ObservableObject {
         guard let userId = FirebaseManager.shared.userId else { return }
         
         let product = ["title": product.title,
-                    "category": product.category,
-                    "condition": product.condition,
-                    "shipment": product.shipment,
-                    "optional": product.optional,
-                    "description": product.description,
-                    "material": product.material,
+                       "category": product.category,
+                       "condition": product.condition,
+                       "shipment": product.shipment,
+                       "optional": product.optional,
+                       "description": product.description,
+                       "material": product.material,
                        "price": product.price,
                        "priceType": product.priceType
-                      
+                       
         ]
         FirebaseManager.shared.database.collection("products").document(id).setData(product as [String : Any], merge: true) { error in
             if let error {
@@ -146,7 +147,7 @@ class ProductViewModel: ObservableObject {
             
             print("Profil aktualisiert!")
         }
-        updateImage(id: userId)
+        updateImage(id: id)
         fetchAllProducts()
         updateProductList()
     }
@@ -172,7 +173,7 @@ class ProductViewModel: ObservableObject {
     }
     
     
-    func fetchProdukt() {
+    func fetchUserProducts() {
         guard let userId = FirebaseManager.shared.userId else { return }
         
         self.listener = FirebaseManager.shared.database.collection("products")
@@ -246,7 +247,7 @@ class ProductViewModel: ObservableObject {
     }
     
     func setCurrentProduct(_ product: FireProduct) {
-            self.currentProduct = product
-        }
+        self.currentProduct = product
+    }
 }
 

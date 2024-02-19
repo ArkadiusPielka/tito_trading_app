@@ -121,7 +121,7 @@ class UserAuthViewModel: ObservableObject {
         }
     }
     
-    func fetchProductUser(with id: String) {
+    func fetchProductOwner(with id: String) {
         FirebaseManager.shared.database.collection("users").document(id).getDocument { document, error in
             if let error {
                 print("Fetching user failed:", error.localizedDescription)
@@ -210,50 +210,4 @@ class UserAuthViewModel: ObservableObject {
             print("Task aktualisiert!")
         }
     }
-    
-//    func uploadImage(image: Data, completion: @escaping (String?) -> Void) {
-//        
-//        guard let userId = FirebaseManager.shared.userId else { return }
-//        
-//        let storage = FirebaseManager.shared.storage.reference()
-//        
-//        let path = "profil/\(UUID().uuidString).jpeg"
-//        let fileRef = storage.child(userId).child(path)
-//        
-//        let uploadTask = fileRef.putData(image, metadata: nil) { metadata, error in
-//            if error == nil && metadata != nil {
-//                
-//                fileRef.downloadURL { url, error in
-//                    guard let downloadURL = url, error == nil else {
-//                        print("Fehler beim Abrufen der Download-URL: \(error!.localizedDescription)")
-//                        completion(nil)
-//                        return
-//                    }
-//                    
-//                    let imageURL = downloadURL.absoluteString
-//                    
-//                    completion(imageURL)
-//                    
-//                    print("Download-URL des hochgeladenen Bilds: \(downloadURL)")
-//                }
-//            } else {
-//                print("Fehler beim Hochladen des Bildes: \(error?.localizedDescription ?? "Unbekannter Fehler")")
-//                completion(nil)
-//            }
-//        }
-//    }
-    
-//    func deleteImageFromStorage(imageURL: String, completion: @escaping (Error?) -> Void) {
-//        let storage = FirebaseManager.shared.storage.reference(forURL: imageURL)
-//        
-//        storage.delete { error in
-//            if let error = error {
-//                print("Fehler beim Löschen des Bildes im Storage: \(error.localizedDescription)")
-//                completion(error)
-//            } else {
-//                print("Bild erfolgreich aus dem Storage gelöscht")
-//                completion(nil)
-//            }
-//        }
-//    }
 }

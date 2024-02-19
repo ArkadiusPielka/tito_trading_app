@@ -35,6 +35,7 @@ struct ProductEditView: View {
     @State var priceType = ""
     @State var price = ""
     @State var optionals = ""
+    @State var imageURL = ""
     
     var body: some View {
         
@@ -47,14 +48,16 @@ struct ProductEditView: View {
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                     case .success(let image):
-                        if let selectedImage = selectedImageData, let image = UIImage(data: selectedImage) {
+                        if let selectedImage = productViewModel.selectedImageData, let image = UIImage(data: selectedImage) {
                             Image(uiImage: image)
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
+                                .frame(maxWidth: CGFloat.maxScreenWidth, maxHeight: 300)
                         } else {
                             image
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
+                                .frame(maxWidth: CGFloat.maxScreenWidth, maxHeight: 300)
                         }
                     case .failure:
                         Image(systemName: "exclamationmark.triangle.fill")
@@ -69,12 +72,13 @@ struct ProductEditView: View {
                 }
                 .frame(maxWidth: CGFloat.maxScreenWidth, maxHeight: 300)
                 .padding(.vertical, 16)
+                
                 VStack(alignment: .leading, spacing: 16) {
                     
-                    PhotosPicker(selection: $selectedImage, matching: .images, preferredItemEncoding: .automatic) {
-                        if selectedImage != nil {
+                    PhotosPicker(selection: $productViewModel.selectedImage, matching: .images, preferredItemEncoding: .automatic) {
+                        if productViewModel.selectedImage != nil {
                             HStack {
-                                if let imageData = selectedImageData, let image = UIImage(data: imageData){
+                                if let imageData = productViewModel.selectedImageData, let image = UIImage(data: imageData){
                                     
                                     Image(uiImage: image)
                                         .resizable()
@@ -95,10 +99,10 @@ struct ProductEditView: View {
                         }
                         
                     }
-                    .onChange(of: selectedImage) { _, newItem in
+                    .onChange(of: productViewModel.selectedImage) { _, newItem in
                         Task {
                             if let data = try? await newItem?.loadTransferable(type: Data.self) {
-                                selectedImageData = data
+                                productViewModel.selectedImageData = data
                             }
                         }
                     }
@@ -205,12 +209,47 @@ struct ProductEditView: View {
             material = product.material ?? ""
             priceType = product.priceType
             price = product.price
+            imageURL = product.imageURL ?? ""
             
+        }
+        .onChange(of: productViewModel.selectedImage) { _, newItem in
+            Task {
+                if let data = try? await newItem?.loadTransferable(type: Data.self) {
+                    if let compressedData = UIImage(data: data)?.jpegData(compressionQuality: 0.5) {
+                        productViewModel.selectedImageData = compressedData
+                    } else {
+                        print("Bildkomprimierung fehlgeschlagen")
+                    }
+                }
+            }
         }
     }
     
     func updateProduct() {
         
+        let currentProduct = product
+        
+        let updatedProduct = FireProduct(
+            id: currentProduct.id, 
+            userId: currentProduct.userId,
+            title: title,
+            category: category,
+            condition: condition,
+            shipment: shipment,
+            optional: optional,
+            description: description,
+            advertismentType: currentProduct.advertismentType,
+            material: material,
+            price: price,
+            priceType: priceType,
+            startAdvertisment: currentProduct.startAdvertisment,
+            imageURL: imageURL
+        )
+        
+        if updatedProduct != currentProduct {
+            
+            productViewModel.updateProductDetails(id: product.id!, product: updatedProduct)
+        }
     }
 }
 

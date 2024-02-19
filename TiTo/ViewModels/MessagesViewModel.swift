@@ -55,8 +55,7 @@ class MessagesViewModel: ObservableObject {
                 if let error {
                     print("Error sending message to conversation: \(error.localizedDescription)")
                 } else {
-                    // Nachricht erfolgreich gesendet, starte den Listener für neue Nachrichten erneut
-//                    self.listenForNewMessagesInDatabase()
+
                 }
             }
         } catch {
@@ -86,4 +85,31 @@ class MessagesViewModel: ObservableObject {
         }
     }
     
+    func deleteMessages(with productId: String) {
+        
+        let messagesForProduct = FirebaseManager.shared.database.collection("messages")
+            .whereField("productId", isEqualTo: productId)
+        
+        messagesForProduct.getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    print("Error getting documents: \(error)")
+                    return
+                } else {
+                    guard let documents = querySnapshot?.documents else {
+                        print("No documents found.")
+                        return
+                    }
+                    
+                    for document in documents {
+                        document.reference.delete { error in
+                            if let error = error {
+                                print("Error deleting document: \(error)")
+                            } else {
+                                print("Document successfully deleted.")
+                            }
+                        }
+                    }
+                }
+            }
+    }
 }

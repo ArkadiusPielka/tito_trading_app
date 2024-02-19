@@ -134,26 +134,15 @@ struct ProductDetailView: View {
                 .padding()
                 .padding(.bottom, 26)
                 .onAppear{
-                    userAuthViewModel.fetchProductUser(with: product.userId)
+                    userAuthViewModel.fetchProductOwner(with: product.userId)
                 }
                
             }
         }
-//    }
-        
         
         func sendMessage(){
             
         }
-        
-        
-        //    func sendMessage() {
-        //        //        if let productUser = userAuthViewModel.productUser {
-        //        //            let newChat = chatViewModel.createChat(for: product, productOwner: productUser)
-        //        //            self.newChat = newChat
-        //        self.isSendingMessage.toggle()
-        //        //        }
-        //    }
         
         var formattedDate: String {
             let dateFormatter = DateFormatter()

@@ -23,6 +23,7 @@ struct ChatView: View {
     var selectedProduct: FireProduct? {
         productViewModel.products.first(where: { $0.id == productId } )
     }
+    
     @State var text = ""
     
     var body: some View {
@@ -30,36 +31,7 @@ struct ChatView: View {
             ScrollView(showsIndicators: false) {
                 
                 ForEach(messages, id: \.id) { message in
-//                    MessageInOutView(message: message)
-                    if message.recipientId == userAuthViewModel.user?.id || message.senderId == userAuthViewModel.user?.id {
-                            VStack(alignment: .trailing) {
-                                VStack(alignment: .trailing) {
-                                    Text(message.text)
-                                        .padding()
-                                        .foregroundColor(.white)
-                                      
-                                        .background(Color("message").opacity(0.5))
-                                        .cornerRadius(CGFloat.cardCornerRadius)
-                                }
-                                .padding(.horizontal, 16)
-                                .frame(maxWidth: 280, alignment: .trailing)
-                            }
-                            .frame(maxWidth: 360, alignment: .trailing)
-                        } else {
-                            VStack(alignment: .leading) {
-                                VStack {
-                                    Text(message.text)
-                                        .padding()
-                                        .foregroundColor(.white)
-                                        
-                                        .background(Color("cardBack"))
-                                        .cornerRadius(CGFloat.cardCornerRadius)
-                                }
-                                .padding(.horizontal, 16)
-                                .frame(maxWidth: 280, alignment: .leading)
-                            }
-                            .frame(maxWidth: 360, alignment: .leading)
-                        }
+                    MessageInOutView(message: message)
                 }
             }
             
@@ -69,19 +41,29 @@ struct ChatView: View {
                 
                 if !text.isEmpty {
                     Button {
-                        if let product = productViewModel.getProduct(for: productId) {
-                            let recipientId = product.userId
-                            let senderId =  userAuthViewModel.user?.id ?? ""
-
-                            
-                            let finalRecipientId = senderId == recipientId ? senderId : recipientId
-                            
-                            let finalSenderId = senderId == recipientId ? userAuthViewModel.productUser?.id ?? "" : senderId
-                            
-                            messagesViewModel.sendMessage(text: text, recipientId: finalRecipientId, senderId: finalSenderId, productId: productId)
+                        var senderId = ""
+                        var recipientId = ""
+                        
+                        if let product = selectedProduct {
+                            senderId = userAuthViewModel.user?.id ?? ""
+                            recipientId = product.userId
                         }
-                        // fehler in der id vergabe
-//                        messagesViewModel.sendMessage(text: text, recipientId: selectedProduct?.userId ?? "", productId: productId)
+                        
+                        if messages.isEmpty {
+                            messagesViewModel.sendMessage(text: text, recipientId: recipientId, senderId: senderId, productId: productId)
+                            
+                        } else {
+                            
+                            let firstMessage = messages.first!
+                            
+                            if firstMessage.senderId == senderId {
+                                messagesViewModel.sendMessage(text: text, recipientId: recipientId, senderId: senderId, productId: productId)
+                            } else {
+                                messagesViewModel.sendMessage(text: text, recipientId: firstMessage.senderId, senderId: senderId, productId: productId)
+                            }
+                        }
+                        text = ""
+                        
                     }label: {
                         Image(systemName: "paperplane.fill")
                             .foregroundColor(Color("message"))

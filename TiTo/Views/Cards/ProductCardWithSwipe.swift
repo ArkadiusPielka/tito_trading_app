@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ProductCardWithSwipe: View {
     
+    @EnvironmentObject var messagesViewModel: MessagesViewModel
     @EnvironmentObject var userAuthViewModel: UserAuthViewModel
     @EnvironmentObject var produktViewModel: ProductViewModel
     
@@ -42,7 +43,7 @@ struct ProductCardWithSwipe: View {
 
     func delete() {
         produktViewModel.deleteAdvertisment(with: product.id!)
-        print("delete")
+        messagesViewModel.deleteMessages(with: product.id!)
     }
 }
 
@@ -56,6 +57,7 @@ struct ProductCardWithSwipe: View {
         ))
     .environmentObject(UserAuthViewModel())
     .environmentObject(ProductViewModel())
+    .environmentObject(MessagesViewModel())
 }
 
 

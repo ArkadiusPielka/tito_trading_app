@@ -47,6 +47,6 @@ struct MessageInOutView: View {
     
 }
 
-//#Preview {
-//    MessageInOutView(message: Message(id: "11", userId: "111", recipientId: "2", text: "hallo wie geht es dir denn heute so ich wollte ", createdAt: Date()))
-//}
+#Preview {
+    MessageInOutView(message: Message(id: "11", senderId: "111", recipientId: "2", text: "hallo wie geht es dir denn heute so ich wollte ", createdAt: Date(), productId: ""))
+}
