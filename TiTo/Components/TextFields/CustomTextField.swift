@@ -9,23 +9,18 @@ import SwiftUI
 
 struct CustomTextField: View {
     
-    var placeholder: String
+    var hint: String
     @Binding var text: String
 
-    init(_ placeholder: String, text: Binding<String>) {
-        self.placeholder = placeholder
-        self._text = text
-    }
-
     var body: some View {
-        TextField(placeholder, text: $text)
-            .padding()
+        TextField(hint, text: $text)
+            .padding(12)
             .background(Color.gray.opacity(0.2))
-            .cornerRadius(20)
-            .padding(.horizontal)
+            .cornerRadius(CGFloat.textFieldCornerRadius)
+            
     }
 }
 
 #Preview {
-    CustomTextField("Benutzername", text: .constant(""))
+    CustomTextField(hint: "Benutzername", text: .constant(""))
 }

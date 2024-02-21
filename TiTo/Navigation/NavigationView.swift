@@ -10,6 +10,7 @@ import SwiftUI
 struct NavigationView: View {
     
     @State var activTab: Tab = .home
+    @AppStorage("isDarkMode") private var isDarkMode = false
     
     var body: some View {
         VStack(spacing: 0) {
@@ -24,11 +25,15 @@ struct NavigationView: View {
         .ignoresSafeArea(.all, edges: .bottom)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Rectangle().fill(.clear).ignoresSafeArea())
-        .preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
-
+        .preferredColorScheme(isDarkMode ? .dark : .light)
+        
     }
 }
 
 #Preview {
     NavigationView()
+        .environmentObject(UserAuthViewModel())
+        .environmentObject(ProductViewModel())
+        .environmentObject(MessagesViewModel())
+    
 }

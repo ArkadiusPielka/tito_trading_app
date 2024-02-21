@@ -8,33 +8,22 @@
 import SwiftUI
 
 struct LikeBtn: View {
-    
-    let action: () -> Void
-    
-    @State var like = false
-    @State var image = "heart"
+    var isLiked: Bool
+    var action: () -> Void
     
     var body: some View {
-        
         Button(action: action) {
-            Image(systemName: image)
+            Image(systemName: isLiked ? "heart.fill" : "heart")
                 .resizable()
-                .frame(width: 32, height: 32)
+                .frame(width: 28, height: 28)
                 .foregroundColor(.red)
-                .onTapGesture {
-                    like.toggle()
-                    image = like ? "heart.fill" : "heart"
-                }
         }
-        .background(content: {
-            Circle()
-                .frame(width: 52, height: 52, alignment: .center)
-                .foregroundColor(Color.gray.opacity(0.5))
-                .offset(y: -2)
-        })
     }
 }
 
 #Preview {
-    LikeBtn() {}
+    LikeBtn(isLiked: true) {}
 }
+
+
+
