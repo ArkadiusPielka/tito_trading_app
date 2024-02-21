@@ -19,7 +19,7 @@ struct RecommendedCard: View {
                         .foregroundColor(.clear)
                         .frame(width: CGFloat.cardWidth, height: CGFloat.cardHeight)
                         .background(
-                            AsyncImage(url: product.img1) { image in
+                            AsyncImage(url: product.image) { image in
                                 image
                                     .resizable()
                                     .frame(width: CGFloat.cardWidth, height: CGFloat.cardHeight)
@@ -36,7 +36,7 @@ struct RecommendedCard: View {
                         Text(product.title)
                             .font(.title2)
                         
-                        Text(product.descript)
+                        Text(product.description)
                             .foregroundStyle(Color("subText"))
                             .font(.footnote)
                             .lineLimit(1)
@@ -52,5 +52,5 @@ struct RecommendedCard: View {
     }
 
 #Preview {
-    RecommendedCard(product: Recommended(id: 1, img1: URL(string:  "https://arkadiuspielka.files.wordpress.com/2024/02/71qmz4m-yjl.jpg"), price: "9.95", title: "Tasche", category: "Box", descript: "Eine Einkaufstasche"))
+    RecommendedCard(product: Recommended(id: 1, image: URL(string:  "https://arkadiuspielka.files.wordpress.com/2024/02/71qmz4m-yjl.jpg"), price: "9.95", title: "Tasche", category: "Box", description: "Eine Einkaufstasche"))
 }

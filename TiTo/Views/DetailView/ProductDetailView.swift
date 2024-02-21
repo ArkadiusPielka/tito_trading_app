@@ -7,26 +7,36 @@
 
 import SwiftUI
 
+
 struct ProductDetailView: View {
     
+    @EnvironmentObject var chatViewModel: MessagesViewModel
     @EnvironmentObject var userAuthViewModel: UserAuthViewModel
     @EnvironmentObject var productViewModel: ProductViewModel
     
-    var product: FireProdukt
+    
+    @State var isSendingMessage = false
+    @State var text = ""
+    
+    var product: FireProduct
     
     var body: some View {
+        //        NavigationStack {
         VStack {
+            
             ScrollView {
+                
                 AsyncImage(url: URL(string: product.imageURL ?? "")) { image in
                     image
                         .resizable()
                         .scaledToFit()
                         .clipped()
-                        
+                    
                 } placeholder: {
                     Image(systemName: "photo")
                         .resizable()
                         .font(.callout)
+                    
                 }
                 .frame(maxWidth: CGFloat.maxScreenWidth, maxHeight: 300)
                 .padding(.vertical, 16)
@@ -34,12 +44,16 @@ struct ProductDetailView: View {
                 VStack(alignment: .leading, spacing: 10) {
                     HStack {
                         VStack(alignment: .leading, spacing: 12) {
-                            
-                            Text(product.advertismentType)
-                                .font(.title2)
-                                .bold()
-                                .foregroundColor(Color("advertisment"))
-                            
+                            HStack {
+                                Text(product.advertismentType)
+                                    .font(.title2)
+                                    .bold()
+                                    .foregroundColor(Color("advertisment"))
+                                Spacer()
+                                LikeBtn(isLiked: product.isFavorite) {
+                                    productViewModel.toggleLike(for: product)
+                                }
+                            }
                             Text(product.title)
                                 .font(.title)
                                 .bold()
@@ -87,7 +101,7 @@ struct ProductDetailView: View {
                                 Text(product.material ?? "")
                             }
                         }
-                       
+                        
                         RoundedRectangle(cornerRadius: 1)
                             .frame(maxWidth: .infinity)
                             .frame(height: 2)
@@ -113,17 +127,26 @@ struct ProductDetailView: View {
                 }
                 .padding(.horizontal)
             }
+            NavigationLink(destination: ChatView(productId: product.id ?? "")) {
+                Text("Nachricht an \(userAuthViewModel.productUser?.name ?? "Akki")")
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                
+            }
+            .padding(.vertical, 12)
+            .background(Color.accentColor)
+            .cornerRadius(CGFloat.textFieldCornerRadius)
+            .accentColor(Color("advertisment"))
+            .padding()
+            .padding(.bottom, 26)
+            .onAppear{
+                userAuthViewModel.fetchProductOwner(with: product.userId)
+            }
             
-            PrimaryBtn(title: "Nachricht an \(userAuthViewModel.productUser?.name ?? "Akki")", action: sendMessage)
-                .padding()
-                .accentColor(Color("advertisment"))
         }
-        .onAppear{
-            userAuthViewModel.fetchProductUser(with: product.userId)
-        }
-        
     }
-    func sendMessage() {
+    
+    func sendMessage(){
         
     }
     
@@ -142,7 +165,7 @@ struct ProductDetailView: View {
 }
 
 #Preview {
-    ProductDetailView(product: FireProdukt(
+    ProductDetailView(product: FireProduct(
         userId: "1", title: "Nintendo Switch", category: "Videospiel", condition: "gut", shipment: "Versand möglich",
         description: "Die Nintendo Switch-Konsole hat einen Controller auf jeder Seite, die beide auch zusammen verwendet werden können: die Joy-Con", advertismentType: "Ich biete", price: "20", priceType: "VB",
         startAdvertisment: Date.now,
@@ -151,4 +174,6 @@ struct ProductDetailView: View {
     ))
     .environmentObject(UserAuthViewModel())
     .environmentObject(ProductViewModel())
+    .environmentObject(MessagesViewModel())
 }
+

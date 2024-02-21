@@ -12,9 +12,13 @@ struct CustomTextEdidField: View {
     @Binding var description: String
     var text: String
     
+    @State private var textHeight: CGFloat = .zero
+    
     var body: some View {
         
         ZStack(alignment: .leading) {
+           
+               
             if description.isEmpty {
                 VStack {
                     Text("Beschreibung")
@@ -26,15 +30,18 @@ struct CustomTextEdidField: View {
             }
             
             VStack {
+                
                 TextEditor(text: $description)
                     .font(.title2)
                     .opacity(description.isEmpty ? 0.6 : 1)
-                Spacer()
+                    .background(.clear)
+//                Spacer()
             }
         }
+        .frame(minHeight: 100)
         .padding(.horizontal, 16)
         .padding(.vertical, 8)
-        .frame(width: .infinity, alignment: .leading)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .contentShape(Rectangle())
         .overlay(
             RoundedRectangle(cornerRadius: CGFloat.textFieldCornerRadius)

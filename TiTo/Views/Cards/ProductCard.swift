@@ -10,26 +10,66 @@ import SwiftUI
 struct ProductCard: View {
     
     @EnvironmentObject var userAuthViewModel: UserAuthViewModel
+    @EnvironmentObject var productViewModel: ProductViewModel
+    @EnvironmentObject var messagesViewModel: MessagesViewModel
     
-    var showLikeBtn: Bool {
-        return product.userId != userAuthViewModel.user?.id
-    }
+    var product: FireProduct
     
-    let product: FireProdukt
+    var color: Color
+    
+    @State private var isEditing = false
+    @State private var showAlert = false
     
     var body: some View {
         ZStack {
-            HStack {
+            
+            if isCurrentUserProduct() {
+                SwipeActionView(actions: [
+                    Action(color: .blue, name: "Edit", systemIcon: "pencil", action: {
+                        isEditing.toggle()
+                    }),
+                    Action(color: .red, name: "Delete", systemIcon: "trash.fill", action: { showAlert.toggle()
+                    })
+                ]) {
+                    content
+                }
+            } else {
+                content
+            }
+        }
+        
+        .frame(maxWidth: .infinity, alignment: .top)
+        .frame(height: CGFloat.cardHeight)
+        .background(Color("cardBack"))
+        .clipShape(RoundedRectangle(cornerRadius: CGFloat.cardCornerRadius))
+        .shadow(color: color, radius: 4, x: -2, y: 4)
+        .padding(.horizontal, 16)
+        
+        .fullScreenCover(isPresented: $isEditing) {
+            ProductEditView(product: product)
+        }
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text("Anzeige löschen"), message: Text("Möchten Sie diese Anzeige wirklich löschen?"), primaryButton: .destructive(Text("Löschen")) {
+                delete()
+            }, secondaryButton: .cancel(Text("Abbrechen")))
+        }
+    }
+    
+    var content: some View {
+        ZStack {
+            VStack {
                 Spacer()
-                VStack {
-                    Spacer()
-                    if showLikeBtn {
-                        LikeBtn(action: isLike)
+                if !isCurrentUserProduct() {
+                    HStack {
+                        Spacer()
+                        LikeBtn(isLiked: product.isFavorite) {
+                            productViewModel.toggleLike(for: product)
+                        }
                     }
                 }
-                .padding(.horizontal, 16)
-                .padding(.bottom, 8)
             }
+            .padding(.horizontal)
+            .padding(.bottom, 6)
             HStack(alignment: .top, spacing: 0) {
                 Rectangle()
                     .foregroundColor(.clear)
@@ -75,18 +115,8 @@ struct ProductCard: View {
                 .padding(.vertical, 8)
                 .padding(.horizontal, 12)
             }
-            
-            
         }
-        
-//        .frame(width: .infinity, height: CGFloat.cardHeight, alignment: .top)
-//        .background(Color("cardBack"))
-//        .cornerRadius(CGFloat.cardCornerRadius)
-//        .shadow(color: Color("subText"), radius: 4, x: -2, y: 4)
-       
     }
-    
-    
     var formattedDate: String {
         let dateFormatter = DateFormatter()
         
@@ -102,19 +132,27 @@ struct ProductCard: View {
         return dateFormatter.string(from: product.startAdvertisment)
     }
     
-    func isLike() {
-        //TODO: func
+    func isCurrentUserProduct() -> Bool {
+        guard let currentUserID = userAuthViewModel.user?.id else { return false }
+        return product.userId == currentUserID
+    }
+    
+    func delete() {
+        productViewModel.deleteAdvertisment(with: product.id!)
+        messagesViewModel.deleteMessages(with: product.id!)
     }
 }
 
-#Preview{
+#Preview {
     ProductCard(
-        product: FireProdukt(
+        product: FireProduct(
             userId: "1", title: "Einkaufstascheasdasdad", category: "", condition: "VB", shipment: "",
             description: "", advertismentType: "Ich biete", price: "20", priceType: "VB",
             startAdvertisment: Date.now,
             imageURL:
                 "https://arkadiuspielka.files.wordpress.com/2024/02/71qmz4m-yjl.jpg"
-        ))
+        ), color: .advertisment)
     .environmentObject(UserAuthViewModel())
+    .environmentObject(ProductViewModel())
+    .environmentObject(MessagesViewModel())
 }

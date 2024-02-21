@@ -15,6 +15,7 @@ struct AdvertisementView: View {
     @State var iOffer = true
     @State var iSearch = false
     
+    
     @State var categorySheet = false
     @State var conditionSheet = false
     @State var shipmentSheet = false
@@ -36,10 +37,15 @@ struct AdvertisementView: View {
     }
     
     var body: some View {
+        
+        
         NavigationStack {
             
+            
             GeometryReader { proxy in
+                
                 ScrollView {
+                    
                     VStack {
                         // Image
                         VStack {
@@ -144,10 +150,10 @@ struct AdvertisementView: View {
                             PrimaryBtn(title: "Anzeige aufgeben", action: alertPresented)
                                 .disabled(!isButtonEnabled)
                                 .alert("Anzeige aufgeben", isPresented: $showAlert) {
-                                        Button("Ja, jetzt aufgeben", action: { startAdd() })
+                                    Button("Ja, jetzt aufgeben", action: { startAdd() })
                                     Button("Abbrechen", role: .cancel, action: { showAlert.toggle() })
                                     Button("Anzeige verwerfen", role: .destructive, action: { cleareFields() })
-                                    }
+                                }
                             
                             Spacer(minLength: 20)
                         }
@@ -159,7 +165,7 @@ struct AdvertisementView: View {
                             categorySelected in
                             productViewModel.category = categorySelected
                         }
-                        .presentationDetents([.fraction(0.35)])
+                        .presentationDetents([.fraction(0.55)])
                     }
                     
                     .sheet(isPresented: $conditionSheet) {
@@ -215,8 +221,10 @@ struct AdvertisementView: View {
     func alertPresented() {
         showAlert.toggle()
     }
+    
     func startAdd() {
         productViewModel.createProduct()
+        productViewModel.fetchAllProducts()
         cleareFields()
     }
     

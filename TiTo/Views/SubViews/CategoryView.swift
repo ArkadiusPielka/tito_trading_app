@@ -26,7 +26,7 @@ struct CategoryView: View {
                     Text(category.title)
                         .foregroundColor(.primary)
                         .font(.title2)
-                        
+                    
                 }
             }
         }

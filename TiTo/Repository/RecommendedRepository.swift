@@ -11,7 +11,7 @@ class RecommendedRepository {
     
     static func fetchRecommended() async throws -> [Recommended] {
         
-        guard let url = URL(string: "https://retoolapi.dev/0BCWYs/tito") else {
+        guard let url = URL(string: "https://retoolapi.dev/wjXbW4/tito") else {
             throw HTTPError.invalidURL
         }
         do {

@@ -10,7 +10,6 @@ import Foundation
 enum AuthenticationMode {
     case login, register
     
-    
     var titleBtn: String {
         switch self {
         case .login: return "Anmelden"

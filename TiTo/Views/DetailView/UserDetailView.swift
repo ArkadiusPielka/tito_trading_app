@@ -38,14 +38,18 @@ struct UserDetailView: View {
                     Spacer()
                     
                     Button {
-                        showDetails.toggle()
+                        withAnimation(.easeInOut(duration: 0.4)) {
+                            self.showDetails.toggle()
+                        }
                     } label: {
-                        Image(systemName: "xmark.circle")
+                        Image(systemName: showDetails ? "xmark.circle" : "pen")
                             .resizable()
                             .frame(width: 24, height: 24)
                     }
                 }
                 .padding(.bottom, 24)
+            } else {
+                
             }
             
             HStack(alignment: .center, spacing: 16) {
@@ -88,61 +92,81 @@ struct UserDetailView: View {
                     )
                     .cornerRadius(111)
                 
-                VStack(alignment: .leading, spacing: 8) {
-                    
-                    Text(userAuthViewModel.user?.kontoType ?? "")
-                    if showDetails {
-                        CustomAddField(hint: "Name", text:  $name, strokeColor: Color("profil"))
-                    } else {
-                        Text(userAuthViewModel.user?.name ?? "")
-                            .font(.title2)
-                            .bold()
-                    }
-                    Group {
-                        Text("angemeldet am:")
-                        Text(formattedDate)
-                    }
-                    .foregroundColor(Color("subText"))
-                }
-                .frame(width: 186, alignment: .leading)
-                Spacer()
-            }
-            
-            if showDetails {
-                    VStack(alignment: .leading, spacing: 16) {
-                        PhotosPicker(
-                            selection: $userAuthViewModel.selectedImage, matching: .images,
-                            preferredItemEncoding: .automatic
-                        ) {
-                            Image(systemName: "camera.fill")
-                                .resizable()
-                                .frame(width: 40, height: 30)
-                            Text("Profilbild ändern")
-                        }
-                        
-                        .padding(.top)
-                        
-                        CustomAddField(hint: "E-Mail", text:  $email, strokeColor: Color("profil"))
-                        
-                        HStack {
-                            CustomAddField(hint: "Straße", text:  $street, strokeColor: Color("profil"))
-                            CustomAddField(hint: "Nr.", text: $hausNr, strokeColor: Color("profil"))
-                                .frame(width: /*@START_MENU_TOKEN@*/ 100 /*@END_MENU_TOKEN@*/)
-                        }
-                        HStack {
-                            CustomAddField(hint: "PLZ", text: $plz, strokeColor: Color("profil"))
-                                .keyboardType(.numberPad)
-                                .frame(width: /*@START_MENU_TOKEN@*/ 100 /*@END_MENU_TOKEN@*/)
-                            CustomAddField(hint: "Stadt", text: $city, strokeColor: Color("profil"))
-                        }
-                        
-                        CustomAddFieldNav(hint: "Land", text: $country, strokeColor: Color("profil"))
-                            .onTapGesture {
-                                showCountry.toggle()
+                ZStack {
+                    HStack {
+                        Spacer()
+                        VStack {
+                            if !showDetails {
+                                Button {
+                                    withAnimation(.easeInOut(duration: 0.4)) {
+                                        self.showDetails.toggle()
+                                    }
+                                } label: {
+                                    Image(systemName: "pencil")
+                                        .resizable()
+                                        .frame(width: 24, height: 24)
+                                        .foregroundColor(Color("profil"))
+                                }
                             }
+                            Spacer()
+                        }
+                    }
+                    
+                    VStack(alignment: .leading, spacing: 8) {
                         
-                        PrimaryBtn(title: "Profil speichern", action: updateProfile)
-                            .accentColor(Color("profil"))
+                        Text(userAuthViewModel.user?.kontoType ?? "")
+                        if showDetails {
+                            CustomAddField(hint: "Name", text:  $name, strokeColor: Color("profil"))
+                        } else {
+                            Text(userAuthViewModel.user?.name ?? "")
+                                .font(.title2)
+                                .bold()
+                        }
+                        Group {
+                            Text("angemeldet am:")
+                            Text(formattedDate)
+                        }
+                        .foregroundColor(Color("subText"))
+                    }
+                    .frame(width: 186, alignment: .leading)
+                    Spacer()
+                }
+            }
+            if showDetails {
+                VStack(alignment: .leading, spacing: 16) {
+                    PhotosPicker(
+                        selection: $userAuthViewModel.selectedImage, matching: .images,
+                        preferredItemEncoding: .automatic
+                    ) {
+                        Image(systemName: "camera.fill")
+                            .resizable()
+                            .frame(width: 40, height: 30)
+                        Text("Profilbild ändern")
+                    }
+                    
+                    .padding(.top)
+                    
+                    CustomAddField(hint: "E-Mail", text:  $email, strokeColor: Color("profil"))
+                    
+                    HStack {
+                        CustomAddField(hint: "Straße", text:  $street, strokeColor: Color("profil"))
+                        CustomAddField(hint: "Nr.", text: $hausNr, strokeColor: Color("profil"))
+                            .frame(width: /*@START_MENU_TOKEN@*/ 100 /*@END_MENU_TOKEN@*/)
+                    }
+                    HStack {
+                        CustomAddField(hint: "PLZ", text: $plz, strokeColor: Color("profil"))
+                            .keyboardType(.numberPad)
+                            .frame(width: /*@START_MENU_TOKEN@*/ 100 /*@END_MENU_TOKEN@*/)
+                        CustomAddField(hint: "Stadt", text: $city, strokeColor: Color("profil"))
+                    }
+                    
+                    CustomAddFieldNav(hint: "Land", text: $country, strokeColor: Color("profil"))
+                        .onTapGesture {
+                            showCountry.toggle()
+                        }
+                    
+                    PrimaryBtn(title: "Profil speichern", action: updateProfile)
+                        .accentColor(Color("profil"))
                 }
                 .onAppear{
                     city = userAuthViewModel.user?.city ?? ""
@@ -176,7 +200,7 @@ struct UserDetailView: View {
             .presentationDetents([.fraction(0.35)])
         }
         .padding(16)
-        .frame(width: .infinity, alignment: .center)
+        .frame(maxWidth: .infinity, alignment: .center)
         .overlay(
             RoundedRectangle(cornerRadius: CGFloat.cardCornerRadius)
                 .inset(by: 0.5)
@@ -216,13 +240,14 @@ struct UserDetailView: View {
             updatedUser.street != currentFirebaseUser?.street ||
             updatedUser.country != currentFirebaseUser?.country ||
             updatedUser.imageURL != currentFirebaseUser?.imageURL ||
-            updatedUser.city != currentFirebaseUser?.city {
+            updatedUser.city != currentFirebaseUser?.city ||
+            userAuthViewModel.selectedImageData != nil {
             
             userAuthViewModel.updateUser(user: updatedUser)
         }
         showDetails.toggle()
     }
-
+    
     func deleteAccount() {
         //TODO: func
     }
@@ -231,6 +256,6 @@ struct UserDetailView: View {
 #Preview{
     UserDetailView(showDetails: .constant(true))
         .environmentObject(UserAuthViewModel())
-
+    
 }
 

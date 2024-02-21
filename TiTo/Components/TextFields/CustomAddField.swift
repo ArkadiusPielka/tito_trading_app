@@ -23,7 +23,7 @@ struct CustomAddField: View {
     }
     .padding(.horizontal, 16)
     .padding(.vertical, 8)
-    .frame(width: .infinity, alignment: .leading)
+    .frame(maxWidth: .infinity, alignment: .leading)
     .overlay(
       RoundedRectangle(cornerRadius: CGFloat.textFieldCornerRadius)
         .stroke(strokeColor, lineWidth: CGFloat.cardStroke)
