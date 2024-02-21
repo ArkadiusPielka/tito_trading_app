@@ -9,12 +9,17 @@ import SwiftUI
 
 struct ChatCard: View {
     
-    @EnvironmentObject var messageViewModel: MessagesViewModel
+    @EnvironmentObject var messagesViewModel: MessagesViewModel
     @EnvironmentObject var userAuthViewModel: UserAuthViewModel
     @EnvironmentObject var productViewModel: ProductViewModel
     
     var product: FireProduct
-   
+    
+    var messages: [Message] {
+        let unsortedMessages = messagesViewModel.productMessages.elements.first(where: { $0.key == product.id } )?.value ?? []
+        return unsortedMessages.sorted { $0.createdAt < $1.createdAt }
+    }
+    
     var body: some View {
         NavigationStack {
             HStack(alignment: .top, spacing: 0) {
@@ -36,14 +41,31 @@ struct ChatCard: View {
                         }
                     )
                 
-                VStack(alignment: .leading, spacing: 10) {
+                VStack(alignment: .leading, spacing: 5) {
                     HStack {
                         HStack {
-                         
-                                Text(userAuthViewModel.productUser?.name ?? "Akki")
-                                    .font(.title2)
+                            
+                            if let firstMessage = messages.first?.recipientId {
+                                
+                                if userAuthViewModel.user?.id == firstMessage {
+                                    Text(userAuthViewModel.userSender?.name ?? "")
+                                   
+                                        .font(.title2)
+                                        .onAppear{
+                                            print("ich bin im if")
+                                        }
+                                } else {
+                                    Text(userAuthViewModel.productUser?.name ?? "Akki")
+                                   
+                                        .font(.title2)
+                                        .onAppear {
+                                            print("ich bin im else")
+                                        }
+                                }
+                            }
                             
                             Spacer()
+                            
                             Text("\(product.price) €")
                                 .bold()
                                 .foregroundColor(Color("message"))
@@ -58,25 +80,30 @@ struct ChatCard: View {
                         .font(.title2)
                         .lineLimit(1)
                     
-//                    Text(messageViewModel.messages.last?.text)
-//                        .font(.footnote)
-//                        .foregroundColor(.gray)
-//                        .italic()
-//                        .lineLimit(1)
-
+                    let lastMessage = messages.last
+                    
+                    Text(lastMessage?.text ?? "ja")
+                        .font(.title3)
+                        .foregroundColor(.gray)
+                        .italic()
+                        .lineLimit(1)
+                    
                 }
                 .padding(.vertical, 8)
                 .padding(.horizontal, 12)
             }
-            .frame(maxWidth: .infinity, alignment: .top)
-            .frame(height: CGFloat.cardHeight)
             .background(Color("cardBack"))
-            .cornerRadius(CGFloat.cardCornerRadius)
-            .shadow(color: Color("message"), radius: 4, x: -2, y: 4)
         }
-       
+        .frame(maxWidth: .infinity, alignment: .top)
+        .frame(height: CGFloat.cardHeight)
+        .cornerRadius(CGFloat.cardCornerRadius)
+        .shadow(color: Color("message"), radius: 4, x: -2, y: 4)
         .onAppear{
+            
             userAuthViewModel.fetchProductOwner(with: product.userId)
+            if !messages.isEmpty {
+                userAuthViewModel.fetchUserSender(with: messages.first?.senderId ?? "")
+            }
         }
         .padding(.horizontal, 16)
     }
@@ -91,7 +118,7 @@ struct ChatCard: View {
         imageURL:
             "https://arkadiuspielka.files.wordpress.com/2024/02/71qmz4m-yjl.jpg"
     ))
-        .environmentObject(UserAuthViewModel())
-        .environmentObject(ProductViewModel())
-        .environmentObject(MessagesViewModel())
+    .environmentObject(UserAuthViewModel())
+    .environmentObject(ProductViewModel())
+    .environmentObject(MessagesViewModel())
 }

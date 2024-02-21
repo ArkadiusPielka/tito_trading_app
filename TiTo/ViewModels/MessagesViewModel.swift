@@ -22,40 +22,18 @@ class MessagesViewModel: ObservableObject {
     
     @Published var productMessages: OrderedDictionary<String, [Message]> = [:]
     
-//    func sendMessage(text: String, recipientId: String, productId: String) {
-//        
-//        guard let userId = FirebaseManager.shared.userId else { return }
-//        
-//        let conversationRef = FirebaseManager.shared.database.collection("messages").document()
-//        
-//        let message = Message(senderId: userId, recipientId: recipientId, text: text, createdAt: Date(), productId: productId)
-//        
-//        do {
-//            try conversationRef.setData(from: message) { error in
-//                if let error  {
-//                    print("Error sending message to conversation: \(error.localizedDescription)")
-//                } else {
-//                   // test mit laden
-//                    self.listenForNewMessagesInDatabase()
-//                }
-//            }
-//        } catch {
-//            print("Error sending message to conversation: \(error.localizedDescription)")
-//        }
-//    }
-    
     func sendMessage(text: String, recipientId: String, senderId: String, productId: String) {
-            
+        
         let conversationRef = FirebaseManager.shared.database.collection("messages").document()
-            
+        
         let message = Message(senderId: senderId, recipientId: recipientId, text: text, createdAt: Date(), productId: productId)
-            
+        
         do {
             try conversationRef.setData(from: message) { error in
                 if let error {
                     print("Error sending message to conversation: \(error.localizedDescription)")
                 } else {
-
+                    
                 }
             }
         } catch {
@@ -63,7 +41,7 @@ class MessagesViewModel: ObservableObject {
         }
     }
     
-   private func listenForNewMessagesInDatabase() {
+    private func listenForNewMessagesInDatabase() {
         
         guard let userId = FirebaseManager.shared.userId else { return }
         
@@ -91,25 +69,25 @@ class MessagesViewModel: ObservableObject {
             .whereField("productId", isEqualTo: productId)
         
         messagesForProduct.getDocuments { (querySnapshot, error) in
-                if let error = error {
-                    print("Error getting documents: \(error)")
+            if let error = error {
+                print("Error getting documents: \(error)")
+                return
+            } else {
+                guard let documents = querySnapshot?.documents else {
+                    print("No documents found.")
                     return
-                } else {
-                    guard let documents = querySnapshot?.documents else {
-                        print("No documents found.")
-                        return
-                    }
-                    
-                    for document in documents {
-                        document.reference.delete { error in
-                            if let error = error {
-                                print("Error deleting document: \(error)")
-                            } else {
-                                print("Document successfully deleted.")
-                            }
+                }
+                
+                for document in documents {
+                    document.reference.delete { error in
+                        if let error = error {
+                            print("Error deleting document: \(error)")
+                        } else {
+                            print("Document successfully deleted.")
                         }
                     }
                 }
             }
+        }
     }
 }

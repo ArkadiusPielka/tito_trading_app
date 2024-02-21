@@ -38,14 +38,18 @@ struct UserDetailView: View {
                     Spacer()
                     
                     Button {
-                        showDetails.toggle()
+                        withAnimation(.easeInOut(duration: 0.4)) {
+                            self.showDetails.toggle()
+                        }
                     } label: {
-                        Image(systemName: "xmark.circle")
+                        Image(systemName: showDetails ? "xmark.circle" : "pen")
                             .resizable()
                             .frame(width: 24, height: 24)
                     }
                 }
                 .padding(.bottom, 24)
+            } else {
+                
             }
             
             HStack(alignment: .center, spacing: 16) {
@@ -88,26 +92,46 @@ struct UserDetailView: View {
                     )
                     .cornerRadius(111)
                 
-                VStack(alignment: .leading, spacing: 8) {
+                ZStack {
+                    HStack {
+                        Spacer()
+                        VStack {
+                            if !showDetails {
+                                Button {
+                                    withAnimation(.easeInOut(duration: 0.4)) {
+                                        self.showDetails.toggle()
+                                    }
+                                } label: {
+                                    Image(systemName: "pencil")
+                                        .resizable()
+                                        .frame(width: 24, height: 24)
+                                        .foregroundColor(Color("profil"))
+                                }
+                            }
+                            Spacer()
+                        }
+                    }
                     
-                    Text(userAuthViewModel.user?.kontoType ?? "")
-                    if showDetails {
-                        CustomAddField(hint: "Name", text:  $name, strokeColor: Color("profil"))
-                    } else {
-                        Text(userAuthViewModel.user?.name ?? "")
-                            .font(.title2)
-                            .bold()
+                    VStack(alignment: .leading, spacing: 8) {
+                        
+                        Text(userAuthViewModel.user?.kontoType ?? "")
+                        if showDetails {
+                            CustomAddField(hint: "Name", text:  $name, strokeColor: Color("profil"))
+                        } else {
+                            Text(userAuthViewModel.user?.name ?? "")
+                                .font(.title2)
+                                .bold()
+                        }
+                        Group {
+                            Text("angemeldet am:")
+                            Text(formattedDate)
+                        }
+                        .foregroundColor(Color("subText"))
                     }
-                    Group {
-                        Text("angemeldet am:")
-                        Text(formattedDate)
-                    }
-                    .foregroundColor(Color("subText"))
+                    .frame(width: 186, alignment: .leading)
+                    Spacer()
                 }
-                .frame(width: 186, alignment: .leading)
-                Spacer()
             }
-            
             if showDetails {
                 VStack(alignment: .leading, spacing: 16) {
                     PhotosPicker(
@@ -216,7 +240,8 @@ struct UserDetailView: View {
             updatedUser.street != currentFirebaseUser?.street ||
             updatedUser.country != currentFirebaseUser?.country ||
             updatedUser.imageURL != currentFirebaseUser?.imageURL ||
-            updatedUser.city != currentFirebaseUser?.city {
+            updatedUser.city != currentFirebaseUser?.city ||
+            userAuthViewModel.selectedImageData != nil {
             
             userAuthViewModel.updateUser(user: updatedUser)
         }

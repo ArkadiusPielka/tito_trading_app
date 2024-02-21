@@ -21,7 +21,6 @@ struct FireUser: Codable {
     var city: String?
     var imageURL: String?
     
-    
 }
 
 

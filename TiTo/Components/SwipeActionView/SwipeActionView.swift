@@ -100,14 +100,11 @@ struct ActionButton: View {
                     Label(action.name, systemImage: action.systemIcon)
                         .labelStyle(.iconOnly)
                         .padding(.leading)
-                       
                 }
                 .clipped()
                 .frame(maxWidth: width)
-                
         }
         .buttonStyle(.plain)
-            
     }
 }
 

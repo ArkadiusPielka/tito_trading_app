@@ -10,7 +10,9 @@ import SwiftUI
 struct CustomSearchView: View {
     
     @Binding var searchText: String
+    @Binding var searchCategory: String
     @Binding var showFilter: Bool
+//    let action: () -> Void
     
     var body: some View {
         VStack {
@@ -25,6 +27,8 @@ struct CustomSearchView: View {
                     if !searchText.isEmpty  {
                         Button(action: {
                             searchText = ""
+                            searchCategory = ""
+                            showFilter.toggle()
                         }) {
                             Image(systemName: "xmark.circle.fill")
                                 .foregroundColor(.blue)
@@ -38,7 +42,10 @@ struct CustomSearchView: View {
                 .cornerRadius(10)
                 
                 Button {
-                    showFilter.toggle()
+                    withAnimation(.easeOut(duration: 0.4)) {
+                        self.showFilter.toggle()
+                    }
+//                    showFilter.toggle()
                 } label: {
                     Image(systemName: "line.3.horizontal.decrease.circle.fill")
                         .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
@@ -54,13 +61,20 @@ struct CustomSearchView: View {
                         ForEach(Category.allCases, id:\.self) { category in
                             
                             Button {
-                                // TODO: func
+                                searchCategory = category.title
+                                searchText = searchCategory
                             } label: {
                                 VStack {
+                                    Spacer()
                                     Image(systemName: category.image)
-                                        .font(.title2)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 55)
+                                    Spacer()
                                     Text(category.title)
+                                        .padding(.bottom, 8)
                                 }
+                                .frame(height: 70)
                                 .foregroundColor(.primary)
                             }
                         }
@@ -74,5 +88,5 @@ struct CustomSearchView: View {
 
 
 #Preview {
-    CustomSearchView(searchText: .constant(""), showFilter: .constant(true))
+    CustomSearchView(searchText: .constant(""), searchCategory: .constant(""), showFilter: .constant(true))
 }

@@ -8,7 +8,7 @@
 import Foundation
 
 @MainActor
-class RecommendenViewModel: ObservableObject {
+class RecommendedViewModel: ObservableObject {
     
     
     init() {

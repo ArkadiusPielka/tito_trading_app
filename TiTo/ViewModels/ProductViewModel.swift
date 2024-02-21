@@ -14,8 +14,10 @@ import FirebaseFirestoreSwift
 class ProductViewModel: ObservableObject {
     
     init() {
-        fetchAllProducts()
-        fetchUserProducts()
+//        fetchAllProducts()
+//        fetchUserProducts()
+        fetchUserFavoriteProducts()
+        updateProductList()
     }
     
     private var listener: ListenerRegistration?
@@ -44,7 +46,14 @@ class ProductViewModel: ObservableObject {
     @Published var selectedImage: PhotosPickerItem?
     @Published var selectedImageData: Data?
     
+    func fetchData() {
+        fetchAllProducts()
+        fetchUserProducts()
+        fetchUserFavoriteProducts()
+    }
+    
     func createProduct() {
+        
         guard let userId = FirebaseManager.shared.userId else { return }
         
         let product = FireProduct(userId: userId,
@@ -68,7 +77,6 @@ class ProductViewModel: ObservableObject {
             let id = documentReference.documentID
             productUserId = userId
             productId = id
-            
             updateImage(id: id)
             
         } catch let error {
@@ -114,6 +122,7 @@ class ProductViewModel: ObservableObject {
     }
     
     private func updateProduct(id: String, with data: [String: String]) {
+        
         FirebaseManager.shared.database.collection("products").document(id).setData(data, merge: true) { error in
             if let error {
                 print("Task wurde nicht aktualisiert", error.localizedDescription)
@@ -148,7 +157,7 @@ class ProductViewModel: ObservableObject {
             print("Profil aktualisiert!")
         }
         updateImage(id: id)
-        fetchAllProducts()
+        fetchUserProducts()
         updateProductList()
     }
     
@@ -169,6 +178,8 @@ class ProductViewModel: ObservableObject {
                 self.products = documents.compactMap { queryDocumentSnapshot -> FireProduct? in
                     try? queryDocumentSnapshot.data(as: FireProduct.self)
                 }
+                
+                self.updateFavoritesStatus()
             }
     }
     
@@ -195,7 +206,32 @@ class ProductViewModel: ObservableObject {
             }
     }
     
+    func fetchUserFavoriteProducts() {
+        
+        guard let userId = FirebaseManager.shared.userId else { return }
+        
+        self.listener = FirebaseManager.shared.database.collection("users").document(userId).collection("favorites")
+            .addSnapshotListener { querySnapshot, error in
+                if let error {
+                    print(error.localizedDescription)
+                    return
+                }
+                
+                guard let documents = querySnapshot?.documents else {
+                    print("Fehler beim Laden der Tasks")
+                    return
+                }
+                
+                self.userFavoriteProducts = documents.compactMap { queryDocumentSnapshot -> FireProduct? in
+                    try? queryDocumentSnapshot.data(as: FireProduct.self)
+                }
+                
+                self.updateFavoritesStatus()
+            }
+    }
+    
     func updateProductList() {
+        
         self.listener = FirebaseManager.shared.database.collection("products")
             .addSnapshotListener { querySnapshot, error in
                 if let error = error {
@@ -215,6 +251,7 @@ class ProductViewModel: ObservableObject {
     }
     
     func removeListener() {
+        userFavoriteProducts.removeAll()
         userProducts.removeAll()
         listener?.remove()
     }
@@ -245,6 +282,69 @@ class ProductViewModel: ObservableObject {
     func getProduct(for id: String) -> FireProduct? {
         return products.first { $0.id == id }
     }
+    
+    func toggleLike(for product: FireProduct) {
+        if let index = userFavoriteProducts.firstIndex(where: { $0.id == product.id }) {
+            userFavoriteProducts.remove(at: index)
+            removeFromFavorites(product: product)
+        } else {
+            userFavoriteProducts.append(product)
+            addFavoriteProduct(with: product.id ?? "")
+        }
+    }
+    
+    func removeFromFavorites(product: FireProduct) {
+        guard let userId = FirebaseManager.shared.userId else { return }
+        
+        FirebaseManager.shared.database.collection("users")
+            .document(userId)
+            .collection("favorites")
+            .document(product.id ?? "")
+            .delete { error in
+                if let error = error {
+                    print("Error removing product from favorites: \(error.localizedDescription)")
+                } else {
+                    print("Product removed from favorites successfully!")
+                }
+            }
+    }
+    
+    func addFavoriteProduct(with id: String) {
+        guard let userId = FirebaseManager.shared.userId else { return }
+        
+        guard var product = getProduct(for: id) else {
+            print("Product with ID \(id) not found.")
+            return
+        }
+        
+        product.isFavorite = true
+        
+        do {
+            try FirebaseManager.shared.database.collection("users")
+                .document(userId)
+                .collection("favorites")
+                .document(id)
+                .setData(from: product) { error in
+                    if let error = error {
+                        print("Error adding product to favorites: \(error.localizedDescription)")
+                    } else {
+                        print("Product added to favorites successfully!")
+                    }
+                }
+        } catch {
+            print("Error setting data for product: \(error.localizedDescription)")
+        }
+    }
+    
+    func updateFavoritesStatus() {
+            for i in products.indices {
+                if userFavoriteProducts.contains(where: { $0.id == products[i].id }) {
+                    products[i].isFavorite = true
+                } else {
+                    products[i].isFavorite = false
+                }
+            }
+        }
     
     func setCurrentProduct(_ product: FireProduct) {
         self.currentProduct = product

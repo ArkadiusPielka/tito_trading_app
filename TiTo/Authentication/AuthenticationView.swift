@@ -12,10 +12,6 @@ struct AuthenticationView: View {
     var body: some View {
         ZStack {
             
-            Image("back")
-                .resizable()
-                .ignoresSafeArea()
-            
             LoginView()
             
         }

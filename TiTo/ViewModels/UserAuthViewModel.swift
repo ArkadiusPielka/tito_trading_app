@@ -18,9 +18,10 @@ class UserAuthViewModel: ObservableObject {
     
     @Published var user: FireUser?
     @Published var productUser: FireUser?
+    @Published var userSender: FireUser?
     
     @Published var selectedImage: PhotosPickerItem?
-        @Published var selectedImageData: Data?
+    @Published var selectedImageData: Data?
     
     
     var userLogIn: Bool {
@@ -29,6 +30,7 @@ class UserAuthViewModel: ObservableObject {
     
     
     private func checkAuth() {
+        
         guard let currentUser = FirebaseManager.shared.auth.currentUser else {
             print("Not logged in")
             return
@@ -39,6 +41,7 @@ class UserAuthViewModel: ObservableObject {
     
     
     func logIn(email: String, password: String) {
+        
         FirebaseManager.shared.auth.signIn(withEmail: email, password: password) { authResult, error in
             if let error {
                 print("Login failed:", error.localizedDescription)
@@ -53,6 +56,7 @@ class UserAuthViewModel: ObservableObject {
     }
     
     func signUp(email: String, name: String, password: String, kontoType: String) {
+        
         FirebaseManager.shared.auth.createUser(withEmail: email, password: password) { authResult, error in
             if let error {
                 print("SignUp failed:", error.localizedDescription)
@@ -69,6 +73,7 @@ class UserAuthViewModel: ObservableObject {
     }
     
     func logOut() {
+        
         do {
             try FirebaseManager.shared.auth.signOut()
             self.user = nil
@@ -91,6 +96,7 @@ class UserAuthViewModel: ObservableObject {
     }
     
     func createUser(with id: String, email: String, name: String, kontoType: String) {
+        
         let user = FireUser(id: id, name: name, email: email, registeredAt: Date(), kontoType: kontoType)
         
         do {
@@ -101,6 +107,7 @@ class UserAuthViewModel: ObservableObject {
     }
     
     func fetchUser(with id: String) {
+        
         FirebaseManager.shared.database.collection("users").document(id).getDocument { document, error in
             if let error {
                 print("Fetching user failed:", error.localizedDescription)
@@ -121,7 +128,33 @@ class UserAuthViewModel: ObservableObject {
         }
     }
     
+    func fetchUserSender(with id: String) {
+        
+        FirebaseManager.shared.database.collection("users").document(id).getDocument { document, error in
+            if let error {
+                print("Fetching user failed:", error.localizedDescription)
+                return
+            }
+            
+            guard let document else {
+                print("Dokument existiert nicht!")
+                return
+            }
+            
+            do {
+                let user = try document.data(as: FireUser.self)
+                self.userSender = user
+                print(self.userSender?.name)
+                print(self.userSender?.id)
+            } catch {
+                print("Dokument ist kein User", error.localizedDescription)
+            }
+        }
+        
+    }
+    
     func fetchProductOwner(with id: String) {
+        
         FirebaseManager.shared.database.collection("users").document(id).getDocument { document, error in
             if let error {
                 print("Fetching user failed:", error.localizedDescription)
@@ -136,6 +169,8 @@ class UserAuthViewModel: ObservableObject {
             do {
                 let user = try document.data(as: FireUser.self)
                 self.productUser = user
+                print(self.productUser?.name)
+                print(self.productUser?.id)
             } catch {
                 print("Dokument ist kein User", error.localizedDescription)
             }
@@ -154,6 +189,7 @@ class UserAuthViewModel: ObservableObject {
                     "country": user.country,
                     "city": user.city
         ]
+        
         FirebaseManager.shared.database.collection("users").document(userId).setData(user as [String : Any], merge: true) { error in
             if let error {
                 print("Profil wurde nicht aktualisiert", error.localizedDescription)
@@ -201,6 +237,7 @@ class UserAuthViewModel: ObservableObject {
     }
     
     private func updateUserImage(id: String, with data: [String: String]) {
+        
         FirebaseManager.shared.database.collection("users").document(id).setData(data, merge: true) { error in
             if let error {
                 print("Task wurde nicht aktualisiert", error.localizedDescription)

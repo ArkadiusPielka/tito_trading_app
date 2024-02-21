@@ -25,5 +25,25 @@ struct FireProduct: Codable, Identifiable, Equatable {
     var priceType: String
     var startAdvertisment: Date
     var imageURL: String?
+    var isFavorite: Bool = false
     
+    var dictionary: [String: Any] {
+        return [
+            "id": id ?? "",
+            "userId": userId,
+            "title": title,
+            "category": category,
+            "condition": condition,
+            "shipment": shipment,
+            "optional": optional ?? "",
+            "description": description,
+            "advertismentType": advertismentType,
+            "material": material ?? "",
+            "price": price,
+            "priceType": priceType,
+            "startAdvertisment": startAdvertisment,
+            "imageURL": imageURL ?? "",
+            "isFavorite" : isFavorite
+        ]
+    }
 }
