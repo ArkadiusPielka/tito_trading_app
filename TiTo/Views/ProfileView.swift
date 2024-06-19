@@ -56,28 +56,28 @@ struct ProfileView: View {
                             
                             if showAdvertisment {
                                 
-                                RoundedRectangle(cornerRadius: 1)
-                                    .frame(maxWidth: .infinity)
-                                    .frame(height: 2)
-                                    .foregroundColor(Color("profil"))
-                                    .padding(.bottom, 16)
-                                LazyVStack(spacing: 16) {
-                                    
-                                    let userProducts = productViewModel.userProducts
-                                    
-                                    let sortedProducts = userProducts.sorted(by: { $0.startAdvertisment > $1.startAdvertisment })
-                                    
-                                    ForEach(sortedProducts) { product in
-                                        ProductCard(product: product, color: Color("profil"))
+                                    RoundedRectangle(cornerRadius: 1)
+                                        .frame(maxWidth: .infinity)
+                                        .frame(height: 2)
+                                        .foregroundColor(Color("profil"))
+                                        .padding(.bottom, 16)
+                                    LazyVStack(spacing: 16) {
                                         
+                                        let userProducts = productViewModel.userProducts
+                                        
+                                        let sortedProducts = userProducts.sorted(by: { $0.startAdvertisment > $1.startAdvertisment })
+                                        
+                                        ForEach(sortedProducts) { product in
+                                            ProductCard(product: product, color: Color("profil"))
+                                            
+                                        }
                                     }
-                                }
-                                .animation(.linear, value: showAdvertisment)
-                                .padding(.bottom)
+                                    .animation(.linear, value: showAdvertisment)
+                                    .padding(.bottom)
+                                
                             }
                         } else {
-                            VStack {
-                                Spacer(minLength: 150)
+                            VStack(alignment: .center) {
                                 Image(systemName: "doc.text")
                                     .resizable()
                                     .frame(width: 100, height: 100)

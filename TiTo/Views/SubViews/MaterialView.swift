@@ -16,7 +16,9 @@ struct MaterialView: View {
     var body: some View {
         VStack {
             Text("Material")
+                .font(.title2)
                 .padding(.vertical, CGFloat.sheetTitleVertical)
+                .padding(.top)
             
             List(Material.allCases, id: \.self) { material in
                 Button(action: {

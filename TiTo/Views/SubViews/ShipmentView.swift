@@ -16,7 +16,9 @@ struct ShipmentView: View {
     var body: some View {
         VStack {
             Text("Versand")
+                .font(.title2)
                 .padding(.vertical, CGFloat.sheetTitleVertical)
+                .padding(.top)
             
             List(Shipment.allCases, id: \.self) { shipment in
                 Button(action: {

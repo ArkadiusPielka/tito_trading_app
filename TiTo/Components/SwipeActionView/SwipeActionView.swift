@@ -99,6 +99,7 @@ struct ActionButton: View {
                 .overlay(alignment: .leading) {
                     Label(action.name, systemImage: action.systemIcon)
                         .labelStyle(.iconOnly)
+                        .foregroundColor(.white)
                         .padding(.leading)
                 }
                 .clipped()

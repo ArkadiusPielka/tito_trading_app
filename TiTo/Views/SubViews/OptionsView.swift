@@ -16,8 +16,10 @@ struct OptionsView: View {
     var body: some View {
         VStack {
             Text("Optionen")
+                .font(.title2)
                 .padding(.vertical, CGFloat.sheetTitleVertical)
-            
+                .padding(.top)
+
             List(Options.allCases, id: \.self) { option in
                 Button(action: {
                     selectedOption(option.title)

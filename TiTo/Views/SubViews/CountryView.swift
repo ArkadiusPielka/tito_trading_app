@@ -16,8 +16,10 @@ struct CountryView: View {
     var body: some View {
         VStack {
             Text("Land")
+                .font(.title2)
                 .padding(.vertical, CGFloat.sheetTitleVertical)
-            
+                .padding(.top)
+
             List(Country.allCases, id: \.self) { country in
                 Button(action: {
                     selectedcountry(country.title)

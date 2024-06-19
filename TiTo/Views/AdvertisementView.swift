@@ -38,16 +38,13 @@ struct AdvertisementView: View {
     
     var body: some View {
         
-        
         NavigationStack {
-            
             
             GeometryReader { proxy in
                 
                 ScrollView {
                     
                     VStack {
-                        // Image
                         VStack {
                             if let imageData = productViewModel.selectedImageData, let image = UIImage(data: imageData){
                                 
@@ -166,6 +163,7 @@ struct AdvertisementView: View {
                             productViewModel.category = categorySelected
                         }
                         .presentationDetents([.fraction(0.55)])
+                        .presentationDragIndicator(.visible)
                     }
                     
                     .sheet(isPresented: $conditionSheet) {
@@ -173,6 +171,8 @@ struct AdvertisementView: View {
                             conditionSelected in
                             productViewModel.condition = conditionSelected
                         }
+                        .presentationDetents([.large])
+                        .presentationDragIndicator(.visible)
                     }
                     
                     .sheet(isPresented: $shipmentSheet) {
@@ -181,6 +181,8 @@ struct AdvertisementView: View {
                             productViewModel.shipment = shipmentSelected
                         }
                         .presentationDetents([.fraction(0.35)])
+                        .presentationDragIndicator(.visible)
+
                     }
                     
                     .sheet(isPresented: $materialSheet) {
@@ -189,6 +191,8 @@ struct AdvertisementView: View {
                             productViewModel.material = materialSelected
                         }
                         .presentationDetents([.fraction(0.35)])
+                        .presentationDragIndicator(.visible)
+
                     }
                     
                     .sheet(isPresented: $priceTypeSheet) {
@@ -197,6 +201,8 @@ struct AdvertisementView: View {
                             productViewModel.priceType = priceTypeSelected
                         }
                         .presentationDetents([.fraction(0.35)])
+                        .presentationDragIndicator(.visible)
+
                     }
                     
                     .sheet(isPresented: $optionalSheet) {
@@ -204,6 +210,8 @@ struct AdvertisementView: View {
                             optionalSelected in
                             productViewModel.optional = optionalSelected
                         }
+                        .presentationDetents([.fraction(0.35)])
+                        .presentationDragIndicator(.visible)
                     }
                 }
                 .onChange(of: productViewModel.selectedImage) { _, newItem in

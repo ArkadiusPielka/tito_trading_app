@@ -16,8 +16,10 @@ struct PriceTypeView: View {
     var body: some View {
         VStack {
             Text("Preistyp")
+                .font(.title2)
                 .padding(.vertical, CGFloat.sheetTitleVertical)
-            
+                .padding(.top)
+
             List(PriceType.allCases, id: \.self) { priceType in
                 Button(action: {
                     selectedPriceType(priceType.title)
